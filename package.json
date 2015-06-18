@@ -1,0 +1,21 @@
+{
+  "name": "y",
+  "version": "0.0.1",
+  "description": "Vencore API on top of Open Fda data",
+  "main": "app.js",
+  "scripts": {
+    "test": "test,js"
+  },
+  "keywords": [
+    "vencore",
+    "openfda"
+  ],
+  "author": "venu.duggireddy@vencore.com",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "express": "~4.12.4"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.5"
+  }
+}
