@@ -1,15 +1,19 @@
 // set variables for environment
-var express = require('express');
-var app = express();
-var path = require('path');
-var request = require('request');
-var querystring = require('querystring');
-var _ = require('lodash-node');
-var config = require('./config');
+var express = require('express'),
+ app = express(),
+ path = require('path'),
+ request = require('request'),
+ querystring = require('querystring'),
+ _ = require('lodash-node'),
+ config = require('./config'),
+ cors = require('cors');
 
-//var fda_api_key = config.api_key;
+// enable cors for corss domain request for mobile application
+//app.use(cors());
 
 // set routes
+app.use('/bower_components',  express.static( path.join(__dirname + '/bower_components')));
+app.use('/static',  express.static( path.join(__dirname + '/static')));
 app.get("/", function(req, res){
   res.sendFile(path.join(__dirname+'/index.html'));
 });
@@ -30,8 +34,8 @@ app.get('/search', function(req, res) {
        reaction:[]
      };
      if(body.results){
-       
-       //console.log('product_type',body.results);
+     
+         // traverse each req to get drug, route and reaction information  
        _.forEach(body.results,function(v,key){
           _.forEach(v.patient.drug, function(p, k){
               var drug = {
@@ -48,14 +52,12 @@ app.get('/search', function(req, res) {
              
            });
             _.forEach(v.patient.reaction, function(p, k){
-           //  console.log('reactionmeddrapt is %s', p.reactionmeddrapt);
               output.reaction.push(p.reactionmeddrapt);
-             
            });
            
            
        });
-        console.log("output is %O", output);
+        // console.log("output is %O", output);
       }
       res.send(output);
    });
