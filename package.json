@@ -14,7 +14,8 @@
   "license": "BSD-2-Clause",
   "dependencies": {
     "express": "~4.12.4",
-    "request": "~2.58.0"
+    "request": "~2.58.0",
+    "lodash-node": "~3.9.3"
   },
   "devDependencies": {
     "grunt": "~0.4.5"
