@@ -14,10 +14,14 @@ var express = require('express'),
 // set routes
 app.use('/bower_components',  express.static( path.join(__dirname + '/bower_components')));
 app.use('/static',  express.static( path.join(__dirname + '/static')));
+app.use('/img',  express.static( path.join(__dirname + '/static/img')));
 app.get("/", function(req, res){
   res.sendFile(path.join(__dirname+'/index.html'));
 });
-  
+
+app.get("/page2", function(req, res){
+  res.sendFile(path.join(__dirname+'/search_results.html'));
+});
 
 app.get('/search', function(req, res) {
   //res.send('hello open fda');

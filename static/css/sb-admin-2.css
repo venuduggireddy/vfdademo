@@ -3,11 +3,25 @@
  * Code licensed under the Apache License v2.0.
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
+ 
+ h1 {
+  margin-top: 50px;;
+  font-size: 20px;
+  color: #fff;
+}
+
+ .navbar-default {
+  background-color: #fff;
+  border-color: #e7e7e7;
+}
 .btn-primary {
   color: #fff;
   background-color: #148c6e;
   border-color: #2e6da4;
+  width: 200px;
 }
+
+
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary.focus,
@@ -22,7 +36,7 @@ header {
     text-align: center;
     color: #fff;
     background-attachment: scroll;
-    background-image: url(../img/logo_vencore.jpg);
+    background-image: url(../../img/logo_vencore.jpg);
     background-position: center center;
     background-repeat: none;
     -webkit-background-size: cover;
@@ -37,6 +51,22 @@ header {
 	color: #095a6e;
 	font-size: 24px;
 }
+.titleresults {
+	color: #095a6e;
+	font-size: 24px;
+}
+.countnav {
+	font-size: 25px;
+}
+.table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: #cbe3dd;
+}
+.table-hover > tbody > tr:hover {
+  background-color: #66adbf;
+}
+.headerrow {
+  background-color: #f9f9f9;
+}
 img {
 	max-width: 100%;
 	height: auto;
@@ -44,26 +74,39 @@ img {
 }
 body {
     background-color: #eee;
+	
 }
 
 body#page1{background-color:#148c6e;}
-body#page2{background-color:#000;}
+body#page2{background-color:#002344; background-image: url(../img/background_page.jpg); background-repeat: repeat-x;}
 body#page3{background-color:#00f;}
 
 
 .background_home {
     max-height:100%;
 	background-image: url("../img/background_home.jpg");
+	background-repeat: no-repeat;
 	background-color: #017659;
 }
-
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: #095a6e;
+}
+.navbar-toggle .icon-bar {
+  display: block;
+  width: 22px;
+  height: 5px;
+  border-radius: 1px;
+}
 #wrapper {
     width: 100%;
+	margin-top: 75px;
+	padding-left: 15px;
+	padding-right: 15px;
 }
 
 #page-wrapper {
 	
-    padding: 0 15px;
+    padding: 150 150 150 150;
     min-height: 568px;
     background-color: #fff;
 }
