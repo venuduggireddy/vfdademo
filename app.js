@@ -86,9 +86,11 @@ app.get('/recallInfo', function(req, res) {
      loc = loc.join('+');
    }
    //https://api.fda.gov/drug/enforcement.json?search=report_date:[2004-01-01+TO+2015-06-20]+AND+state:(VA+DE)&limit=100
-   var url = config.drug_enforcement_url+ 'search=state:('+loc+')&limit=100';
-   console.log("%s", url);
-   var url = 'https://api.fda.gov/drug/enforcement.json?search=report_date:[2004-01-01+TO+2015-06-20]+AND+state:(VA+DE)&limit=100'
+   var q_str = 'api_key='+config.api_key+'&search=state:('+loc+')&limit=100';
+//   var url1 = config.drug_enforcement_url+'search=state:('+loc+')&limit=100';
+  // console.log("%s %O", q_str, config);
+   var url = config.drug_enforcement_url+q_str;
+   
    request(url, function(err, resp, body) {
      body = JSON.parse(body);
      var output= {
