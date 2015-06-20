@@ -81,6 +81,14 @@ app.get('/search', function(req, res) {
 */
 app.get('/recallInfo', function(req, res) {
    var product_type =  req.query.product_type;
+   var enforcement =   config.drug_enforcement_url;
+   if(_.isEmpty(product_type) || product_type === 'drug'){
+     enforcement =   config.drug_enforcement_url;
+   }else if (product_type === 'device') {
+     enforcement =   config.device_enforcement_url;
+   }else if(product_type === 'food'){
+     enforcement =   config.food_enforcement_url;
+   }
    var loc= req.query.locations;
    if(_.isArray(loc)){
      loc = loc.join('+');
@@ -88,9 +96,9 @@ app.get('/recallInfo', function(req, res) {
    //https://api.fda.gov/drug/enforcement.json?search=report_date:[2004-01-01+TO+2015-06-20]+AND+state:(VA+DE)&limit=100
    var q_str = 'api_key='+config.api_key+'&search=state:('+loc+')&limit=100';
 //   var url1 = config.drug_enforcement_url+'search=state:('+loc+')&limit=100';
-  // console.log("%s %O", q_str, config);
-   var url = config.drug_enforcement_url+q_str;
-   
+
+   var url = enforcement+q_str;
+    console.log("%s", url);
    request(url, function(err, resp, body) {
      body = JSON.parse(body);
      var output= {
