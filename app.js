@@ -17,6 +17,8 @@ var express = require('express'),
 app.use('/bower_components',  express.static( path.join(__dirname + '/bower_components')));
 app.use('/static',  express.static( path.join(__dirname + '/static')));
 app.use('/img',  express.static( path.join(__dirname + '/static/img')));
+app.use('/css',  express.static( path.join(__dirname + '/static/css')));
+app.use('/js',  express.static( path.join(__dirname + '/static/js')));
 app.use('/pages',  express.static( path.join(__dirname + '/pages')));
 
 // API routers
@@ -26,7 +28,7 @@ app.get("/", function(req, res){
 });
 
 app.get("/page2", function(req, res){
-  res.sendFile(path.join(__dirname+'/search_results.html'));
+  res.sendFile(path.join(__dirname+'/index2.html'));
 });
 
 app.get('/search', function(req, res) {
