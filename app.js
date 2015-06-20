@@ -79,10 +79,12 @@ app.get('/search', function(req, res) {
 */
 app.get('/recallInfo', function(req, res) {
    var product_type =  req.query.product_type;
-   var loc= req.query.location;
-   if(loc !== 'Nationwide'){
-
+   var loc= req.query.locations;
+   if(_.isArray(loc)){
+     loc = loc.join('+');
    }
+   //https://api.fda.gov/drug/enforcement.json?search=report_date:[2004-01-01+TO+2015-06-20]+AND+state:(VA+DE)&limit=100
+   var url = config.drug_enforcement_url+ 'search=state:('+loc+')&limit=100';
    var url = 'https://api.fda.gov/drug/enforcement.json?search=report_date:[2004-01-01+TO+2015-06-20]+AND+state:(VA+DE)&limit=100'
    request(url, function(err, resp, body) {
      body = JSON.parse(body);
@@ -109,7 +111,40 @@ app.get('/recallInfo', function(req, res) {
    });
 
 });
+/*
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
 
+// error handlers
+
+// development error handler
+// will print stacktrace
+if (app.get('env') === 'development') {
+  app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+      message: err.message,
+      error: err
+    });
+  });
+}
+
+// production error handler
+// no stacktraces leaked to user
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+  res.render('error', {
+    message: err.message,
+    error: {}
+  });
+});
+*/
 // Set server port
 app.listen(config.server_port);
 console.log('server is running');
+
+//module.exports = app;
