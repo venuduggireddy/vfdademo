@@ -82,8 +82,10 @@
                     </thead>
                     <tr ng-repeat="y in products.medicinalproduct" >
                         <td>{{ y.product }}</td>
-                        <td ng-repeat="z in y.rotue">
-                            {{ z }}
+                        <td >
+                            <span ng-repeat="z in y.rotue">
+                            {{ z }} <br/>
+                        </span>
                         </td>
                     </tr>
                     <tr>
