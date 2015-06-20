@@ -17,13 +17,10 @@ var express = require('express'),
 app.use('/bower_components',  express.static( path.join(__dirname + '/bower_components')));
 app.use('/static',  express.static( path.join(__dirname + '/static')));
 app.use('/img',  express.static( path.join(__dirname + '/static/img')));
-<<<<<<< HEAD
+app.use('/pages',  express.static( path.join(__dirname + '/pages')));
 
 // API routers
 
-=======
-app.use('/pages',  express.static( path.join(__dirname + '/pages')));
->>>>>>> a94f7db4ad6e0c615f70637f0c92ae520115dff3
 app.get("/", function(req, res){
   res.sendFile(path.join(__dirname+'/index.html'));
 });
@@ -83,6 +80,9 @@ app.get('/search', function(req, res) {
 app.get('/recallInfo', function(req, res) {
    var product_type =  req.query.product_type;
    var loc= req.query.location;
+   if(loc !== 'Nationwide'){
+
+   }
    var url = 'https://api.fda.gov/drug/enforcement.json?search=report_date:[2004-01-01+TO+2015-06-20]+AND+state:(VA+DE)&limit=100'
    request(url, function(err, resp, body) {
      body = JSON.parse(body);
