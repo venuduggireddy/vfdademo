@@ -15,6 +15,7 @@ var express = require('express'),
 app.use('/bower_components',  express.static( path.join(__dirname + '/bower_components')));
 app.use('/static',  express.static( path.join(__dirname + '/static')));
 app.use('/img',  express.static( path.join(__dirname + '/static/img')));
+app.use('/pages',  express.static( path.join(__dirname + '/pages')));
 app.get("/", function(req, res){
   res.sendFile(path.join(__dirname+'/index.html'));
 });

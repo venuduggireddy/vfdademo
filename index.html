@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="mainApp" >
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -38,120 +37,47 @@
 
 </head>
 
-<body id="page1">
-<div ng-app="myApp" ng-controller="myCtrl">
+<body id="page1" ng-controller="mainController">
 
 <div class="background_home">
-        
-
-           <div class="container">
-            <div class="row">
-                <div class="col-xs-12 nopadding text-center">
-                
-                <img src="static/img/logo_vencore.jpg"> </div>
-</div>
-           
-            
-            <div class="row">
-            
-            
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 nopadding text-center">
+                <img src="static/img/logo_vencore.jpg"> 
+            </div>
+        </div>
+        <div class="row">
             <br><br><br>
-                
-                <div class="col-xs-1  login text-center"></div>
-                <div class="col-xs-10  login text-center">
-                	<div>    
-                    <div class="symptom"><strong>What is your symptom?</strong></div>    
-        <form role="form">
-        
-        <div class="form-group">
-                       <input class="form-control" placeholder="E.g., Pollen Allergy" ng-model="symptom">
-                                        </div>
-                        <button type="submit" class="btn btn-primary" ng-click="fetchNewData()">Search</button> </form>
-               </div>
-               <br />
-               <div class="panel panel-default">
-                        <div class="panel-body">
-                            <p>See below for search results.</p>
-                            <div class="table-responsive">
-                <table class="table table-bordered table-striped table-hover">
-                    <thead>
-                        <tr class="headerrow">
-                            <th>Generic Name</th>
-                            <th>Route</th>
-                        </tr>
-                    </thead>
-                    <tr ng-repeat="y in products.medicinalproduct" >
-                        <td>{{ y.product }}</td>
-                        <td >
-                            <span ng-repeat="z in y.rotue">
-                            {{ z }} <br/>
-                        </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th colspan="4">Reaction</th>
-                    </tr>
-                    <tr ng-repeat="x in products.reaction">
-                        <td colspan="2"> {{x}} </td>
-                    </tr>
-                </table>
+            <div class="col-xs-1  login text-center"></div>
+            <div class="col-xs-10  login text-center">
+                    <div ng-view></div>
             </div>
+            <div class="col-xs-1  login text-center"></div>
+            <div class="col-xs-12 text-right textwhite">
+                <br><br><br>
+                Build 0.12.0151<br>
+                Wed 09-30-2015 6:00<br>
+                <br><br><br><br><br><br>
             </div>
-        </div>
-        </div>
-        <div class="col-xs-1  login text-center"></div>
-        
-        
-                <div class="col-xs-12 text-right textwhite">
-    <br><br><br>
-    Build 0.12.0151<br>
-    Wed 09-30-2015 6:00<br>
-    <br><br><br><br><br><br>
-</div>
-                
-              <div class="col-xs-12 nopadding">
+            <div class="col-xs-12 nopadding">
                 <div class="textwhite">
-                <strong>DISCLAIMER</strong><br>
-Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
-doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
-veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam
-voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur
-magnidolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam
-est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non
-numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat
-voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam
-corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis
-autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae
-consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?<br><br><br><br></div>
-                
-                
-               
-    
-    
-    </div>
+                    <strong>DISCLAIMER</strong><br>
+                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
+                    doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
+                    veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam
+                    voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur
+                    magnidolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam
+                    est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non
+                    numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat
+                    voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam
+                    corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis
+                    autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae
+                    consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?<br><br><br><br>
+                </div>
+            </div>
        </div>
-            
-            
-            
-            
-         
-            
-            
-            
-                
-</div>
-
-<!-- close myApp div -->
-</div>
-
-
-
-
-       
-
+    </div>
     
-   
-
     <!-- jQuery -->
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
 
@@ -165,26 +91,11 @@ consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?<br><b
     <script src="static/js/sb-admin-2.js"></script>
 
     <!-- angular -->
-
     <script src= "bower_components/angular/angular.min.js"></script>
 
+    <script src= "bower_components/angular/angular-route.js"></script>
 
-    <script>
-        var constants = {baseUrl: "http://localhost:4000/"};
-        var app = angular.module('myApp', []);
-        app.controller('myCtrl', function($scope, $http, $location) {
-            $scope.firstName= "John";
-            $scope.lastName= "Doe";
-            $scope.quantity=12;
-            $scope.quality=3;
-            $scope.person={firstName:'JFF',lastName:'AA'};
-            $scope.points=[{quantity:1, quality:9}, {quantity:2, quality:3}];
-            $scope.fetchNewData=function() { 
-                $http.get(constants.baseUrl+"search?q="+$scope.symptom)
-                .success(function(response) {$scope.products = response;});
-            };
-        });
-    </script>
+    <script src= "static/js/dashboard.js"></script>
 
 </body>
 
