@@ -11,7 +11,7 @@ var express = require('express'),
 
 
 // enable cors for corss domain request for mobile application
-//app.use(cors());
+app.use(cors());
 
 // static routes
 app.use('/bower_components',  express.static( path.join(__dirname + '/bower_components')));
@@ -87,6 +87,7 @@ app.get('/recallInfo', function(req, res) {
    }
    //https://api.fda.gov/drug/enforcement.json?search=report_date:[2004-01-01+TO+2015-06-20]+AND+state:(VA+DE)&limit=100
    var url = config.drug_enforcement_url+ 'search=state:('+loc+')&limit=100';
+   console.log("%s", url);
    var url = 'https://api.fda.gov/drug/enforcement.json?search=report_date:[2004-01-01+TO+2015-06-20]+AND+state:(VA+DE)&limit=100'
    request(url, function(err, resp, body) {
      body = JSON.parse(body);
