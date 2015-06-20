@@ -39,7 +39,8 @@
 </head>
 
 <body id="page1">
-    
+<div ng-app="myApp" ng-controller="myCtrl">
+
 <div class="background_home">
         
 
@@ -63,10 +64,38 @@
         <form role="form">
         
         <div class="form-group">
-                       <input class="form-control" placeholder="E.g., Pollen Allergy">
+                       <input class="form-control" placeholder="E.g., Pollen Allergy" ng-model="symptom">
                                         </div>
-                        <button type="submit" class="btn btn-primary">Search</button> </form>
+                        <button type="submit" class="btn btn-primary" ng-click="fetchNewData()">Search</button> </form>
                </div>
+               <br />
+               <div class="panel panel-default">
+                        <div class="panel-body">
+                            <p>See below for search results.</p>
+                            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover">
+                    <thead>
+                        <tr class="headerrow">
+                            <th>Generic Name</th>
+                            <th>Route</th>
+                        </tr>
+                    </thead>
+                    <tr ng-repeat="y in products.medicinalproduct" >
+                        <td>{{ y.product }}</td>
+                        <td ng-repeat="z in y.rotue">
+                            {{ z }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="4">Reaction</th>
+                    </tr>
+                    <tr ng-repeat="x in products.reaction">
+                        <td colspan="2"> {{x}} </td>
+                    </tr>
+                </table>
+            </div>
+            </div>
+        </div>
         </div>
         <div class="col-xs-1  login text-center"></div>
         
@@ -110,8 +139,9 @@ consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?<br><b
                 
 </div>
 
+<!-- close myApp div -->
+</div>
 
-       
 
 
 
@@ -129,9 +159,30 @@ consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?<br><b
     <!-- Metis Menu Plugin JavaScript -->
     <script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
-   
     <!-- Custom Theme JavaScript -->
     <script src="static/js/sb-admin-2.js"></script>
+
+    <!-- angular -->
+
+    <script src= "bower_components/angular/angular.min.js"></script>
+
+
+    <script>
+        var constants = {baseUrl: "http://localhost:4000/"};
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function($scope, $http, $location) {
+            $scope.firstName= "John";
+            $scope.lastName= "Doe";
+            $scope.quantity=12;
+            $scope.quality=3;
+            $scope.person={firstName:'JFF',lastName:'AA'};
+            $scope.points=[{quantity:1, quality:9}, {quantity:2, quality:3}];
+            $scope.fetchNewData=function() { 
+                $http.get(constants.baseUrl+"search?q="+$scope.symptom)
+                .success(function(response) {$scope.products = response;});
+            };
+        });
+    </script>
 
 </body>
 
