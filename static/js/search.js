@@ -47,7 +47,7 @@ app.controller('SearchController', function($scope, $http) {
                             {name: 'Food', code: 'food'}, 
                             {name: 'Device', code: 'device'}];
 
-    $scope.availableStates = [{name: 'Nationwide', code: 'NA'},
+    $scope.availableStates = [{name: 'Nationwide', code: 'Nationwide'},
                             {name: 'Alabama', code: 'AL'},
                             {name: 'Alaska', code: 'AK'},
                             {name: 'Arizona', code: 'AZ'},
