@@ -109,11 +109,31 @@ app.get('/recallInfo', function(req, res) {
      if(body.results){
            _.forEach(body.results,function(v,key){
                 var o = {
+                  recall_number:v.recall_number,
                   recall_initiation_date:v.recall_initiation_date,
                   product_description:v.product_description,
                   code_info:v.code_info,
                   recalling_firm:v.recalling_firm,
-                  openfda: v.openfda.unii
+                  state:v.state,
+                  city:v.city,
+                  country:v.country,
+                  distribution_pattern:v.distribution_pattern,
+                  reason_for_recall:v.reason_for_recall,
+                  classification:v.classification,
+                  product_quantity:v.product_quantity,
+                  openfda:v.openfda.unii,
+                  event_details:{
+                    event_id:v.event_id,
+                    product_type:v.product_type,
+                    status:v.status,
+                    recalling_firm:v.recalling_firm,
+                    state:v.state,
+                    city:v.city,
+                    country:v.country,
+                    recall_initiation_date:v.recall_initiation_date,
+                    voluntary_mandated:v.voluntary_mandated,
+                    distribution_pattern:v.distribution_pattern
+                  }
                 }
                 //console.log(o);
                 output.results.push(o);
