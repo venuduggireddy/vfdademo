@@ -3,8 +3,15 @@ var constants = {baseUrl: "http://localhost:4000/"};
 var app = angular.module('searchApp', ['ngSanitize', 'ui.select']);
 
 app.controller('SearchController', function($scope, $http) {
-    $scope.stateSelection = {};
-    $scope.stateSelection.states = [];
+    $scope.searchCriteria = {};
+
+    $scope.searchCriteria.states = [];
+    $scope.searchCriteria.recall = [];
+
+    $scope.availableRecall = [{name: 'Drug', code: 'drug'}, 
+                            {name: 'Food', code: 'food'}, 
+                            {name: 'Device', code: 'device'}];
+
     $scope.availableStates = [{name: 'Nationwide', code: 'NA'},
                             {name: 'Alabama', code: 'AL'},
                             {name: 'Alaska', code: 'AK'},
@@ -58,11 +65,13 @@ app.controller('SearchController', function($scope, $http) {
                             {name: 'Wyoming', code: 'WY'}];
 
 $scope.searchData = function() {
+    var recallType = $scope.searchCriteria.recall.code;
     var finalStateList = '';
-    for (var i = 0; i <= $scope.stateSelection.states.length - 1; i++) {
-        finalStateList =  finalStateList + '&locations=' + $scope.stateSelection.states[i].code;
+    for (var i = 0; i <= $scope.searchCriteria.states.length - 1; i++) {
+        finalStateList =  finalStateList + '&locations=' + $scope.searchCriteria.states[i].code;
     };
-    $http.get(constants.baseUrl+"recallInfo?product_type=drug"+finalStateList)
+    console.log(constants.baseUrl+"recallInfo?product_type="+ recallType + finalStateList);
+    $http.get(constants.baseUrl+"recallInfo?product_type="+ recallType + finalStateList)
         .success(function(response) {$scope.products = response;});
     };
 });
