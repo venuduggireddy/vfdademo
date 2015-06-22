@@ -14,7 +14,7 @@
 }
  .form-control {
 
-  width: 180px;
+  width: 150px;
   
 }
 
@@ -28,14 +28,18 @@
   background-color: #fff;
   border-color: #e7e7e7;
 }
+
+.headerlogo {
+
+  background-color: #fff;
+
+}
 .btn-primary {
   color: #fff;
-  background-color: #148c6e;
+  background-color: #0a5a6f;
   border-color: #fff;
-  width: 200px;
+  width: 130px;
 }
-
-
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary.focus,
@@ -59,7 +63,7 @@ header {
     -o-background-size: cover;
 }
 .textwhite {
-	color: #fff;
+	color: #0a5a6f;
 }
 .symptom {
 	color: #fff;
@@ -100,7 +104,7 @@ body {
 }
 
 body#page1{background-color:#056243;}
-body#page2{background-color:#002344; background-image: url(../../img/background_page.jpg); background-repeat: repeat-x;}
+body#page2{background-color:#007558; background-image: url(../../img/background_page.jpg); background-repeat: repeat-x;}
 body#page3{background-color:#00f;}
 
 
