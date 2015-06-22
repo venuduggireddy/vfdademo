@@ -58,7 +58,11 @@ app.controller('SearchController', function($scope, $http) {
                             {name: 'Wyoming', code: 'WY'}];
 
 $scope.searchData = function() {
-        $http.get(constants.baseUrl+"recallInfo?product_type=drug&locations=VA&locations=DC")
+    var finalStateList = '';
+    for (var i = 0; i <= $scope.stateSelection.states.length - 1; i++) {
+        finalStateList =  finalStateList + '&locations=' + $scope.stateSelection.states[i].code;
+    };
+    $http.get(constants.baseUrl+"recallInfo?product_type=drug"+finalStateList)
         .success(function(response) {$scope.products = response;});
     };
 });
