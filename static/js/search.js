@@ -2,17 +2,52 @@
 var constants = {baseUrl: "http://localhost:4000/"};
 var app = angular.module('searchApp', ['ngSanitize', 'ui.select']);
 
+/**
+ * AngularJS default filter with the following expression:
+ * "recall in availableRecall | filter: {name: $select.search}"
+ */
+app.filter('propsFilter', function() {
+  return function(items, props) {
+    var out = [];
+
+    if (angular.isArray(items)) {
+      items.forEach(function(item) {
+        var itemMatches = false;
+
+        var keys = Object.keys(props);
+        for (var i = 0; i < keys.length; i++) {
+          var prop = keys[i];
+          var text = props[prop].toLowerCase();
+          if (item[prop].toString().toLowerCase().indexOf(text) !== -1) {
+            itemMatches = true;
+            break;
+          }
+        }
+
+        if (itemMatches) {
+          out.push(item);
+        }
+      });
+    } else {
+      // Let the output be the input untouched
+      out = items;
+    }
+
+    return out;
+  }
+});
+
 app.controller('SearchController', function($scope, $http) {
     $scope.searchCriteria = {};
 
     $scope.searchCriteria.states = [];
-    $scope.searchCriteria.recall = [];
+    $scope.searchCriteria.recallType = {};
 
     $scope.availableRecall = [{name: 'Drug', code: 'drug'}, 
                             {name: 'Food', code: 'food'}, 
                             {name: 'Device', code: 'device'}];
 
-    $scope.availableStates = [{name: 'Nationwide', code: 'NA'},
+    $scope.availableStates = [{name: 'Nationwide', code: 'Nationwide'},
                             {name: 'Alabama', code: 'AL'},
                             {name: 'Alaska', code: 'AK'},
                             {name: 'Arizona', code: 'AZ'},
@@ -65,12 +100,11 @@ app.controller('SearchController', function($scope, $http) {
                             {name: 'Wyoming', code: 'WY'}];
 
 $scope.searchData = function() {
-    var recallType = $scope.searchCriteria.recall.code;
+    var recallType = $scope.searchCriteria.recallType.selected.code;
     var finalStateList = '';
     for (var i = 0; i <= $scope.searchCriteria.states.length - 1; i++) {
         finalStateList =  finalStateList + '&locations=' + $scope.searchCriteria.states[i].code;
     };
-    console.log(constants.baseUrl+"recallInfo?product_type="+ recallType + finalStateList);
     $http.get(constants.baseUrl+"recallInfo?product_type="+ recallType + finalStateList)
         .success(function(response) {$scope.products = response;});
     };

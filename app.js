@@ -24,7 +24,7 @@ app.use('/pages',  express.static( path.join(__dirname + '/pages')));
 // API routers
 
 app.get("/", function(req, res){
-  res.sendFile(path.join(__dirname+'/index.html'));
+  res.sendFile(path.join(__dirname+'/index2.html'));
 });
 
 app.get("/page2", function(req, res){
