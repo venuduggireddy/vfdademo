@@ -28,7 +28,7 @@ app.get("/", function(req, res){
 });
 
 app.get("/page2", function(req, res){
-  res.sendFile(path.join(__dirname+'/index.html'));
+  res.sendFile(path.join(__dirname+'/index2.html'));
 });
 
 app.get('/search', function(req, res) {
