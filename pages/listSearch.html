@@ -83,9 +83,9 @@
                             <tr ng-repeat="y in products.results" ng-click="showDetails(y, 'detailsPage')">
                                 <td>{{ y.recall_initiation_date }}</td>
                                 <td>{{ y.recalling_firm }}</td>
-                                <td title="{{ y.reason_for_recall }}">{{ y.reason_for_recall | limitTo:150}} <span ng-if="y.reason_for_recall.length>150"> ... </span></td>
-                                <td title="{{ y.product_description }}">{{ y.product_description | limitTo:150}} <span ng-if="y.product_description.length>150"> ... </span></td>
-                                <td title="{{ y.code_info }}">{{ y.code_info | limitTo:150}} <span ng-if="y.code_info.length>150"> ... </span> </td>
+                                <td title="{{ y.reason_for_recall }}">{{ y.reason_for_recall | limitTo:150}} <span ng-if="y.reason_for_recall.length>150" class="dotdotdot"> <br/>... </span></td>
+                                <td title="{{ y.product_description }}">{{ y.product_description | limitTo:150}} <span ng-if="y.product_description.length>150" class="dotdotdot"> <br/>... </span></td>
+                                <td title="{{ y.code_info }}">{{ y.code_info | limitTo:150}} <span ng-if="y.code_info.length>150" class="dotdotdot"> <br/>... </span> </td>
                             </tr>
                         </table>
                     </div>
