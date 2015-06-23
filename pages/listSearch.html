@@ -64,24 +64,28 @@
                         <table class="table table-bordered table-striped table-hover">
                             <thead>
                                 <tr class="headerrow">
-                                    <th>Recall<br>
-                                    Date<small></small> <label for="textfield"></label></th>
-                                    <th>
-                                        Product<br>
-                                      Description</th>
-                                    <th>
-                                        Code<br>
-                                      Info </th>
-                                    <th>
+                                    <th width="10%"> Recall<br>
+                                        Date </th>
+                                    <th width="10%">
                                         Recalling<br>
                                       Firm </th>
+                                    <th width="25%">
+                                        Reason for<br>
+                                      Recall</th>
+                                    <th width="25%">
+                                        Product<br>
+                                      Description</th>
+                                    <th width="30%">
+                                        Code<br>
+                                      Info</th>
                                 </tr>
                             </thead>
                             <tr ng-repeat="y in products.results" ng-click="showDetails(y, 'detailsPage')">
                                 <td>{{ y.recall_initiation_date }}</td>
-                                <td>{{ y.product_description }}</td>
-                                <td>{{ y.code_info }}</td>
                                 <td>{{ y.recalling_firm }}</td>
+                                <td title="{{ y.reason_for_recall }}">{{ y.reason_for_recall | limitTo:150}}</td>
+                                <td title="{{ y.product_description }}">{{ y.product_description | limitTo:150}}</td>
+                                <td title="{{ y.code_info }}">{{ y.code_info | limitTo:150}}</td>
                             </tr>
                         </table>
                     </div>
