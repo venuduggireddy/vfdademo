@@ -1,8 +1,42 @@
 'use strict';
 var constants = {baseUrl: "http://localhost:4000/"};
-var app = angular.module('searchApp', ['ngSanitize', 'ui.select','daterangepicker']);
+var searchApp = angular.module('searchApp', ['ngRoute', 'ngSanitize', 'ui.select','daterangepicker']);
 
-app.value("ospConstants", {
+searchApp.service('sharedProperties', function() {
+    var recallDetails = '';
+    return {
+            getRecallDetails: function () {
+                return recallDetails;
+            },
+            setRecallDetails: function(value) {
+                recallDetails = value;
+            }
+        };
+})
+
+// configure our routes
+searchApp.config(function($routeProvider) {
+  $routeProvider
+  // route for the list search page
+    .when('/', {
+    templateUrl: '/pages/listSearch.html',
+    controller: 'ListSearchController'
+  })
+
+  // route for map search page
+  .when('/mapSearch', {
+    templateUrl: '../pages/mapSearch.html',
+    controller: 'MapSearchController'
+  })
+
+  // route for the details page
+  .when('/detailsPage', {
+    templateUrl: '../pages/detailsPage.html',
+    controller: 'DetailsController'
+  })
+});
+
+searchApp.value("ospConstants", {
     minDateRange:  moment().startOf('year').startOf('months').startOf('day'),
     maxDateRange: moment().subtract(1,'days'),
     ranges:{
@@ -16,7 +50,7 @@ app.value("ospConstants", {
  * AngularJS default filter with the following expression:
  * "recall in availableRecall | filter: {name: $select.search}"
  */
-app.filter('propsFilter', function() {
+searchApp.filter('propsFilter', function() {
   return function(items, props) {
     var out = [];
 
@@ -47,7 +81,7 @@ app.filter('propsFilter', function() {
   }
 });
 
-app.controller('SearchController', function($scope, $http, ospConstants, $filter) {
+searchApp.controller('ListSearchController', function($scope, $http, ospConstants, $filter, $location, sharedProperties) {
 
     $scope.opts = {ranges: ospConstants.ranges};
     $scope.dateRange = {
@@ -133,4 +167,19 @@ $scope.formatDate = function(date){
           var dateOut = new Date(date);
           return dateOut;
 };
+
+$scope.showDetails = function (y, path ) {
+    
+    sharedProperties.setRecallDetails(y);
+        $location.path(path);
+
+    };
+});
+
+searchApp.controller('MapSearchController', function($scope) {
+    $scope.message = 'Look! I am an about page.';
+});
+
+searchApp.controller('DetailsController', function($scope, sharedProperties) {
+    $scope.recallDetails = sharedProperties.getRecallDetails();
 });
