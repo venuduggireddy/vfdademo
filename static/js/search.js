@@ -1,6 +1,16 @@
 'use strict';
 var constants = {baseUrl: "http://localhost:4000/"};
-var app = angular.module('searchApp', ['ngSanitize', 'ui.select']);
+var app = angular.module('searchApp', ['ngSanitize', 'ui.select','daterangepicker']);
+
+app.value("ospConstants", {
+    minDateRange:  moment().startOf('year').startOf('months').startOf('day'),
+    maxDateRange: moment().subtract(1,'days'),
+    ranges:{
+        'Year to Date': [moment().startOf('year').startOf('months').startOf('day'),moment().subtract(1,'days')],
+        'This Month':[moment().startOf('month').startOf('day'),moment().subtract(1,'days')],
+        'Last Month': [moment().subtract(1,'months').startOf('month'), moment().subtract(1,'months').endOf('month')]
+    }
+});
 
 /**
  * AngularJS default filter with the following expression:
@@ -37,7 +47,14 @@ app.filter('propsFilter', function() {
   }
 });
 
-app.controller('SearchController', function($scope, $http) {
+app.controller('SearchController', function($scope, $http, ospConstants) {
+
+    $scope.opts = {ranges: ospConstants.ranges};
+    $scope.dateRange = {
+        startDate: ospConstants.minDateRange,
+        endDate: ospConstants.maxDateRange
+    };
+
     $scope.searchCriteria = {};
 
     $scope.searchCriteria.states = [];
@@ -108,4 +125,9 @@ $scope.searchData = function() {
     $http.get(constants.baseUrl+"recallInfo?product_type="+ recallType + finalStateList)
         .success(function(response) {$scope.products = response;});
     };
+
+$scope.formatDate = function(date){
+          var dateOut = new Date(date);
+          return dateOut;
+};
 });
