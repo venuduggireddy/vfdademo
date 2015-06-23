@@ -47,7 +47,7 @@ app.filter('propsFilter', function() {
   }
 });
 
-app.controller('SearchController', function($scope, $http, ospConstants) {
+app.controller('SearchController', function($scope, $http, ospConstants, $filter) {
 
     $scope.opts = {ranges: ospConstants.ranges};
     $scope.dateRange = {
@@ -119,10 +119,13 @@ app.controller('SearchController', function($scope, $http, ospConstants) {
 $scope.searchData = function() {
     var recallType = $scope.searchCriteria.recallType.selected.code;
     var finalStateList = '';
+    var from_date = $filter('date')($scope.formatDate($scope.dateRange.startDate), 'yyyy-MM-dd');
+    var to_date = $filter('date')($scope.formatDate($scope.dateRange.endDate), 'yyyy-MM-dd');
     for (var i = 0; i <= $scope.searchCriteria.states.length - 1; i++) {
         finalStateList =  finalStateList + '&locations=' + $scope.searchCriteria.states[i].code;
     };
-    $http.get(constants.baseUrl+"recallInfo?product_type="+ recallType + finalStateList)
+    console.log(constants.baseUrl+"recallInfo?product_type="+ recallType + finalStateList + "&["+to_date+ "+TO+"+from_date+"]");
+    $http.get(constants.baseUrl+"recallInfo?product_type="+ recallType + finalStateList + "&["+to_date+ "+TO+"+from_date+"]")
         .success(function(response) {$scope.products = response;});
     };
 
