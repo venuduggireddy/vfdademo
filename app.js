@@ -135,7 +135,7 @@ app.get('/recallInfo', function(req, res) {
                     distribution_pattern:v.distribution_pattern,
                     initial_firm_notification:v.initial_firm_notification
                   }
-                }
+                };
                 //console.log(o);
                 output.results.push(o);
            });
