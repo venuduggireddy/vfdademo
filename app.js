@@ -132,7 +132,8 @@ app.get('/recallInfo', function(req, res) {
                     country:v.country,
                     recall_initiation_date:v.recall_initiation_date,
                     voluntary_mandated:v.voluntary_mandated,
-                    distribution_pattern:v.distribution_pattern
+                    distribution_pattern:v.distribution_pattern,
+                    initial_firm_notification:v.initial_firm_notification
                   }
                 }
                 //console.log(o);
