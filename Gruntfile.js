@@ -24,5 +24,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
 
   // Register the default tasks.
-  grunt.registerTask('default', ['jshint']);
+  grunt.registerTask('default', ['jshint', 'watch']);
 };
