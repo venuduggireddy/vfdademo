@@ -6,7 +6,7 @@
             <div class="col-sm-2 text-center">
                 <div class="symptom"><strong>Date Range</strong></div> 
                 <div class="form-group col-centered">
-                    <input date-range-picker class="form-control date-picker" type="text" ng-model="dateRange" options="opts"/>
+                    <input date-range-picker class="form-control date-picker" type="text" ng-model="dateRange" options="opts" style="min-width: 190px;"/>
                 </div>
             </div>
             <div class="col-sm-3 text-center">
@@ -75,7 +75,7 @@
                                 </tr>
                             </thead>
                             <tr ng-repeat="y in products.results" ng-click="showDetails(y, 'detailsPage')">
-                                <td>{{ y.recall_initiation_date }}</td>
+                                <td>{{ createDate(y.recall_initiation_date) |  date:"MM/dd/yyyy"}}</td>
                                 <td>{{ y.recalling_firm }}</td>
                                 <td title="{{ y.reason_for_recall }}">{{ y.reason_for_recall | limitTo:150}} <span ng-if="y.reason_for_recall.length>150" class="dotdotdot"> <br/>... </span></td>
                                 <td title="{{ y.product_description }}">{{ y.product_description | limitTo:150}} <span ng-if="y.product_description.length>150" class="dotdotdot"> <br/>... </span></td>

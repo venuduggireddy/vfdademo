@@ -120,6 +120,11 @@ $scope.formatDate = function(date){
           return dateOut;
 };
 
+$scope.createDate = function(dateString) {
+        console.log(dateString);   
+        return new Date(dateString.slice(0,4), dateString.slice(4,6)-1, dateString.slice(6,8));
+    }
+
 $scope.showDetails = function (y, path ) {
     
     sharedProperties.setRecallDetails(y);
