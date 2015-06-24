@@ -2,16 +2,31 @@
 var constants = {baseUrl: "http://localhost:4000/"};
 var searchApp = angular.module('searchApp', ['ngRoute', 'ngSanitize', 'ui.select','daterangepicker', 'googlechart']);
 
-searchApp.service('sharedProperties', function() {
+searchApp.service('sharedProperties', function(ospConstants) {
     var recallDetails = '';
+    var globalSearchCriteria = {states: [stateList[0]], recallType: recallTypes[0], 
+                                dateRange: {startDate: ospConstants.minDateRange, endDate: ospConstants.maxDateRange}};
+    var productsList = {};
     return {
             getRecallDetails: function () {
                 return recallDetails;
             },
             setRecallDetails: function(value) {
                 recallDetails = value;
+            },
+            getGlobalSearchCriteria: function () {
+            return globalSearchCriteria;
+            },
+            setGlobalSearchCriteria: function(value) {
+                globalSearchCriteria = value;
+            },
+            getProductsList: function () {
+            return productsList;
+            },
+            setProductsList: function(value) {
+                productsList = value;
             }
-        };
+    };
 })
 
 // configure our routes
@@ -85,51 +100,42 @@ searchApp.filter('propsFilter', function() {
 searchApp.controller('ListSearchController', function($scope, $http, ospConstants, $filter, $location, sharedProperties) {
 
     $scope.opts = {ranges: ospConstants.ranges};
-    $scope.dateRange = {
-        startDate: ospConstants.minDateRange,
-        endDate: ospConstants.maxDateRange
-    };
-
-    $scope.searchCriteria = {};
-
-    $scope.searchCriteria.states = [{name: 'Nationwide', code: 'Nationwide'}];
-    
-
-    $scope.availableRecall = [{name: 'Drug', code: 'drug'}, 
-                            {name: 'Food', code: 'food'}, 
-                            {name: 'Device', code: 'device'}];
-
-    $scope.searchCriteria.recallType = $scope.availableRecall[0];
+    $scope.searchCriteria = sharedProperties.getGlobalSearchCriteria();
+    $scope.availableRecall = recallTypes;
     $scope.availableStates = stateList;
+    $scope.products = sharedProperties.getProductsList();
 
-$scope.searchData = function() {
-    var recallType = $scope.searchCriteria.recallType.code;
-    var finalStateList = '';
-    var from_date = $filter('date')($scope.formatDate($scope.dateRange.startDate), 'yyyy-MM-dd');
-    var to_date = $filter('date')($scope.formatDate($scope.dateRange.endDate), 'yyyy-MM-dd');
-    for (var i = 0; i <= $scope.searchCriteria.states.length - 1; i++) {
-        finalStateList =  finalStateList + '&locations=' + $scope.searchCriteria.states[i].code;
-    };
-    console.log(constants.baseUrl+"recallInfo?product_type="+ recallType + finalStateList + "&["+to_date+ "+TO+"+from_date+"]");
-    $http.get(constants.baseUrl+"recallInfo?product_type="+ recallType + finalStateList + "&["+to_date+ "+TO+"+from_date+"]")
-        .success(function(response) {$scope.products = response;});
+    // function to call the search service for selected search criteria
+    $scope.searchData = function() {
+        var recallType = $scope.searchCriteria.recallType.code;
+        var finalStateList = '';
+        var from_date = $filter('date')($scope.formatDate($scope.searchCriteria.dateRange.startDate), 'yyyy-MM-dd');
+        var to_date = $filter('date')($scope.formatDate($scope.searchCriteria.dateRange.endDate), 'yyyy-MM-dd');
+        for (var i = 0; i <= $scope.searchCriteria.states.length - 1; i++) {
+            finalStateList =  finalStateList + '&locations=' + $scope.searchCriteria.states[i].code;
+        };
+        console.log(constants.baseUrl+"recallInfo?product_type="+ recallType + finalStateList + "&["+to_date+ "+TO+"+from_date+"]");
+        $http.get(constants.baseUrl+"recallInfo?product_type="+ recallType + finalStateList + "&["+to_date+ "+TO+"+from_date+"]")
+            .success(function(response) {$scope.products = response;});
     };
 
-$scope.formatDate = function(date){
+    // function to create a date from moment date
+    $scope.formatDate = function(date){
           var dateOut = new Date(date);
           return dateOut;
-};
+    };
 
-$scope.createDate = function(dateString) {
-        console.log(dateString);   
+    // function to create a date from format '20150827'
+    $scope.createDate = function(dateString) {
         return new Date(dateString.slice(0,4), dateString.slice(4,6)-1, dateString.slice(6,8));
     }
 
-$scope.showDetails = function (y, path ) {
-    
-    sharedProperties.setRecallDetails(y);
+    // function to redirect to recall details page
+    $scope.showDetails = function (y, path) {
+        sharedProperties.setRecallDetails(y);
+        sharedProperties.setProductsList($scope.products);
+        sharedProperties.setGlobalSearchCriteria($scope.searchCriteria);
         $location.path(path);
-
     };
 });
 
@@ -141,6 +147,7 @@ searchApp.controller('MapSearchController', function($scope, ospConstants) {
         endDate: ospConstants.maxDateRange
     };
 
+    // function to create a date from moment date
     $scope.formatDate = function(date){
           var dateOut = new Date(date);
           return dateOut;
@@ -177,6 +184,9 @@ searchApp.controller('MapSearchController', function($scope, ospConstants) {
 searchApp.controller('DetailsController', function($scope, sharedProperties) {
     $scope.recallDetails = sharedProperties.getRecallDetails();
 });
+var recallTypes = [{name: 'Drug', code: 'drug'}, 
+                {name: 'Food', code: 'food'}, 
+                {name: 'Device', code: 'device'}];
 
 var stateList = [{name: 'Nationwide', code: 'Nationwide'},
                 {name: 'Alabama', code: 'AL'},

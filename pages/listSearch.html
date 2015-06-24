@@ -6,7 +6,7 @@
             <div class="col-sm-2 text-center">
                 <div class="symptom"><strong>Date Range</strong></div> 
                 <div class="form-group col-centered">
-                    <input date-range-picker class="form-control date-picker" type="text" ng-model="dateRange" options="opts" style="min-width: 190px;"/>
+                    <input date-range-picker class="form-control date-picker" type="text" ng-model="searchCriteria.dateRange" options="opts" style="min-width: 190px;"/>
                 </div>
             </div>
             <div class="col-sm-3 text-center">
@@ -40,6 +40,7 @@
     </div>
     <div class="row">
         <div class="col-lg-12">
+              <h1 class="page-header text-center">Product Recalls by General Area of Initial Distributions</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -49,7 +50,7 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <h4> 
-                        <p>Recall for {{searchCriteria.recallType.name}} between {{formatDate(dateRange.startDate) |  date:"MM/dd/yyyy" }} - {{formatDate(dateRange.endDate) |  date:"MM/dd/yyyy" }}</p>
+                        <p>Recall for {{searchCriteria.recallType.name}} between {{formatDate(searchCriteria.dateRange.startDate) |  date:"MM/dd/yyyy" }} - {{formatDate(searchCriteria.dateRange.endDate) |  date:"MM/dd/yyyy" }}</p>
                         <p>State(s): <span ng-repeat="x in searchCriteria.states">{{x.code}},  </span> </p>
                         <p>Total Results [{{products.meta.results.total}}]</p>
                     </h4>
