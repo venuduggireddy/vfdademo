@@ -3,11 +3,17 @@
     <div class="row">
         <div class="col-sm-2"></div>
         <div>    
+            <div class="col-sm-2 text-center">
+                <div class="symptom"><strong>Date Range</strong></div> 
+                <div class="form-group col-centered">
+                    <input date-range-picker class="form-control date-picker" type="text" ng-model="dateRange" options="opts"/>
+                </div>
+            </div>
             <div class="col-sm-3 text-center">
                 <div class="symptom"><strong>Select type of recall</strong></div>    
                 <div class="form-group col-centered">
-                    <ui-select ng-model="searchCriteria.recallType.selected" theme="select2" ng-disabled="disabled" style="min-width: 300px;">
-                        <ui-select-match placeholder="Select a recall type...">{{searchCriteria.recallType.selected.name}}</ui-select-match>
+                    <ui-select ng-model="searchCriteria.recallType" theme="select2" ng-disabled="disabled" style="min-width: 300px;">
+                        <ui-select-match placeholder="Select a recall type...">{{searchCriteria.recallType.name}}</ui-select-match>
                         <ui-select-choices repeat="recall in availableRecall | propsFilter: {name: $select.search}">
                           <div ng-bind-html="recall.name | highlight: $select.search"></div>
                         </ui-select-choices>
@@ -25,31 +31,15 @@
                     </ui-select>
                 </div>
             </div>
-
             <div class="col-sm-2 text-center">
-                <div class="symptom"><strong>Pick a Range</strong></div> 
-                <div class="form-group col-centered">
-                    <input date-range-picker class="form-control date-picker" type="text" ng-model="dateRange" options="opts"/>
-                </div>
+                <br>
+                <a class="btn btn-primary" ng-click="searchData()">Search</a> 
             </div>
-            <div class="col-sm-2"></div>
         </div>
-        <form role="form">
-            <div class="col-sm-12 text-center"> 
-                <br />
-                 <a class="btn btn-primary" ng-click="searchData()">Search</a> 
-            </div>
-        </form>
         <div class="col-sm-2"></div>
     </div>
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header"> 
-                <p>Date Range: {{formatDate(dateRange.startDate) |  date:"MM/dd/yyyy" }} - {{formatDate(dateRange.endDate) |  date:"MM/dd/yyyy" }}</p>
-                <p>Selected State(s): <span ng-repeat="x in searchCriteria.states">{{x.name}},  </span> </p>
-                <p>Selected Recall Type: {{searchCriteria.recallType.selected.name}} </p>
-                <p>Total Results [{{products.meta.results.total}}]</p>
-            </h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -58,8 +48,12 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h3>Summary</h3>
-                    <p>See below for search results.</p>
+                    <h4> 
+                        <p>Recall for {{searchCriteria.recallType.name}} between {{formatDate(dateRange.startDate) |  date:"MM/dd/yyyy" }} - {{formatDate(dateRange.endDate) |  date:"MM/dd/yyyy" }}</p>
+                        <p>State(s): <span ng-repeat="x in searchCriteria.states">{{x.code}},  </span> </p>
+                        <p>Total Results [{{products.meta.results.total}}]</p>
+                    </h4>
+                    <h5> Please select a row to view details. </h5>
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped table-hover">
                             <thead>
