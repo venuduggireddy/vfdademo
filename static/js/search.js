@@ -37,12 +37,13 @@ searchApp.config(function($routeProvider) {
 });
 
 searchApp.value("ospConstants", {
-    minDateRange:  moment().startOf('year').startOf('months').startOf('day'),
+    minDateRange:  moment().subtract(30,'days'),
     maxDateRange: moment().subtract(1,'days'),
     ranges:{
-        'Year to Date': [moment().startOf('year').startOf('months').startOf('day'),moment().subtract(1,'days')],
+        'Last 30 Days': [moment().subtract(30,'days'), moment().subtract(1,'days')],
         'This Month':[moment().startOf('month').startOf('day'),moment().subtract(1,'days')],
-        'Last Month': [moment().subtract(1,'months').startOf('month'), moment().subtract(1,'months').endOf('month')]
+        'Last Month': [moment().subtract(1,'months').startOf('month'), moment().subtract(1,'months').endOf('month')],
+        'Year to Date': [moment().startOf('year').startOf('months').startOf('day'),moment().subtract(1,'days')]
     }
 });
 
