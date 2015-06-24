@@ -1,6 +1,6 @@
 'use strict';
 var constants = {baseUrl: "http://localhost:4000/"};
-var searchApp = angular.module('searchApp', ['ngRoute', 'ngSanitize', 'ui.select','daterangepicker']);
+var searchApp = angular.module('searchApp', ['ngRoute', 'ngSanitize', 'ui.select','daterangepicker', 'googlechart']);
 
 searchApp.service('sharedProperties', function() {
     var recallDetails = '';
@@ -98,57 +98,7 @@ searchApp.controller('ListSearchController', function($scope, $http, ospConstant
                             {name: 'Food', code: 'food'}, 
                             {name: 'Device', code: 'device'}];
 
-    $scope.availableStates = [{name: 'Nationwide', code: 'Nationwide'},
-                            {name: 'Alabama', code: 'AL'},
-                            {name: 'Alaska', code: 'AK'},
-                            {name: 'Arizona', code: 'AZ'},
-                            {name: 'Arkansas', code: 'AR'},
-                            {name: 'California', code: 'CA'},
-                            {name: 'Colorado', code: 'CO'},
-                            {name: 'Connecticut', code: 'CT'},
-                            {name: 'Delaware', code: 'DE'},
-                            {name: 'Florida', code: 'FL'},
-                            {name: 'Georgia', code: 'GA'},
-                            {name: 'Hawaii', code: 'HI'},
-                            {name: 'Idaho', code: 'ID'},
-                            {name: 'Illinois', code: 'IL'},
-                            {name: 'Indiana', code: 'IN'},
-                            {name: 'Iowa', code: 'IA'},
-                            {name: 'Kansas', code: 'KS'},
-                            {name: 'Kentucky', code: 'KY'},
-                            {name: 'Louisiana', code: 'LA'},
-                            {name: 'Maine', code: 'ME'},
-                            {name: 'Maryland', code: 'MD'},
-                            {name: 'Massachusetts', code: 'MA'},
-                            {name: 'Michigan', code: 'MI'},
-                            {name: 'Minnesota', code: 'MN'},
-                            {name: 'Mississippi', code: 'MS'},
-                            {name: 'Missouri', code: 'MO'},
-                            {name: 'Montana', code: 'MT'},
-                            {name: 'Nebraska', code: 'NE'},
-                            {name: 'Nevada', code: 'NV'},
-                            {name: 'New Hampshire', code: 'NH'},
-                            {name: 'New Jersey', code: 'NJ'},
-                            {name: 'New Mexico', code: 'NM'},
-                            {name: 'New York', code: 'NY'},
-                            {name: 'North Carolina', code: 'NC'},
-                            {name: 'North Dakota', code: 'ND'},
-                            {name: 'Ohio', code: 'OH'},
-                            {name: 'Oklahoma', code: 'OK'},
-                            {name: 'Oregon', code: 'OR'},
-                            {name: 'Pennsylvania', code: 'PA'},
-                            {name: 'Rhode Island', code: 'RI'},
-                            {name: 'South Carolina', code: 'SC'},
-                            {name: 'South Dakota', code: 'SD'},
-                            {name: 'Tennessee', code: 'TN'},
-                            {name: 'Texas', code: 'TX'},
-                            {name: 'Utah', code: 'UT'},
-                            {name: 'Vermont', code: 'VT'},
-                            {name: 'Virginia', code: 'VA'},
-                            {name: 'Washington', code: 'WA'},
-                            {name: 'West Virginia', code: 'WV'},
-                            {name: 'Wisconsin', code: 'WI'},
-                            {name: 'Wyoming', code: 'WY'}];
+    $scope.availableStates = stateList;
 
 $scope.searchData = function() {
     var recallType = $scope.searchCriteria.recallType.selected.code;
@@ -176,10 +126,99 @@ $scope.showDetails = function (y, path ) {
     };
 });
 
-searchApp.controller('MapSearchController', function($scope) {
-    $scope.message = 'Look! I am an about page.';
+searchApp.controller('MapSearchController', function($scope, ospConstants) {
+
+    $scope.opts = {ranges: ospConstants.ranges};
+    $scope.dateRange = {
+        startDate: ospConstants.minDateRange,
+        endDate: ospConstants.maxDateRange
+    };
+
+    $scope.formatDate = function(date){
+          var dateOut = new Date(date);
+          return dateOut;
+    };
+
+    var chart1 = {};
+    chart1.type = "GeoChart";
+    chart1.data = [];
+    chart1.data[0] = ['State', 'Total Recall'];
+    for(var i=0; i<stateList.length; i++) {
+        chart1.data[i+1] =[stateList[i].name, i+100];
+    }
+
+    chart1.options = {
+        width: 900,
+        height: 450,
+        chartArea: {left:500,top:10,bottom:0,height:"100%"},
+        colorAxis: {colors: ['#aec7e8', '#1f77b4']},
+        //colorAxis: {colors: ['#DDEACC', '#109618']},
+        region: "US",
+        resolution: "provinces"
+    };
+
+    /*chart1.formatters = {
+     number : [{
+       columnNum: 1,
+       pattern: "$ #,##0.00"
+     }]
+   };*/
+
+    $scope.chart = chart1;
 });
 
 searchApp.controller('DetailsController', function($scope, sharedProperties) {
     $scope.recallDetails = sharedProperties.getRecallDetails();
 });
+
+var stateList = [{name: 'Nationwide', code: 'Nationwide'},
+                {name: 'Alabama', code: 'AL'},
+                {name: 'Alaska', code: 'AK'},
+                {name: 'Arizona', code: 'AZ'},
+                {name: 'Arkansas', code: 'AR'},
+                {name: 'California', code: 'CA'},
+                {name: 'Colorado', code: 'CO'},
+                {name: 'Connecticut', code: 'CT'},
+                {name: 'Delaware', code: 'DE'},
+                {name: 'Florida', code: 'FL'},
+                {name: 'Georgia', code: 'GA'},
+                {name: 'Hawaii', code: 'HI'},
+                {name: 'Idaho', code: 'ID'},
+                {name: 'Illinois', code: 'IL'},
+                {name: 'Indiana', code: 'IN'},
+                {name: 'Iowa', code: 'IA'},
+                {name: 'Kansas', code: 'KS'},
+                {name: 'Kentucky', code: 'KY'},
+                {name: 'Louisiana', code: 'LA'},
+                {name: 'Maine', code: 'ME'},
+                {name: 'Maryland', code: 'MD'},
+                {name: 'Massachusetts', code: 'MA'},
+                {name: 'Michigan', code: 'MI'},
+                {name: 'Minnesota', code: 'MN'},
+                {name: 'Mississippi', code: 'MS'},
+                {name: 'Missouri', code: 'MO'},
+                {name: 'Montana', code: 'MT'},
+                {name: 'Nebraska', code: 'NE'},
+                {name: 'Nevada', code: 'NV'},
+                {name: 'New Hampshire', code: 'NH'},
+                {name: 'New Jersey', code: 'NJ'},
+                {name: 'New Mexico', code: 'NM'},
+                {name: 'New York', code: 'NY'},
+                {name: 'North Carolina', code: 'NC'},
+                {name: 'North Dakota', code: 'ND'},
+                {name: 'Ohio', code: 'OH'},
+                {name: 'Oklahoma', code: 'OK'},
+                {name: 'Oregon', code: 'OR'},
+                {name: 'Pennsylvania', code: 'PA'},
+                {name: 'Rhode Island', code: 'RI'},
+                {name: 'South Carolina', code: 'SC'},
+                {name: 'South Dakota', code: 'SD'},
+                {name: 'Tennessee', code: 'TN'},
+                {name: 'Texas', code: 'TX'},
+                {name: 'Utah', code: 'UT'},
+                {name: 'Vermont', code: 'VT'},
+                {name: 'Virginia', code: 'VA'},
+                {name: 'Washington', code: 'WA'},
+                {name: 'West Virginia', code: 'WV'},
+                {name: 'Wisconsin', code: 'WI'},
+                {name: 'Wyoming', code: 'WY'}];

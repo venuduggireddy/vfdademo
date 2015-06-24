@@ -16,6 +16,10 @@
     "tests"
   ],
   "dependencies": {
-    "angular-daterangepicker": "~0.1.16"
+    "angular-daterangepicker": "~0.1.16",
+    "angular-google-chart": "~0.0.11"
+  },
+  "resolutions": {
+    "angular": "^1.2.17"
   }
 }
