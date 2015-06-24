@@ -91,17 +91,18 @@ searchApp.controller('ListSearchController', function($scope, $http, ospConstant
 
     $scope.searchCriteria = {};
 
-    $scope.searchCriteria.states = [];
-    $scope.searchCriteria.recallType = {};
+    $scope.searchCriteria.states = [{name: 'Nationwide', code: 'Nationwide'}];
+    
 
     $scope.availableRecall = [{name: 'Drug', code: 'drug'}, 
                             {name: 'Food', code: 'food'}, 
                             {name: 'Device', code: 'device'}];
 
+    $scope.searchCriteria.recallType = $scope.availableRecall[0];
     $scope.availableStates = stateList;
 
 $scope.searchData = function() {
-    var recallType = $scope.searchCriteria.recallType.selected.code;
+    var recallType = $scope.searchCriteria.recallType.code;
     var finalStateList = '';
     var from_date = $filter('date')($scope.formatDate($scope.dateRange.startDate), 'yyyy-MM-dd');
     var to_date = $filter('date')($scope.formatDate($scope.dateRange.endDate), 'yyyy-MM-dd');
