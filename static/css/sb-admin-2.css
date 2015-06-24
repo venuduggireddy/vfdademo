@@ -4,6 +4,29 @@
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
 
+.dotdotdot {
+    font-size: 25px;
+    color: #095a6e;
+}
+
+.btn-state1 {
+  background-color: #1f77b4;
+  border-color: #fff;
+}
+.btn-state2 {
+  background-color: #5f9bcb;
+  border-color: #fff;
+}
+.btn-state3 {
+  background-color: #a2c0e4;
+  border-color: #fff;
+}
+.nationwide {
+  margin-top: 50px;;
+  font-size: 18px;
+  color: yellow;
+}
+
 .col-centered {
     display: inline-block;
     float:none;
@@ -65,6 +88,9 @@ header {
 .textwhite {
 	color: #0a5a6f;
 }
+.textwhite2 {
+	color: #eee;
+}
 .symptom {
 	color: #fff;
 	font-size: 14px;
@@ -75,6 +101,14 @@ header {
 }
 .countnav {
 	font-size: 25px;
+}
+.page-header2 {
+	font-size: 25px;
+	color: #000;
+}
+.dotdotdot {
+	font-size: 25px;
+	color: #095a6e;
 }
 .table-striped > tbody > tr:nth-of-type(odd) {
   background-color: #cbe3dd;
@@ -103,8 +137,8 @@ body {
 	
 }
 
-body#page1{background-color:#056243;}
-body#page2{background-color:#007558; background-image: url(../../img/background_page.jpg); background-repeat: repeat-x;}
+body#page1{background-color:#11697d;}
+body#page2{background-color:#11697d; background-image: url(../../img/background_page.jpg); background-repeat: repeat-x;}
 body#page3{background-color:#00f;}
 
 

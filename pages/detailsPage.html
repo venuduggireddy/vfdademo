@@ -1,0 +1,96 @@
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <a href="#/">
+    				Back
+    			</a>
+    			<h4>Product Details</h4>
+                <div class="table-responsive">
+                    <table class="table table-bordered  table-hover">
+                        <tbody>
+                        	<tr>
+                                <th height="41" width="16%" class="headerrow">Product Description: </th>
+                                <td width="84%">{{recallDetails.product_description}}</td>
+                            </tr>
+                            <tr>
+                              <th class="headerrow">Recall Number: </th>
+                              <td>{{recallDetails.recall_number}}</td>
+                            </tr>
+                            <tr>
+                              <th class="headerrow">Classification: </th>
+                              <td>{{recallDetails.classification}}</td>
+                            </tr>
+                            <tr>
+                              <th class="headerrow">Code Info: </th>
+                              <td>{{recallDetails.code_info}}</td>
+                            </tr>
+                            <tr>
+                              <th class="headerrow">Product Distributed Qty: </th>
+                              <td>{{recallDetails.product_quantity}}</td>
+                            </tr>
+                            <tr>
+                                <th class="headerrow">Reason for Recall: </th>
+                                <td>{{recallDetails.reason_for_recall}}</td>
+                            </tr>
+                        </tbody>
+                    </table>    
+                </div>
+                <h4>Event Details</h4>
+                <div class="table-responsive">
+                    <table class="table table-bordered  table-hover">
+                        <tbody>
+                            <tr>
+                                <th width="16%" height="41" class="headerrow">Event Id: </th>
+                                <td width="84%">{{recallDetails.event_details.event_id}}</td>
+                            </tr>
+                            <tr>
+                              <th class="headerrow">Product Type: </th>
+                              <td>{{recallDetails.event_details.product_type}}</td>
+                            </tr>
+                            <tr>
+                              <th class="headerrow">Status: </th>
+                              <td>{{recallDetails.event_details.status}}</td>
+                            </tr>
+                            <tr>
+                              <th class="headerrow">Recalling Firm: </th>
+                              <td>{{recallDetails.event_details.recalling_firm}}</td>
+                            </tr>
+                            <tr>
+                              <th class="headerrow">City: </th>
+                              <td>{{recallDetails.event_details.city}}</td>
+                            </tr>
+                            <tr>
+                                <th class="headerrow">State: </th>
+                                <td>{{recallDetails.event_details.state}}</td>
+                            </tr>
+                            <tr>
+                                <th class="headerrow">Country: </th>
+                                <td>{{recallDetails.event_details.country}}</td>
+                            </tr>
+                            <tr>
+                                <th class="headerrow">Voluntary / Mandated: </th>
+                                <td>{{recallDetails.event_details.voluntary_mandated}}</td>
+                            </tr>
+                            <tr>
+                                <th class="headerrow">Recall Initiation Date: </th>
+                                <td>{{recallDetails.event_details.recall_initiation_date}}</td>
+                            </tr>
+                            <tr>
+                                <th class="headerrow">Initial Firm Notification of <br> Consignee or Public: </th>
+                                <td>{{recallDetails.event_details.initial_firm_notification}}</td>
+                            </tr>
+                            <tr>
+                                <th class="headerrow">Distribution Patter: </th>
+                                <td>{{recallDetails.event_details.distribution_pattern}}</td>
+                            </tr>
+                        </tbody>
+                    </table>    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
