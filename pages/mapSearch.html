@@ -1,5 +1,7 @@
   <div class="row">
-        <div class="col-sm-3"></div>
+        <div class="col-sm-3">
+
+        </div>
         <div>
                 <div class="col-sm-2 text-center">
                 <div class="symptom"><strong>Pick a Range</strong></div>
@@ -49,6 +51,27 @@
         <!-- /.col-lg-12 -->
     </div>
     </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="nationwide text-center">
+                Nationwide 
+                <button type="button" class="btn btn-state1">Device - 30</button> 
+                <button type="button" class="btn btn-state2">Drug - 200</button> 
+                <button type="button" class="btn btn-state3">Food - 600</button> 
+                Specific initial distribution states for Nationwide recalls cannot be determined.</div>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+
 <div class="row">
-     <div class="col-sm-12 text-center" google-chart chart="chart"></div>
+        <div class="col-sm-1 text-center">
+</div>
+     <div id="visualization" class="col-sm-8 text-center" google-chart chart="chart" on-select="dothis(selectedItem)"></div>
+
+     <div class="col-sm-3 text-center">
+        <h1 class="page-header"> 
+        State Name:   {{selectedElement[0]}}
+        Total Recall: {{selectedElement[1]}}</h1>
+     </div>
+     
 </div>
