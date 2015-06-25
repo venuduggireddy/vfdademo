@@ -4,6 +4,7 @@
   "description": "Vencore API on top of Open Fda data",
   "main": "app.js",
   "scripts": {
+    "postinstall": "node_modules/protractor/bin/webdriver update",
     "test": "test,js"
   },
   "keywords": [
@@ -33,6 +34,7 @@
     "mocha": "~2.2.5",
     "grunt-mocha-test": "~0.12.7",
     "chromedriver": "~2.15.1",
-    "protractor-html-screenshot-reporter": "0.0.19"
+    "protractor-html-screenshot-reporter": "0.0.19",
+    "protractor": "~2.1.0"
   }
 }

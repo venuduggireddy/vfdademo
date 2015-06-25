@@ -11,6 +11,7 @@ var express = require('express'),
  config = require('./config'),
  utils = require('./utils'),
  HashMap = require('hashmap'),
+ http = require('http'),
  cors = require('cors');
 
 
@@ -182,6 +183,7 @@ app.get('/recallmapview', function(req, res) {
     var url = 'https://api.fda.gov/drug/enforcement.json?search=distribution_pattern:(Nationwide)+AND+Advil&count=distribution_pattern';
     var reacallMap = new HashMap();
     var statesMap = utils.recallstatemap();
+    /*
     _.each(urlTypes, function(product_type){
       var enforcementUrl = getEnforcementUrl(product_type);
       console.log("URL for product_type %s is %s", product_type, enforcementUrl);
@@ -195,10 +197,33 @@ app.get('/recallmapview', function(req, res) {
              }
           });
        });
-       console.log("Recall Map is %O", reacallMap);
     });
+    */
+
+    var data = [];
+    _.each(urlTypes, function(product_type){
+      var enforcementUrl = getEnforcementUrl(product_type);
+      request(enforcementUrl, function(err, response, body){
+        console.log('Reponse: ', response.statusCode, ' from url: ', enforcementUrl);
+        var body = '';
+        response.on('data', function(chunk){
+            body += chunk;
+        });
+
+        response.on('end', function() {
+            data.push(body);
+        });
+
+    });
+  });
+    console.log('Data is %s', data);
+
 
 });
+
+var getProductTypeCount = function(url){
+
+}
 
 /*
  ger the url based on product_type
