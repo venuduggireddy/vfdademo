@@ -76,7 +76,7 @@ module.exports = function(grunt) {
                 args: {
 		          // Arguments passed to the command
 			  baseUrl: '<%= props.baseUrl %>/',
-			  // chromeDriver: '<%= props.chromeDriver %>'
+			  chromeDriver: '<%= props.chromeDriver %>'
 
 		     } // Target-specific arguments
             }
