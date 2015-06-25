@@ -180,20 +180,23 @@ app.get('/recallmapview', function(req, res) {
        urlTypes = product_types;
     }
     //var url = 'https://api.fda.gov/food/enforcement.json?search=report_date:[2004-01-01+TO+2015-06-24]+AND+wegmans';
-    var url = 'https://api.fda.gov/drug/enforcement.json?search=distribution_pattern:(Nationwide)+AND+Advil&count=distribution_pattern';
+  //  var url = 'https://api.fda.gov/drug/enforcement.json?search=distribution_pattern:(VA)+AND+Advil&count=distribution_pattern';
+    var url = 'https://api.fda.gov/food/enforcement.json?search=distribution_pattern:(VA)+AND+wegmans&count=distribution_pattern';
     var reacallMap = new HashMap();
     var statesMap = utils.recallstatemap();
-
+    var values = [];
     _.each(urlTypes, function(product_type){
       var enforcementUrl = getEnforcementUrl(product_type);
       console.log("URL for product_type %s is %s", product_type, enforcementUrl);
       request(url, function(err, resp, body) {
           body = JSON.parse(body);
           _.forEach(body.results, function(v, k){
-             console.log("Value is %s and %d and %s", v.term, v.count, statesMap.get(v.term.toUpperCase()));
-             if(statesMap.get(v.term.toUpperCase())){
-               console.log("Value is %s and %d", v.term, v.count);
-                reacallMap.set(v.term.toUpperCase(),v.count);
+             var term = v.term.toUpperCase();
+             var count = v.count;
+            // console.log("Value is %s and %d and %s", v.term, v.count, statesMap.get(v.term.toUpperCase()));
+             if(statesMap.get(term)){ // valid state
+                reacallMap.set(term, count);
+                console.log("Value is %s and %d", term, count. reacallMap.get(term));
              }
           });
           res.send(reacallMap);

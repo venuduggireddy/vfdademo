@@ -1,10 +1,11 @@
 'use strict';
-var constants = {baseUrl: "http://localhost:4000/"};
+//var constants = {baseUrl: "http://localhost:4000/"};
+var constants = {baseUrl: "http://54.175.186.120:80/"};
 var searchApp = angular.module('searchApp', ['ngRoute', 'ngSanitize', 'ui.select','daterangepicker', 'googlechart']);
 
 searchApp.service('sharedProperties', function(ospConstants) {
     var recallDetails = '';
-    var globalSearchCriteria = {states: [stateList[0]], recallType: recallTypes[0], 
+    var globalSearchCriteria = {states: [stateList[0]], recallType: recallTypes[0],
                                 dateRange: {startDate: ospConstants.minDateRange, endDate: ospConstants.maxDateRange}};
     var productsList = {};
     return {
@@ -193,8 +194,8 @@ searchApp.controller('DetailsController', function($scope, sharedProperties, $lo
     $location.hash('page2');
     $anchorScroll();
 });
-var recallTypes = [{name: 'Drug', code: 'drug'}, 
-                {name: 'Food', code: 'food'}, 
+var recallTypes = [{name: 'Drug', code: 'drug'},
+                {name: 'Food', code: 'food'},
                 {name: 'Device', code: 'device'}];
 
 var stateList = [{name: 'Nationwide', code: 'Nationwide'},

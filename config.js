@@ -1,7 +1,7 @@
 var config = {
   base_url:'https://api.fda.gov/drug/event.json?',
   api_key: 'hio1wf7pqYENmmnF8Q0THFA94muLUSMqwy1nzYo7',
-  server_port:4000,
+  server_port:80,
   drug_event_url:'https://api.fda.gov/drug/event.json?',
   drug_enforcement_url:'https://api.fda.gov/drug/enforcement.json?',
   device_enforcement_url:'https://api.fda.gov/device/enforcement.json?',
@@ -15,8 +15,12 @@ var config = {
         host:'http://10.63.48.27',
         port:'80'
     },
+    ci:{
+        host:'54.175.186.120',
+        port:'4000'
+    },
     production:{
-      host:'http://localhost',
+      host:'http://54.85.23.143',
       port:'80'
     }
   }
