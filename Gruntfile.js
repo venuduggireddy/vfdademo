@@ -123,7 +123,7 @@ grunt.registerTask(
 grunt.registerTask(
   'archive', 
   'Compressing Files', 
-  ['compress:zip','compress:tar']
+  ['compress:tar']
 );
 
 //Mocha Unit Test 
