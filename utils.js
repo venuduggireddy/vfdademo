@@ -1,3 +1,6 @@
+ var HashMap = require('hashmap'),
+  _ = require('lodash-node');
+
 var usstates = [
     {
         "name": "Alabama",
@@ -234,7 +237,21 @@ var usstates = [
     {
         "name": "Wyoming",
         "abbreviation": "WY"
+    },
+    {
+        "name" : "Nationwide",
+        "abbreviation": "Nationwide"
     }
 ];
 
-module.exports = usstates;
+exports.recallstatemap = function(){
+    var map = new HashMap();
+    _.forEach(usstates, function(value){
+        map.set(value.abbreviation.toUpperCase(), value.name);
+      //  console.log("key %s and value %s", value.name, value.abbreviation);
+    });
+    return map;
+};
+
+
+//module.exports = recallstatemap;

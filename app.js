@@ -1,4 +1,7 @@
-// set variables for environment
+/*
+  author: venu duggireddy
+  description: Applicatoin server that servers http request that servers html files and API service calls
+*/
 var express = require('express'),
  app = express(),
  path = require('path'),
@@ -6,7 +9,8 @@ var express = require('express'),
  querystring = require('querystring'),
  _ = require('lodash-node'),
  config = require('./config'),
- usstates = require('./utils'),
+ utils = require('./utils'),
+ HashMap = require('hashmap'),
  cors = require('cors');
 
 
@@ -99,7 +103,7 @@ app.get('/recallInfo', function(req, res) {
      if(!_.isEmpty(search)){
        search = search +'+AND+';
      }
-      search = search +'state:('+loc+')';
+      search = search +'distribution_pattern:('+loc+')';
    }
    if(! _.isEmpty(key_term)){
      if(!_.isEmpty(search)){
@@ -162,6 +166,7 @@ app.get('/recallInfo', function(req, res) {
 
 });
 
+
 app.get('/recallmapview', function(req, res) {
     var product_types =  req.query.product_type;
     var search = req.query.search;
@@ -175,17 +180,23 @@ app.get('/recallmapview', function(req, res) {
     }
     //var url = 'https://api.fda.gov/food/enforcement.json?search=report_date:[2004-01-01+TO+2015-06-24]+AND+wegmans';
     var url = 'https://api.fda.gov/drug/enforcement.json?search=distribution_pattern:(Nationwide)+AND+Advil&count=distribution_pattern';
+    var reacallMap = new HashMap();
+    var statesMap = utils.recallstatemap();
     _.each(urlTypes, function(product_type){
-        var enforcementUrl = getEnforcementUrl(product_type);
-        console.log("URL for product_type %s is %s", product_type, enforcementUrl);
-        request(url, function(err, resp, body) {
-            body = JSON.parse(body);
-            _.forEach(body.results, function(v, k){
-                console.log("values %O", v);
-            });
-        });
+      var enforcementUrl = getEnforcementUrl(product_type);
+      console.log("URL for product_type %s is %s", product_type, enforcementUrl);
+      request(url, function(err, resp, body) {
+          body = JSON.parse(body);
+          _.forEach(body.results, function(v, k){
+             console.log("Value is %s and %d and %s", v.term, v.count, statesMap.get(v.term.toUpperCase()));
+             if(statesMap.get(v.term.toUpperCase())){
+               console.log("Value is %s and %d", v.term, v.count);
+                reacallMap.set(v.term.toUpperCase(),v.count);
+             }
+          });
+       });
+       console.log("Recall Map is %O", reacallMap);
     });
-
 
 });
 
