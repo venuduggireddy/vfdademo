@@ -1,6 +1,10 @@
-/**
- * Created by anush.varma-ctr on 2/1/2017.
- */
+
+//Developers : Anush Varma
+//File : Protractor Spec File
+//Version : 1.0.0
+//Date : 06/24/2015
+
+
 /*global
  beforeEach: false,
  browser: false,
@@ -16,12 +20,12 @@ describe('Example:', function () {
 
     beforeEach(function () {
         // Load up a view and wait for it to be done with its rendering and epicycles.
+       browser.waitForAngular();
     });
 
 /*
     it('Verify Home Page', function () {
         browser.get('');
-        browser.waitForAngular();
         var continueButton = browser.findElement(by.cssContainingText('.btn-primary', 'Continue'));
         expect(continueButton.isDisplayed()).toBe(true);
         //expect(element.getText()).toBe('Continue');
@@ -31,15 +35,26 @@ describe('Example:', function () {
 
 */
     it('Verify navigation to Search Page', function () {
-        browser.get('/pages/searchPage.html');
+        browser.get('search/#/');
         var element = browser.findElement(by.css('[ng-click="searchData()"]'));
         expect(element.isDisplayed()).toBe(true);
         expect(element.getText()).toBe('Search');
     });
 
-    it('Verify Search Input', function () {
-        var element = browser.findElement(by.model('searchCriteria.recallType.selected'));
+    it('Verify Map View', function () {
+	browser.get('search/#/mapSearch');
+        var element = browser.findElement(by.model('dateRange'));
         expect(element.isDisplayed()).toBe(true);
+        var element = browser.findElement(by.model('searchCriteria.drug'));
+        expect(element.isDisplayed()).toBe(true);
+	var element = browser.findElement(by.model('searchCriteria.device'));
+        expect(element.isDisplayed()).toBe(true);
+	var element = browser.findElement(by.model('searchCriteria.food'));
+        expect(element.isDisplayed()).toBe(true);
+    });
+
+    it('Verify Search Input', function () {
+        browser.get('search/#/');
         var element = browser.findElement(by.model('searchCriteria.states'));
         expect(element.isDisplayed()).toBe(true);
     });
