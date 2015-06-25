@@ -49,12 +49,20 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h4> 
-                        <p>Recall for {{searchCriteria.recallType.name}} between {{formatDate(searchCriteria.dateRange.startDate) |  date:"MM/dd/yyyy" }} - {{formatDate(searchCriteria.dateRange.endDate) |  date:"MM/dd/yyyy" }}</p>
-                        <p>State(s): <span ng-repeat="x in searchCriteria.states">{{x.code}},  </span> </p>
-                        <p>Total Results [{{products.meta.results.total}}]</p>
-                    </h4>
-                    <h5> Please select a row to view details. </h5>
+                    <h5> 
+                        <p><strong>Recall for: </strong> {{searchCriteria.recallType.name}} between {{formatDate(searchCriteria.dateRange.startDate) |  date:"MM/dd/yyyy" }} - {{formatDate(searchCriteria.dateRange.endDate) |  date:"MM/dd/yyyy" }}</p>
+                        
+                        <p><strong>State(s):</strong> <span ng-repeat="x in searchCriteria.states">{{x.code}},  </span> </p>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <strong>Total Results </strong> [{{products.meta.results.total}}]
+                            </div>
+                            <div class="col-xs-6 text-right">
+                                Please select a row to view details.
+                            </div>
+                        </div>
+                    </h5>
+                    <h5>  </h5>
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped table-hover">
                             <thead>
@@ -75,13 +83,15 @@
                                       Info</th>
                                 </tr>
                             </thead>
-                            <tr ng-repeat="y in products.results" ng-click="showDetails(y, 'detailsPage')">
+                            <tbody>
+                            <tr ng-repeat="y in products.results" ng-click="showDetails(y, 'detailsPage')" id="{{y.event_details.event_id}}">
                                 <td>{{ createDate(y.recall_initiation_date) |  date:"MM/dd/yyyy"}}</td>
                                 <td>{{ y.recalling_firm }}</td>
                                 <td title="{{ y.reason_for_recall }}">{{ y.reason_for_recall | limitTo:150}} <span ng-if="y.reason_for_recall.length>150" class="dotdotdot"> <br/>... </span></td>
                                 <td title="{{ y.product_description }}">{{ y.product_description | limitTo:150}} <span ng-if="y.product_description.length>150" class="dotdotdot"> <br/>... </span></td>
                                 <td title="{{ y.code_info }}">{{ y.code_info | limitTo:150}} <span ng-if="y.code_info.length>150" class="dotdotdot"> <br/>... </span> </td>
                             </tr>
+                        </tbody>
                         </table>
                     </div>
                    <!--div class="text-right countnav"><< <a href="#">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">5</a> 6 >></div-->

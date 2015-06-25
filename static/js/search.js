@@ -97,7 +97,7 @@ searchApp.filter('propsFilter', function() {
   }
 });
 
-searchApp.controller('ListSearchController', function($scope, $http, ospConstants, $filter, $location, sharedProperties) {
+searchApp.controller('ListSearchController', function($scope, $http, ospConstants, $filter, $location, sharedProperties, $anchorScroll) {
 
     $scope.opts = {ranges: ospConstants.ranges};
     $scope.searchCriteria = sharedProperties.getGlobalSearchCriteria();
@@ -116,7 +116,11 @@ searchApp.controller('ListSearchController', function($scope, $http, ospConstant
         };
         console.log(constants.baseUrl+"recallInfo?product_type="+ recallType + finalStateList + "&["+to_date+ "+TO+"+from_date+"]");
         $http.get(constants.baseUrl+"recallInfo?product_type="+ recallType + finalStateList + "&["+to_date+ "+TO+"+from_date+"]")
-            .success(function(response) {$scope.products = response;});
+            .success(function(response) {
+                $scope.products = response;
+                sharedProperties.setProductsList($scope.products);
+            });
+        sharedProperties.setGlobalSearchCriteria($scope.searchCriteria);
     };
 
     // function to create a date from moment date
@@ -133,10 +137,13 @@ searchApp.controller('ListSearchController', function($scope, $http, ospConstant
     // function to redirect to recall details page
     $scope.showDetails = function (y, path) {
         sharedProperties.setRecallDetails(y);
-        sharedProperties.setProductsList($scope.products);
-        sharedProperties.setGlobalSearchCriteria($scope.searchCriteria);
         $location.path(path);
     };
+    $scope.recallDetails = sharedProperties.getRecallDetails();
+    if($scope.recallDetails.event_details!=null) {
+        $location.hash($scope.recallDetails.event_details.event_id);
+        $anchorScroll();
+    }
 });
 
 searchApp.controller('MapSearchController', function($scope, ospConstants) {
@@ -181,8 +188,10 @@ searchApp.controller('MapSearchController', function($scope, ospConstants) {
     $scope.chart = chart1;
 });
 
-searchApp.controller('DetailsController', function($scope, sharedProperties) {
+searchApp.controller('DetailsController', function($scope, sharedProperties, $location, $anchorScroll) {
     $scope.recallDetails = sharedProperties.getRecallDetails();
+    $location.hash('page2');
+    $anchorScroll();
 });
 var recallTypes = [{name: 'Drug', code: 'drug'}, 
                 {name: 'Food', code: 'food'}, 
