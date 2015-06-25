@@ -9,7 +9,7 @@ var config = {
   environment:{
     development:{
         host:'http://localhost',
-        port:'4000'
+        port:'80'
     },
     intergration:{
         host:'http://10.63.48.27',

@@ -83,36 +83,46 @@ app.get('/search', function(req, res) {
 });
 
 /*
+  build search query
+*/
+var getSearchQuery = function(daterange, loc, key_term){
+
+  var search = '';
+
+  if(!_.isEmpty(daterange)){
+     search = search +'report_date:'+daterange;
+  }
+  if(!_.isEmpty(loc)){
+    if(!_.isEmpty(search)){
+      search = search +'+AND+';
+    }
+    if(_.isArray(loc)){
+      loc = loc.join('+');
+    }
+    search = search +'distribution_pattern:('+loc+')';
+  }
+  if(! _.isEmpty(key_term)){
+    if(!_.isEmpty(search)){
+      search = search +'+AND+';
+    }
+     search = search + key_term;
+  }
+  return search;
+
+}
+
+/*
  sprint 2 use case where user will enter product_type and location to find recall information
 */
 app.get('/recallInfo', function(req, res) {
-   var product_type =  req.query.product_type;
 
+   var product_type =  req.query.product_type;
    var key_term =   req.query.key_term;
    var daterange=  req.query.daterange;
+   var loc= req.query.locations || 'Nationwide';
+
    var enforcement = getEnforcementUrl(product_type);
-   var loc= req.query.locations;
-   if(_.isArray(loc)){
-     loc = loc.join('+');
-   }
-   var search = '';
-
-   if(!_.isEmpty(daterange)){
-      search = search +'report_date:'+daterange;
-   }
-   if(!_.isEmpty(loc)){
-     if(!_.isEmpty(search)){
-       search = search +'+AND+';
-     }
-      search = search +'distribution_pattern:('+loc+')';
-   }
-   if(! _.isEmpty(key_term)){
-     if(!_.isEmpty(search)){
-       search = search +'+AND+';
-     }
-      search = search + key_term;
-   }
-
+   var search = getSearchQuery(daterange, loc, key_term);
    //console.log('URL Str is %s', search);
    //https://api.fda.gov/drug/enforcement.json?search=report_date:[2004-01-01+TO+2015-06-20]+AND+state:(VA+DE)&limit=100
    var q_str = 'api_key='+config.api_key+'&limit=100&search='+search;
@@ -169,37 +179,56 @@ app.get('/recallInfo', function(req, res) {
 
 
 app.get('/recallmapview', function(req, res) {
-    var product_types =  req.query.product_type;
-    var search = req.query.search;
-    console.log('product_types %s and is array %s ',product_types, _.isArray(product_types));
+    var product_type =  req.query.product_type;
+    var key_term =   req.query.key_term;
+    var daterange=  req.query.daterange;
+    var search = getSearchQuery(daterange, '', key_term);
+
+    console.log('Search Queyr is %s ', search);
     var result = {};
     var urlTypes = [];
-    if(!_.isArray(product_types)){
-      urlTypes.push(product_types);
+    if(!_.isArray(product_type)){
+      urlTypes.push(product_type);
     }else{
-       urlTypes = product_types;
+       urlTypes = product_type;
     }
     //var url = 'https://api.fda.gov/food/enforcement.json?search=report_date:[2004-01-01+TO+2015-06-24]+AND+wegmans';
-  //  var url = 'https://api.fda.gov/drug/enforcement.json?search=distribution_pattern:(VA)+AND+Advil&count=distribution_pattern';
-    var url = 'https://api.fda.gov/food/enforcement.json?search=distribution_pattern:(VA)+AND+wegmans&count=distribution_pattern';
+    //  var url = 'https://api.fda.gov/drug/enforcement.json?search=distribution_pattern:(VA)+AND+Advil&count=distribution_pattern';
+    //var url = 'https://api.fda.gov/food/enforcement.json?search=distribution_pattern:(VA)+AND+wegmans&count=distribution_pattern';
     var reacallMap = new HashMap();
     var statesMap = utils.recallstatemap();
     var values = [];
     _.each(urlTypes, function(product_type){
       var enforcementUrl = getEnforcementUrl(product_type);
+      enforcementUrl = enforcementUrl+'api_key='+config.api_key+'&count=distribution_pattern&search='+search;
       console.log("URL for product_type %s is %s", product_type, enforcementUrl);
-      request(url, function(err, resp, body) {
+      request(enforcementUrl, function(err, resp, body) {
           body = JSON.parse(body);
           _.forEach(body.results, function(v, k){
              var term = v.term.toUpperCase();
              var count = v.count;
-            // console.log("Value is %s and %d and %s", v.term, v.count, statesMap.get(v.term.toUpperCase()));
              if(statesMap.get(term)){ // valid state
-                reacallMap.set(term, count);
-                console.log("Value is %s and %d", term, count. reacallMap.get(term));
+                if(reacallMap.count() > 0 && reacallMap.get(term)){
+                   var t = reacallMap.get(term);
+                   reacallMap.set(term, (t.count+count));
+                }else{
+                    reacallMap.set(term, {
+                        'count':count,
+                        type:product_type
+                      });
+                }
+              //  console.log("Value is %s and %d and %O", term,count, reacallMap.get(term) );
              }
           });
-          res.send(reacallMap);
+          reacallMap.forEach(function(value, key) {
+            //  console.log(key + " : " + value);
+              var result = {
+                state: key,
+                value: value
+              };
+              values.push(result);
+          });
+            res.send(values);
        });
 
     });
