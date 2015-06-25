@@ -39,6 +39,8 @@ exports.config = {
  */
   directConnect: true,
 
+  // chromeOnly: true,
+
   // -----------------------------------------------------------------
   // Specify the test code that will run.
   // -----------------------------------------------------------------
@@ -67,13 +69,13 @@ exports.config = {
   //
   // It is also hard to pass through needed command line parameters.
  
-  /*
+/*
   capabilities: {
     browserName: 'phantomjs',
     version: '',
     platform: 'ANY'
   },
- */ 
+*/
 
   // -----------------------------------------------------------------
   // Browser and Capabilities: Chrome
@@ -92,14 +94,14 @@ exports.config = {
   // Browser and Capabilities: Firefox
   // -----------------------------------------------------------------
  
-  /*
+
   capabilities: {
     browserName: 'firefox',
     version: '',
     platform: 'ANY'
   },
   
-*/
+
  
   // -----------------------------------------------------------------
   // Application configuration.
