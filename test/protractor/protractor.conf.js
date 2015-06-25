@@ -39,7 +39,7 @@ exports.config = {
  */
   directConnect: true,
 
-  // chromeOnly: true,
+  chromeOnly: true,
 
   // -----------------------------------------------------------------
   // Specify the test code that will run.
@@ -94,14 +94,14 @@ exports.config = {
   // Browser and Capabilities: Firefox
   // -----------------------------------------------------------------
  
-
+/*
   capabilities: {
     browserName: 'firefox',
     version: '',
     platform: 'ANY'
   },
   
-
+*/
  
   // -----------------------------------------------------------------
   // Application configuration.
