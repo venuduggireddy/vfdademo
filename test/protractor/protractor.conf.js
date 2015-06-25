@@ -39,6 +39,8 @@ exports.config = {
  */
   directConnect: true,
 
+  chromeOnly: true,
+
   // -----------------------------------------------------------------
   // Specify the test code that will run.
   // -----------------------------------------------------------------
