@@ -11,7 +11,7 @@ console.log(port);
 
 describe('app', function () {
   it('server port should be listen on 4000', function(){
-     assert.equal(port, 4000);
+     assert.equal(port, 80);
    })
 });
 
