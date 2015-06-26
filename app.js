@@ -225,7 +225,7 @@ app.get('/recallmapview', function(req, res) {
             //  console.log(key + " : " + value);
               var result = {
                 state: key,
-                product_type: value
+                count: value
               };
               values.push(result);
           });
