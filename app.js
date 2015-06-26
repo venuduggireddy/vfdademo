@@ -6,12 +6,12 @@ var express = require('express'),
  app = express(),
  path = require('path'),
  request = require('request'),
- querystring = require('querystring'),
+ bodyParser = require('body-parser'),
  _ = require('lodash-node'),
  config = require('./config'),
  utils = require('./utils'),
  HashMap = require('hashmap'),
- http = require('http'),
+ https = require('https'),
  cors = require('cors');
 
 
@@ -19,6 +19,7 @@ var express = require('express'),
 // enable cors for corss domain request for mobile application
 app.use(cors());
 
+app.use(bodyParser.urlencoded({ extended: false }));
 // static routes
 app.use('/bower_components',  express.static( path.join(__dirname + '/bower_components')));
 app.use('/static',  express.static( path.join(__dirname + '/static')));
@@ -90,7 +91,7 @@ var getSearchQuery = function(daterange, loc, key_term){
   var search = '';
 
   if(!_.isEmpty(daterange)){
-     search = search +'report_date:'+daterange;
+     search = search +'report_date:'+daterange.replace(/\s/g, '+');
   }
   if(!_.isEmpty(loc)){
     if(!_.isEmpty(search)){
@@ -121,7 +122,7 @@ app.get('/recallInfo', function(req, res) {
    var daterange=  req.query.daterange;
    var loc= req.query.locations || 'Nationwide';
 
-   var enforcement = getEnforcementUrl(product_type);
+   var enforcement = utils.getEnforcementUrl(product_type);
    var search = getSearchQuery(daterange, loc, key_term);
    //console.log('URL Str is %s', search);
    //https://api.fda.gov/drug/enforcement.json?search=report_date:[2004-01-01+TO+2015-06-20]+AND+state:(VA+DE)&limit=100
@@ -199,7 +200,7 @@ app.get('/recallmapview', function(req, res) {
     var statesMap = utils.recallstatemap();
     var values = [];
     _.each(urlTypes, function(product_type){
-      var enforcementUrl = getEnforcementUrl(product_type);
+      var enforcementUrl = utils.getEnforcementUrl(product_type);
       enforcementUrl = enforcementUrl+'api_key='+config.api_key+'&count=distribution_pattern&search='+search;
       console.log("URL for product_type %s is %s", product_type, enforcementUrl);
       request(enforcementUrl, function(err, resp, body) {
@@ -214,7 +215,7 @@ app.get('/recallmapview', function(req, res) {
                 }else{
                     reacallMap.set(term, {
                         'count':count,
-                        type:product_type
+                         type:product_type
                       });
                 }
               //  console.log("Value is %s and %d and %O", term,count, reacallMap.get(term) );
@@ -224,7 +225,7 @@ app.get('/recallmapview', function(req, res) {
             //  console.log(key + " : " + value);
               var result = {
                 state: key,
-                value: value
+                product_type: value
               };
               values.push(result);
           });
@@ -235,25 +236,70 @@ app.get('/recallmapview', function(req, res) {
 
 });
 
-var getProductTypeCount = function(url){
 
-}
 
-/*
- ger the url based on product_type
-*/
-var getEnforcementUrl = function(product_type){
-  var enforcement = '';
-  if(_.isEmpty(product_type) || product_type === 'drug'){
-    enforcement =   config.drug_enforcement_url;
-  }else if (product_type === 'device') {
-    enforcement =   config.device_enforcement_url;
-  }else if(product_type === 'food'){
-    enforcement =   config.food_enforcement_url;
-  }
-  return enforcement;
 
-}
+
+app.get('/recallmapview2', function(req, res) {
+    var product_type =  req.query.product_type;
+    var key_term =   req.query.key_term;
+    var daterange=  req.query.daterange;
+    var search = getSearchQuery(daterange, '', key_term);
+
+    console.log('Search Queyr is %s ', search);
+    var result = {};
+    var urlTypes = [];
+    if(!_.isArray(product_type)){
+      urlTypes.push(product_type);
+    }else{
+       urlTypes = product_type;
+    }
+    //var url = 'https://api.fda.gov/food/enforcement.json?search=report_date:[2004-01-01+TO+2015-06-24]+AND+wegmans';
+    //  var url = 'https://api.fda.gov/drug/enforcement.json?search=distribution_pattern:(VA)+AND+Advil&count=distribution_pattern';
+    //var url = 'https://api.fda.gov/food/enforcement.json?search=distribution_pattern:(VA)+AND+wegmans&count=distribution_pattern';
+    /*
+    var reacallMap = new HashMap();
+    var statesMap = utils.recallstatemap();
+    var values = [];
+    _.each(urlTypes, function(product_type){
+      var enforcementUrl = utils.getEnforcementUrl(product_type);
+      enforcementUrl = enforcementUrl+'api_key='+config.api_key+'&count=distribution_pattern&search='+search;
+      console.log("URL for product_type %s is %s", product_type, enforcementUrl);
+      request(enforcementUrl, function(err, resp, body) {
+          body = JSON.parse(body);
+          res.send(values);
+       });
+
+    });
+    */
+
+    var urls = [
+        'https://api.fda.gov/drug/enforcement.json?search=distribution_pattern:(NY)+AND+Advil&count=distribution_pattern',
+        'https://api.fda.gov/food/enforcement.json?search=distribution_pattern:(VA)+AND+wegmans&count=distribution_pattern'
+                ];
+    var completed_requests = 0;
+      var responses = [];
+    urls.forEach(function(url) {
+
+      https.get(url, function(resp) {
+        resp.on('data', function(chunk){
+          responses.push(chunk.toString('utf8'));
+        });
+
+        resp.on('end', function(){
+          console.log("completed request are %d and url length is %d", completed_requests, urls.length);
+          if (completed_requests++ == urls.length - 1) {
+            // All downloads are completed
+            console.log("Done !! completed request are %d and url length is %d and length of response is", completed_requests, urls.length, responses.length);
+            responses.join();
+            res.send(responses);
+          }
+        });
+      });
+    })
+
+});
+
 
 
 app.all('*', function(req, res) {

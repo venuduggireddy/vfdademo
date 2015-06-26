@@ -1,5 +1,6 @@
  var HashMap = require('hashmap'),
-  _ = require('lodash-node');
+  _ = require('lodash-node'),
+  config = require('./config');
 
 var usstates = [
     {
@@ -252,6 +253,36 @@ exports.recallstatemap = function(){
     });
     return map;
 };
+
+exports.logrequest = function(request, response, next){
+  var start = +new Date();
+  var stream = process.stdout;
+  var url = request.url;
+  var method = request.method;
+
+  response.on('finish', function(){
+    var duration = +new Date() - start;
+    message = method + 'to' + url +
+      '\ntook' + duration + 'ms \n\n';
+    stream.write(message);
+  });
+}
+
+/*
+ ger the url based on product_type
+*/
+exports.getEnforcementUrl = function(product_type){
+  var enforcement = '';
+  if(_.isEmpty(product_type) || product_type === 'drug'){
+    enforcement =   config.drug_enforcement_url;
+  }else if (product_type === 'device') {
+    enforcement =   config.device_enforcement_url;
+  }else if(product_type === 'food'){
+    enforcement =   config.food_enforcement_url;
+  }
+  return enforcement;
+
+}
 
 
 //module.exports = recallstatemap;
