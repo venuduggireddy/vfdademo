@@ -55,7 +55,11 @@
                     <h5> 
                         <p><strong>Recall for: </strong> {{searchCriteria.recallType.name}} between {{formatDate(searchCriteria.dateRange.startDate) |  date:"MM/dd/yyyy" }} - {{formatDate(searchCriteria.dateRange.endDate) |  date:"MM/dd/yyyy" }}</p>
                         
-                        <p><strong>State(s):</strong> <span ng-repeat="x in searchCriteria.states">{{x.code}},  </span> </p>
+                        <p><strong>State(s):</strong> 
+                            <span ng-repeat="x in searchCriteria.states">
+                                {{x.name}}<span ng-if="!$last">, </span>
+                            </span> 
+                        </p>
                         <p><strong>Key Term: </strong>{{searchCriteria.keyTerm}}
                         <div class="row">
                             <div class="col-xs-6">
