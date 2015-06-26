@@ -38,10 +38,11 @@ exports.config = {
   seleniumArgs:,
   directConnect: true,
   chromeOnly: true,
+  seleniumServerJar: '../../node_modules/protractor/selenium/selenium-server-standalone-2.45.0.jar',
+  seleniumPort: null,
  */
 
-  //seleniumServerJar: '../../node_modules/protractor/selenium/selenium-server-standalone-2.45.0.jar',
-  //seleniumPort: null,
+
 
   // -----------------------------------------------------------------
   // Specify the test code that will run.
@@ -83,14 +84,14 @@ exports.config = {
   // Browser and Capabilities: Chrome
   // -----------------------------------------------------------------
  
-  /*
+  
   capabilities: {
     browserName: 'chrome',
     version: '',
     platform: 'ANY'
   },
 
-  */
+  
  
   // -----------------------------------------------------------------
   // Browser and Capabilities: Firefox
