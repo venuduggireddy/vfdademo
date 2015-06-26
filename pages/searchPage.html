@@ -53,6 +53,21 @@
     .selectize-control > .selectize-dropdown {
       top: 36px;
     }
+
+    #container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+    }
+
+    #visualization {
+        position: relative;
+        width: 100%;
+        height: 80%;
+    }
+
   </style>
 
 </head>
@@ -60,7 +75,7 @@
 <body id="page2">
 <!-- Navigation -->
     <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container">
+        <div class="llll">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header page-scroll">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -82,10 +97,10 @@
                         <a class="page-scroll" href="/">Home</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#/">List View</a>
+                        <a class="page-scroll" href="#listSearch">List View</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#mapSearch">Map View</a>
+                        <a class="page-scroll" href="#/">Map View &nbsp;&nbsp;</a>
                     </li>
                 </ul>
             </div>
@@ -125,10 +140,9 @@
 
     <script src="/bower_components/angular-daterangepicker/js/angular-daterangepicker.js"></script>
 
-    <script src="/bower_components/angular-google-chart/ng-google-chart.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1','packages':['geochart']}]}"></script>
 
     <script src= "/static/js/search.js"></script>
-
 </body>
 
 </html>

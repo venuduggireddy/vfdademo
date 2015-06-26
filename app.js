@@ -91,7 +91,7 @@ var getSearchQuery = function(daterange, loc, key_term){
   var search = '';
 
   if(!_.isEmpty(daterange)){
-     search = search +'report_date:'+daterange.replace(/\s/g, '+');
+     search = search +'report_date:'+daterange.replace(/\s/g,'+');
   }
   if(!_.isEmpty(loc)){
     if(!_.isEmpty(search)){
