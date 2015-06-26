@@ -20,7 +20,7 @@ describe('Example:', function () {
 
     beforeEach(function () {
         // Load up a view and wait for it to be done with its rendering and epicycles.
-       browser.waitForAngular();
+       // browser.waitForAngular();
     });
 
 /*
@@ -41,6 +41,7 @@ describe('Example:', function () {
         expect(element.getText()).toBe('Search');
     });
 
+/*
     it('Verify Map View', function () {
 	browser.get('search/#/mapSearch');
         var element = browser.findElement(by.model('dateRange'));
@@ -59,7 +60,7 @@ describe('Example:', function () {
         expect(element.isDisplayed()).toBe(true);
     });
 
-/*
+
     it('Verify Search Results', function () {
         var element = browser.findElement(by.model('symptom'));
         element.sendKeys('pain')
