@@ -182,7 +182,7 @@ app.get('/recallInfo', function(req, res) {
 app.get('/recallmapview', function(req, res) {
     var product_type =  req.query.product_type;
     var key_term =   req.query.key_term;
-    var daterange=  req.query.daterange;
+    var daterange =  req.query.daterange;
     var search = getSearchQuery(daterange, '', key_term);
 
     console.log('Search Queyr is %s ', search);
@@ -237,7 +237,46 @@ app.get('/recallmapview', function(req, res) {
 });
 
 
+var getAggregatedResults = function(results){
 
+  var statesMap = utils.recallstatemap();
+  var reacallMap = new HashMap();
+  var values = [];
+  _.forEach(results, function(v){
+  //  console.log('%O', v);
+     var body = JSON.parse(v.body);
+     var product = v.type;
+     _.forEach(body.results, function(v, k){
+       var term = v.term.toUpperCase();
+       var count = v.count;
+        if(statesMap.get(term)){
+        //  console.log('State is %s and Count is %s and %s', term, count, product);
+          if(reacallMap.get(term)){
+             var t = reacallMap.get(term);
+             reacallMap.set(term, {
+                'count' : (t.count+count),
+                'type':product
+             });
+          }else{
+              reacallMap.set(term, {
+                  'count':count,
+                   'type':product
+            });
+          }
+
+        }
+     });
+  })
+  reacallMap.forEach(function(value, key) {
+     //console.log(key + " : " + value);
+      var result = {
+        state: key,
+        'value': value
+      };
+      values.push(result);
+  });
+  return values;
+}
 
 
 app.get('/recallmapview2', function(req, res) {
@@ -246,7 +285,7 @@ app.get('/recallmapview2', function(req, res) {
     var daterange=  req.query.daterange;
     var search = getSearchQuery(daterange, '', key_term);
 
-    console.log('Search Queyr is %s ', search);
+    //console.log('Search Queyr is %s ', search);
     var result = {};
     var urlTypes = [];
     if(!_.isArray(product_type)){
@@ -258,41 +297,45 @@ app.get('/recallmapview2', function(req, res) {
     //  var url = 'https://api.fda.gov/drug/enforcement.json?search=distribution_pattern:(VA)+AND+Advil&count=distribution_pattern';
     //var url = 'https://api.fda.gov/food/enforcement.json?search=distribution_pattern:(VA)+AND+wegmans&count=distribution_pattern';
     /*
-    var reacallMap = new HashMap();
-    var statesMap = utils.recallstatemap();
-    var values = [];
-    _.each(urlTypes, function(product_type){
-      var enforcementUrl = utils.getEnforcementUrl(product_type);
-      enforcementUrl = enforcementUrl+'api_key='+config.api_key+'&count=distribution_pattern&search='+search;
-      console.log("URL for product_type %s is %s", product_type, enforcementUrl);
-      request(enforcementUrl, function(err, resp, body) {
-          body = JSON.parse(body);
-          res.send(values);
-       });
-
+    urlTypes.forEach(function(url){
+      console.log('URL is %s and build url is %s', url, utils.getEnforcementUrl(url)+search+'&count=distribution_pattern');
     });
     */
-
-    var urls = [
+    var reacallMap = new HashMap();
+    var statesMap = utils.recallstatemap();
+    var responses = [];
+    var values = [];
+    var completed_requests = 0;
+    /*
+    var urlTypes = [
         'https://api.fda.gov/drug/enforcement.json?search=distribution_pattern:(NY)+AND+Advil&count=distribution_pattern',
         'https://api.fda.gov/food/enforcement.json?search=distribution_pattern:(VA)+AND+wegmans&count=distribution_pattern'
                 ];
-    var completed_requests = 0;
-      var responses = [];
-    urls.forEach(function(url) {
+   */
+    var responses = [];
+    urlTypes.forEach(function(url) {
+      var enforcementUrl = utils.getEnforcementUrl(url)+'&count=distribution_pattern&search='+search;
+      console.log('URL is %s' + enforcementUrl);
 
-      https.get(url, function(resp) {
+      https.get(enforcementUrl, function(resp) {
         resp.on('data', function(chunk){
-          responses.push(chunk.toString('utf8'));
+          var obj = {
+            'body': chunk.toString('utf8'),
+            'type':url
+          }
+          //console.log('%s', url);
+          responses.push(obj);
         });
 
         resp.on('end', function(){
-          console.log("completed request are %d and url length is %d", completed_requests, urls.length);
-          if (completed_requests++ == urls.length - 1) {
+          //console.log("completed request are %d and url length is %d", completed_requests, urlTypes.length);
+          if (completed_requests++ == urlTypes.length - 1) {
             // All downloads are completed
-            console.log("Done !! completed request are %d and url length is %d and length of response is", completed_requests, urls.length, responses.length);
+            //console.log("Done !! completed request are %d and url length is %d and length of response is", completed_requests, urlTypes.length, responses.length);
             responses.join();
-            res.send(responses);
+            var values = getAggregatedResults(responses);
+            res.send(values);
+          //  res.send(responses);
           }
         });
       });
