@@ -5,10 +5,11 @@ var searchApp = angular.module('searchApp', ['ngRoute', 'ngSanitize', 'ui.select
 
 searchApp.service('sharedProperties', function(ospConstants) {
     var recallDetails = '';
-    var globalSearchCriteria = {states: [stateList[0]], recallType: recallTypes[0],
+    var globalSearchCriteria = {states: [stateList[0]], recallType: recallTypes[1],
                                 dateRange: {startDate: ospConstants.minDateRange, endDate: ospConstants.maxDateRange},
                                 keyTerm: ''};
     var productsList = {};
+    var reloadData = true;
     return {
             getRecallDetails: function () {
                 return recallDetails;
@@ -27,6 +28,12 @@ searchApp.service('sharedProperties', function(ospConstants) {
             },
             setProductsList: function(value) {
                 productsList = value;
+            },
+            getReloadData: function() {
+                return reloadData;
+            },
+            setReloadData: function(value) {
+                reloadData = value;
             }
     };
 })
@@ -106,7 +113,6 @@ searchApp.controller('ListSearchController', function($scope, $http, ospConstant
     $scope.availableRecall = recallTypes;
     $scope.availableStates = stateList;
     $scope.products = sharedProperties.getProductsList();
-
     // function to call the search service for selected search criteria
     $scope.searchData = function() {
         var recallType = $scope.searchCriteria.recallType.code;
@@ -140,13 +146,19 @@ searchApp.controller('ListSearchController', function($scope, $http, ospConstant
     // function to redirect to recall details page
     $scope.showDetails = function (y, path) {
         sharedProperties.setRecallDetails(y);
+        sharedProperties.setReloadData(false);
         $location.path(path);
     };
     $scope.recallDetails = sharedProperties.getRecallDetails();
     if($scope.recallDetails.event_details!=null) {
         $location.hash($scope.recallDetails.event_details.event_id);
         $anchorScroll();
+    } 
+    if(sharedProperties.getReloadData() == true) {
+        sharedProperties.setReloadData(false);
+        $scope.searchData();
     }
+   
 });
 
 searchApp.controller('MapSearchController', function($scope, $http, $filter, sharedProperties, ospConstants) {
@@ -179,6 +191,7 @@ searchApp.controller('MapSearchController', function($scope, $http, $filter, sha
              .success(function(response) {
                $scope.products = response;
                sharedProperties.setGlobalSearchCriteria($scope.searchCriteria);
+               sharedProperties.setReloadData(true);
                $scope.populateData();
                $scope.drawDataMap();
             });
@@ -195,11 +208,12 @@ searchApp.controller('MapSearchController', function($scope, $http, $filter, sha
                 arrayIndex++;
             }
         }
-
+        if($scope.nationalNumbers == undefined) {
+            $scope.nationalNumbers = 0;
+        }
         
     };
     $scope.drawDataMap = function() {
-        console.log(chart1);
         var data = google.visualization.arrayToDataTable(chart1);
         var options = {
             keepAspectRatio: true,
@@ -226,7 +240,6 @@ searchApp.controller('MapSearchController', function($scope, $http, $filter, sha
 
       google.setOnLoadCallback($scope.drawDataMap());
       $scope.searchData();
-    
 });
 
 searchApp.controller('DetailsController', function($scope, sharedProperties, $location, $anchorScroll) {
