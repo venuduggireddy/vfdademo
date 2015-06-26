@@ -1,19 +1,19 @@
 <!-- Navigation -->
 <div>
     <div class="row">
-            <div class="col-xs-3 text-center">
+            <div class="col-sm-3 text-center">
                 <div class="symptom"><strong>Date Range</strong></div> 
                 <div class="form-group col-centered">
                     <input date-range-picker class="form-control date-picker" type="text" ng-model="searchCriteria.dateRange" options="opts"/>
                 </div>
             </div>
-            <div class="col-xs-3 text-center">
+            <div class="col-sm-3 text-center">
                 <div class="symptom"><strong>Key Term</strong></div> 
                 <div class="form-group col-centered">
                     <input class="form-control" type="text" ng-model="searchCriteria.keyTerm"/>
                 </div>
             </div>
-            <div class="col-xs-2 text-center">
+            <div class="col-sm-2 text-center">
                 <div class="symptom"><strong>Recall Type</strong></div>    
                 <div class="form-group col-centered">
                     <ui-select ng-model="searchCriteria.recallType" theme="select2" ng-disabled="disabled">
@@ -24,7 +24,7 @@
                     </ui-select>
                 </div>
             </div>
-            <div class="col-xs-4 text-center">
+            <div class="col-sm-4 text-center">
                 <div class="symptom"><strong>Select 1 or more state(s)</strong></div> 
                 <div class="form-group col-centered">
                     <ui-select multiple ng-model="searchCriteria.states" theme="select2" ng-disabled="disabled">
