@@ -240,37 +240,49 @@ app.get('/recallmapview', function(req, res) {
 var getAggregatedResults = function(results){
 
   var statesMap = utils.recallstatemap();
-  var reacallMap = new HashMap();
+  var recallMap = new HashMap();
   var values = [];
   _.forEach(results, function(v){
   //  console.log('%O', v);
-     var body = JSON.parse(v.body);
-     var product = v.type;
-     _.forEach(body.results, function(v, k){
-       var term = v.term.toUpperCase();
-       var count = v.count;
-        if(statesMap.get(term)){
-        //  console.log('State is %s and Count is %s and %s', term, count, product);
-          if(reacallMap.get(term)){
-             var t = reacallMap.get(term);
-             reacallMap.set(term, {
-                'count' : (t.count+count),
-                'type':product
-             });
-          }else{
-              reacallMap.set(term, {
-                  'count':count,
-                   'type':product
-            });
-          }
+     var body;
+      try {
+        body = JSON.parse(v.body);
+        var product = v.type;
+        _.forEach(body.results, function(v, k){
+          var term = v.term.toUpperCase();
+          var count = v.count;
+           if(statesMap.get(term)){
+           //  console.log('State is %s and Count is %s and %s', term, count, product);
+             if(recallMap.get(term)){
+               var array = recallMap.get(term);
+               array.push({
+                 'type':product,
+                 'count':count
+               });
+              recallMap.set(term,array);
+             }else{
+               recallMap.set(term, [{
+                 'type':product,
+                 'count':count
+               }]);
+             }
+           }
+        });
+      } catch (e) {
+        // some times parse is throwing exception have to verify
+        console.log(e);
+      }
 
-        }
-     });
   })
-  reacallMap.forEach(function(value, key) {
+  recallMap.forEach(function(value, key) {
      //console.log(key + " : " + value);
+     var total = 0;
+     _.forEach(value, function(v){
+        total = total + v.count;
+     })
       var result = {
         state: key,
+        'total':total,
         'value': value
       };
       values.push(result);
@@ -279,8 +291,8 @@ var getAggregatedResults = function(results){
 }
 
 
-app.get('/recallmapview2', function(req, res) {
-    var product_type =  req.query.product_type;
+app.get('/mapview', function(req, res) {
+    var product_type =  req.query.product_type || ['drug','food','device'];
     var key_term =   req.query.key_term;
     var daterange=  req.query.daterange;
     var search = getSearchQuery(daterange, '', key_term);
@@ -318,9 +330,11 @@ app.get('/recallmapview2', function(req, res) {
       console.log('URL is %s' + enforcementUrl);
 
       https.get(enforcementUrl, function(resp) {
+        var data = '';
         resp.on('data', function(chunk){
+           data += chunk;
           var obj = {
-            'body': chunk.toString('utf8'),
+            'body': data.toString('utf8'),
             'type':url
           }
           //console.log('%s', url);
