@@ -1,3 +1,9 @@
+//Developers : Anush Varma
+//File : Protractor Configuration File
+//Version : 1.0.0
+//Date : 06/24/2015
+
+
 /*global
   describe: false,
   protractor: false
@@ -13,6 +19,8 @@
  * on testapp.example.com.
  */
  
+var HtmlReporter = require('protractor-html-screenshot-reporter');
+
 exports.config = {
  
   // -----------------------------------------------------------------
@@ -28,8 +36,12 @@ exports.config = {
   seleniumServerJar:,
   seleniumPort:,
   seleniumArgs:,
- */
   directConnect: true,
+  chromeOnly: true,
+ */
+
+  //seleniumServerJar: '../../node_modules/protractor/selenium/selenium-server-standalone-2.45.0.jar',
+  //seleniumPort: null,
 
   // -----------------------------------------------------------------
   // Specify the test code that will run.
@@ -59,13 +71,13 @@ exports.config = {
   //
   // It is also hard to pass through needed command line parameters.
  
-  /*
+/*
   capabilities: {
     browserName: 'phantomjs',
     version: '',
     platform: 'ANY'
   },
- */ 
+*/
 
   // -----------------------------------------------------------------
   // Browser and Capabilities: Chrome
@@ -84,7 +96,7 @@ exports.config = {
   // Browser and Capabilities: Firefox
   // -----------------------------------------------------------------
  
-  /*
+/*
   capabilities: {
     browserName: 'firefox',
     version: '',
@@ -123,6 +135,11 @@ exports.config = {
   onPrepare: function() {
     // At this point, global 'protractor' object will be set up, and
     // jasmine will be available.
+
+    // Add a reporter and store screenshots to `screnshots`:
+      jasmine.getEnv().addReporter(new HtmlReporter({
+         baseDirectory: 'reports'
+      }));
   },
  
   // ----- Options to be passed to minijasminenode -----

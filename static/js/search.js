@@ -1,12 +1,15 @@
 'use strict';
-var constants = {baseUrl: "http://localhost:4000/"};
-var searchApp = angular.module('searchApp', ['ngRoute', 'ngSanitize', 'ui.select','daterangepicker', 'googlechart']);
+var constants = {baseUrl: "http://localhost:80/"};
+//var constants = {baseUrl: "http://54.175.186.120:80/"};
+var searchApp = angular.module('searchApp', ['ngRoute', 'ngSanitize', 'ui.select','daterangepicker']);
 
 searchApp.service('sharedProperties', function(ospConstants) {
     var recallDetails = '';
-    var globalSearchCriteria = {states: [stateList[0]], recallType: recallTypes[0], 
-                                dateRange: {startDate: ospConstants.minDateRange, endDate: ospConstants.maxDateRange}};
+    var globalSearchCriteria = {states: [stateList[0]], recallType: recallTypes[1],
+                                dateRange: {startDate: ospConstants.minDateRange, endDate: ospConstants.maxDateRange},
+                                keyTerm: ''};
     var productsList = {};
+    var reloadData = true;
     return {
             getRecallDetails: function () {
                 return recallDetails;
@@ -25,6 +28,12 @@ searchApp.service('sharedProperties', function(ospConstants) {
             },
             setProductsList: function(value) {
                 productsList = value;
+            },
+            getReloadData: function() {
+                return reloadData;
+            },
+            setReloadData: function(value) {
+                reloadData = value;
             }
     };
 })
@@ -34,14 +43,14 @@ searchApp.config(function($routeProvider) {
   $routeProvider
   // route for the list search page
     .when('/', {
-    templateUrl: '/pages/listSearch.html',
-    controller: 'ListSearchController'
+    templateUrl: '/pages/mapSearch.html',
+    controller: 'MapSearchController'
   })
 
   // route for map search page
-  .when('/mapSearch', {
-    templateUrl: '../pages/mapSearch.html',
-    controller: 'MapSearchController'
+  .when('/listSearch', {
+    templateUrl: '../pages/listSearch.html',
+    controller: 'ListSearchController'
   })
 
   // route for the details page
@@ -104,18 +113,18 @@ searchApp.controller('ListSearchController', function($scope, $http, ospConstant
     $scope.availableRecall = recallTypes;
     $scope.availableStates = stateList;
     $scope.products = sharedProperties.getProductsList();
-
     // function to call the search service for selected search criteria
     $scope.searchData = function() {
         var recallType = $scope.searchCriteria.recallType.code;
         var finalStateList = '';
+        var keyTerm = $scope.searchCriteria.keyTerm;
         var from_date = $filter('date')($scope.formatDate($scope.searchCriteria.dateRange.startDate), 'yyyy-MM-dd');
         var to_date = $filter('date')($scope.formatDate($scope.searchCriteria.dateRange.endDate), 'yyyy-MM-dd');
         for (var i = 0; i <= $scope.searchCriteria.states.length - 1; i++) {
             finalStateList =  finalStateList + '&locations=' + $scope.searchCriteria.states[i].code;
         };
-        console.log(constants.baseUrl+"recallInfo?product_type="+ recallType + finalStateList + "&["+to_date+ "+TO+"+from_date+"]");
-        $http.get(constants.baseUrl+"recallInfo?product_type="+ recallType + finalStateList + "&["+to_date+ "+TO+"+from_date+"]")
+        console.log(constants.baseUrl+"recallInfo?product_type="+ recallType + finalStateList + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]");
+        $http.get(constants.baseUrl+"recallInfo?product_type="+ recallType + finalStateList + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]")
             .success(function(response) {
                 $scope.products = response;
                 sharedProperties.setProductsList($scope.products);
@@ -137,55 +146,100 @@ searchApp.controller('ListSearchController', function($scope, $http, ospConstant
     // function to redirect to recall details page
     $scope.showDetails = function (y, path) {
         sharedProperties.setRecallDetails(y);
+        sharedProperties.setReloadData(false);
         $location.path(path);
     };
     $scope.recallDetails = sharedProperties.getRecallDetails();
     if($scope.recallDetails.event_details!=null) {
         $location.hash($scope.recallDetails.event_details.event_id);
         $anchorScroll();
+    } 
+    if(sharedProperties.getReloadData() == true) {
+        sharedProperties.setReloadData(false);
+        $scope.searchData();
     }
+   
 });
 
-searchApp.controller('MapSearchController', function($scope, ospConstants) {
+searchApp.controller('MapSearchController', function($scope, $http, $filter, sharedProperties, ospConstants) {
 
     $scope.opts = {ranges: ospConstants.ranges};
-    $scope.dateRange = {
-        startDate: ospConstants.minDateRange,
-        endDate: ospConstants.maxDateRange
-    };
+    $scope.searchCriteria = sharedProperties.getGlobalSearchCriteria();
+    $scope.availableRecall = recallTypes;
+    $scope.availableStates = stateList;
+    $scope.products = sharedProperties.getProductsList();
+
 
     // function to create a date from moment date
     $scope.formatDate = function(date){
           var dateOut = new Date(date);
           return dateOut;
     };
+    
+    $scope.searchData = function() {
+        var from_date = $filter('date')($scope.formatDate($scope.searchCriteria.dateRange.startDate), 'yyyy-MM-dd');
+        var to_date = $filter('date')($scope.formatDate($scope.searchCriteria.dateRange.endDate), 'yyyy-MM-dd');
 
-    var chart1 = {};
-    chart1.type = "GeoChart";
-    chart1.data = [];
-    chart1.data[0] = ['State', 'Total Recall'];
-    for(var i=0; i<stateList.length; i++) {
-        chart1.data[i+1] =[stateList[i].name, i+100];
-    }
-
-    chart1.options = {
-        width: 900,
-        height: 450,
-        chartArea: {left:500,top:10,bottom:0,height:"100%"},
-        colorAxis: {colors: ['#aec7e8', '#1f77b4']},
-        //colorAxis: {colors: ['#DDEACC', '#109618']},
-        region: "US",
-        resolution: "provinces"
+        var recallType = $scope.searchCriteria.recallType.code;
+        var keyTerm = $scope.searchCriteria.keyTerm;
+        var from_date = $filter('date')($scope.formatDate($scope.searchCriteria.dateRange.startDate), 'yyyy-MM-dd');
+        var to_date = $filter('date')($scope.formatDate($scope.searchCriteria.dateRange.endDate), 'yyyy-MM-dd');
+        
+        var dataAvailable = false;
+        console.log(constants.baseUrl+"recallmapview?product_type="+ recallType + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]");
+        $http.get(constants.baseUrl+"recallmapview?product_type="+ recallType + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]")
+             .success(function(response) {
+               $scope.products = response;
+               sharedProperties.setGlobalSearchCriteria($scope.searchCriteria);
+               sharedProperties.setReloadData(true);
+               $scope.populateData();
+               $scope.drawDataMap();
+            });
+     }
+    var chart1 = [];
+    $scope.populateData = function() {
+        chart1[0] = ['State', 'Total Recall'];
+        var arrayIndex = 1;
+        for(var i=1; i<$scope.products.length; i++) {
+            if($scope.products[i].state == 'NATIONWIDE' || $scope.products[i].state == 'Nationwide' || $scope.products[i].state == 'nationwide') {
+                $scope.nationalNumbers = $scope.products[i].value.count;
+            } else {
+                chart1[arrayIndex] =[$scope.products[i].state, $scope.products[i].value.count];
+                arrayIndex++;
+            }
+        }
+        if($scope.nationalNumbers == undefined) {
+            $scope.nationalNumbers = 0;
+        }
+        
     };
+    $scope.drawDataMap = function() {
+        var data = google.visualization.arrayToDataTable(chart1);
+        var options = {
+            keepAspectRatio: true,
+            width:100 + "%",
+            height:100 + '%',
+            colorAxis: {colors: ['#aec7e8', '#1f77b4']},
+            //colorAxis: {colors: ['#DDEACC', '#109618']},
+            region: "US",
+            resolution: "provinces",
+            sizeAxis: {minValue: 1, maxValue:1,minSize:10,  maxSize: 10}
+        };
 
-    /*chart1.formatters = {
-     number : [{
-       columnNum: 1,
-       pattern: "$ #,##0.00"
-     }]
-   };*/
+        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
 
-    $scope.chart = chart1;
+        chart.draw(data, options);
+        go();
+
+        window.addEventListener('resize', go);
+        function go(){
+            chart.draw(data, options);
+        }
+        
+      };
+
+      google.setOnLoadCallback($scope.drawDataMap());
+      $scope.searchData();
 });
 
 searchApp.controller('DetailsController', function($scope, sharedProperties, $location, $anchorScroll) {
@@ -193,8 +247,8 @@ searchApp.controller('DetailsController', function($scope, sharedProperties, $lo
     $location.hash('page2');
     $anchorScroll();
 });
-var recallTypes = [{name: 'Drug', code: 'drug'}, 
-                {name: 'Food', code: 'food'}, 
+var recallTypes = [{name: 'Drug', code: 'drug'},
+                {name: 'Food', code: 'food'},
                 {name: 'Device', code: 'device'}];
 
 var stateList = [{name: 'Nationwide', code: 'Nationwide'},

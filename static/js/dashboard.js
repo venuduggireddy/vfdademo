@@ -1,4 +1,5 @@
-var constants = {baseUrl: "http://localhost:4000/"};
+//var constants = {baseUrl: "http://localhost:4000/"};
+var constants = {baseUrl: "http://54.175.186.120:80/"};
 var mainAppVar = angular.module('mainApp', ['ngRoute']);
 
 // configure our routes
@@ -30,7 +31,7 @@ mainAppVar.service('sharedProperties', function() {
 })
 
 mainAppVar.controller('mainController', function($scope, sharedProperties) {
-    $scope.fetchNewData=function() { 
+    $scope.fetchNewData=function() {
         sharedProperties.setSymptom($scope.symptom);
     };
 });

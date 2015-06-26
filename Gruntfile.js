@@ -62,6 +62,15 @@ module.exports = function(grunt) {
 
 },
 
+    protractor_webdriver: {
+        your_target: {
+            options: {
+                path: 'node_modules/protractor/bin/',
+                command: 'webdriver-manager start'
+            }
+        }
+    }, 
+
     protractor: {
         options: {
             configFile: "test/protractor/protractor.conf.js", // Default config file
@@ -76,7 +85,7 @@ module.exports = function(grunt) {
                 args: {
 		          // Arguments passed to the command
 			  baseUrl: '<%= props.baseUrl %>/',
-			  chromeDriver: 'node_modules/selenium/chromedriver.exe'
+			  chromeDriver: 'node_modules/chromedriver-linux/chromedriver'
 
 		     } // Target-specific arguments
             }
@@ -123,7 +132,7 @@ grunt.registerTask(
 grunt.registerTask(
   'archive', 
   'Compressing Files', 
-  ['compress:zip','compress:tar']
+  ['compress:tar']
 );
 
 //Mocha Unit Test 
@@ -135,7 +144,7 @@ grunt.registerTask(
 
 
 // protractorTest Test
-grunt.registerTask('protractorTest', ['properties', 'protractor']);  
+grunt.registerTask('protractorTest', ['properties', 'protractor_webdriver', 'protractor']);  
 
 //********** Task DEF END
 };

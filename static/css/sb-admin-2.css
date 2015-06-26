@@ -21,7 +21,7 @@
   border-color: #fff;
 }
 .nationwide {
-  margin-top: 50px;;
+  margin-top: 15px;;
   font-size: 18px;
   color: yellow;
 }
@@ -34,10 +34,13 @@
     /* inline-block space fix */
     margin-right:-4px;
 }
- .form-control {
 
-  width: 150px;
-  
+.form-control {
+  width: 100%;
+}
+
+.form-group {
+    width: 100%;
 }
 
  h1 {

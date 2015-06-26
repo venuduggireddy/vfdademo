@@ -1,0 +1,51 @@
+<div>
+    <div class="row">
+        <div>
+            <div class="col-xs-2 text-center"></div>    
+            <div class="col-xs-3 text-center">
+                <div class="symptom"><strong>Date Range</strong></div> 
+                <div class="form-group col-centered">
+                    <input date-range-picker class="form-control date-picker" type="text" ng-model="searchCriteria.dateRange" options="opts"/>
+                </div>
+            </div>
+            <div class="col-xs-2 text-center">
+                <div class="symptom"><strong>Key Term</strong></div> 
+                <div class="form-group col-centered">
+                    <input class="form-control" type="text" ng-model="searchCriteria.keyTerm"/>
+                </div>
+            </div>
+            <div class="col-xs-3 text-center">
+                <div class="symptom"><strong>Recall Type</strong></div>    
+                <div class="form-group col-centered">
+                    <ui-select ng-model="searchCriteria.recallType" theme="select2" ng-disabled="disabled">
+                        <ui-select-match placeholder="Select a recall type...">{{searchCriteria.recallType.name}}</ui-select-match>
+                        <ui-select-choices repeat="recall in availableRecall | propsFilter: {name: $select.search}">
+                          <div ng-bind-html="recall.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-2"></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <a class="btn btn-primary" ng-click="searchData()">Search</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+              <h1 class="page-header text-center">Product Recalls by General Area of Initial Distributions</h1>
+              <h5 style="color:white;" class="text-center"> 
+                        <p><strong>Recall for: </strong> {{searchCriteria.recallType.name}} between {{formatDate(searchCriteria.dateRange.startDate) |  date:"MM/dd/yyyy" }} - {{formatDate(searchCriteria.dateRange.endDate) |  date:"MM/dd/yyyy" }}</p>
+                        <p><strong>Key Term: </strong>{{searchCriteria.keyTerm}}
+               </h5>
+               <div class="nationwide text-center">
+                Nationwide 
+                <button type="button" class="btn btn-state1">{{searchCriteria.recallType.name}} - {{nationalNumbers}}</button> 
+                Specific initial distribution states for Nationwide recalls cannot be determined.</div>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <br>
+    <div id='regions_div' style="width:100%, height:100%"></div>
