@@ -26,16 +26,16 @@ app.use('/static',  express.static( path.join(__dirname + '/static')));
 app.use('/img',  express.static( path.join(__dirname + '/static/img')));
 app.use('/css',  express.static( path.join(__dirname + '/static/css')));
 app.use('/js',  express.static( path.join(__dirname + '/static/js')));
-app.use('/pages',  express.static( path.join(__dirname + '/pages')));
+app.use('/pages',  express.static( path.join(__dirname + '/static/pages')));
 
 // API routers
 
 app.get("/", function(req, res){
-  res.sendFile(path.join(__dirname+'/index2.html'));
+  res.sendFile(path.join(__dirname+'/static/pages/index.html'));
 });
 
 app.get("/search", function(req, res){
-  res.sendFile(path.join(__dirname+'/pages/searchPage.html'));
+  res.sendFile(path.join(__dirname+'/static/pages/searchPage.html'));
 });
 
 app.get('/search', function(req, res) {
@@ -225,7 +225,7 @@ app.get('/recallmapview', function(req, res) {
             //  console.log(key + " : " + value);
               var result = {
                 state: key,
-                count: value
+                'value': value
               };
               values.push(result);
           });
