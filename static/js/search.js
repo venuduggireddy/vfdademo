@@ -161,7 +161,7 @@ searchApp.controller('ListSearchController', function($scope, $http, ospConstant
    
 });
 
-searchApp.controller('MapSearchController', function($scope, $http, $filter, sharedProperties, ospConstants) {
+searchApp.controller('MapSearchController', function($scope, $http, $filter, $location, sharedProperties, ospConstants) {
 
     $scope.opts = {ranges: ospConstants.ranges};
     $scope.searchCriteria = sharedProperties.getGlobalSearchCriteria();
@@ -229,6 +229,19 @@ searchApp.controller('MapSearchController', function($scope, $http, $filter, sha
         var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
 
         chart.draw(data, options);
+
+        google.visualization.events.addListener(chart, 'select', function() {
+        var selectedItem = chart.getSelection()[0];
+            if (selectedItem) {
+                var y = data.getValue(selectedItem.row,0);
+                $scope.searchCriteria.states = [{name: y, code:y}];
+                sharedProperties.setGlobalSearchCriteria($scope.searchCriteria);
+                sharedProperties.setReloadData(true);
+                $location.path('listSearch');
+                $scope.$apply();
+            }
+        });
+
         go();
 
         window.addEventListener('resize', go);
@@ -237,6 +250,14 @@ searchApp.controller('MapSearchController', function($scope, $http, $filter, sha
         }
         
       };
+
+    // function to redirect to recall details page
+    $scope.showDetails = function (y) {
+        $scope.searchCriteria.states = [{name: y, code:y}];
+        sharedProperties.setGlobalSearchCriteria($scope.searchCriteria);
+        sharedProperties.setReloadData(true);
+        $location.path('listSearch');
+    };
 
       google.setOnLoadCallback($scope.drawDataMap());
       $scope.searchData();
