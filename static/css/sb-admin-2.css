@@ -3,6 +3,24 @@
  * Code licensed under the Apache License v2.0.
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
+.detailssection {
+    margin: 1px;
+    background-color: #eee;
+}
+
+.detailscol1 {
+    border: 1px solid #e7e7e7;
+    background-color: #eee;
+    padding:5px;
+    text-align:right;
+    font-weight: bold;
+    height: 100%;
+}
+.detailscol2 {
+    border: 1px solid #e7e7e7;
+    padding:5px;
+    background-color: #fff;
+}
 .dotdotdot {
     font-size: 25px;
     color: #095a6e;
