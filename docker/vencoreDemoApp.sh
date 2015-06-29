@@ -12,20 +12,30 @@ AppDir="/vencore/docker/vfdademo-master"
 #update the following variable if you want to launch application on a different port
 PMap="80"
 
+echo "Creating Docker Image "vencore-nodejs-demo" ...."
 #execute the following command to build (ubuntu 14.04.1 LTS with nodejs 0.12.4) docker image 
 sudo docker build -t vencore-nodejs-demo .
 
+echo "Removing old Docker container "vencore-demo" "
 #execute the following commands to stop and delete the demo container if it exists
 sudo docker stop vencore-demo
 sudo docker rm vencore-demo
 
+echo "Clean-up application folder $AppDir if it exists"
 #Create application folder
 sudo rm -rf $AppDir
 sudo mkdir -p $AppDir
 
+echo "extract archive.tar to application folder $AppDir"
 #extract application archive using the following command.
 sudo tar -xf ./archive.tar -C $AppDir
 
+echo "Create Docker container "vencore-demo" and start application"
 #execute the following command to build the container from the image created in previous steps and then start vencore demo application.
 sudo docker run --name vencore-demo -it -d -P -p $PMap:$PMap -v $AppDir:$AppDir vencore-nodejs-demo /bin/bash -c "pm2 start $AppDir/app.js && tail -f /dev/null"
+
+echo "Check if application started properly by using application url http://<DockerHostIP or DNS>:<application port> eg: http://192.162.1.1:4000"
+
+
+
 
