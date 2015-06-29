@@ -1,30 +1,27 @@
 searchApp.controller('MapSearchController', function($scope, $http, $filter, $location, sharedProperties, ospConstants) {
 
-    $scope.opts = {ranges: ospConstants.ranges};
-    $scope.searchCriteria = sharedProperties.getGlobalSearchCriteria();
-    $scope.availableRecall = [{name: 'Food', code: 'food'}, {name: 'Device', code: 'device'},{name: 'Drug', code: 'drug'}];
-    $scope.availableStates = stateList;
-    $scope.products = sharedProperties.getProductsList();
-
-
     // function to create a date from moment date
     $scope.formatDate = function(date){
           var dateOut = new Date(date);
           return dateOut;
     };
-    
-    $scope.searchData = function() {
-        var from_date = $filter('date')($scope.formatDate($scope.searchCriteria.dateRange.startDate), 'yyyy-MM-dd');
-        var to_date = $filter('date')($scope.formatDate($scope.searchCriteria.dateRange.endDate), 'yyyy-MM-dd');
 
+    $scope.opts = {ranges: ospConstants.ranges};
+    $scope.searchCriteria = sharedProperties.getGlobalSearchCriteria();
+    $scope.availableRecall = [{name: 'Food', code: 'food'}, {name: 'Device', code: 'device'},{name: 'Drug', code: 'drug'}];
+    $scope.searchCriteria.startDate = $filter('date')($scope.formatDate($scope.searchCriteria.startDate), 'MM/dd/yyyy');
+    $scope.searchCriteria.endDate = $filter('date')($scope.formatDate($scope.searchCriteria.endDate), 'MM/dd/yyyy');
+    $scope.availableStates = stateList;
+    $scope.products = sharedProperties.getProductsList();
+
+    $scope.searchData = function() {
+        var from_date = $filter('date')($scope.formatDate($scope.searchCriteria.startDate), 'yyyy-MM-dd');
+        var to_date = $filter('date')($scope.formatDate($scope.searchCriteria.endDate), 'yyyy-MM-dd');
         var recallType = $scope.searchCriteria.selectedRecall[0].code;
         var keyTerm = $scope.searchCriteria.keyTerm;
-        var from_date = $filter('date')($scope.formatDate($scope.searchCriteria.dateRange.startDate), 'yyyy-MM-dd');
-        var to_date = $filter('date')($scope.formatDate($scope.searchCriteria.dateRange.endDate), 'yyyy-MM-dd');
-        
         var dataAvailable = false;
-        console.log(constants.baseUrl+"recallmapview?product_type="+ recallType + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]");
-        $http.get(constants.baseUrl+"recallmapview?product_type="+ recallType + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]")
+        console.log(constants.baseUrl+"mapview?product_type="+ recallType + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]");
+        $http.get(constants.baseUrl+"mapview?product_type="+ recallType + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]")
              .success(function(response) {
                $scope.products = response;
                sharedProperties.setGlobalSearchCriteria($scope.searchCriteria);
@@ -40,7 +37,7 @@ searchApp.controller('MapSearchController', function($scope, $http, $filter, $lo
         $scope.nationalFoodNumbers = 0;
         $scope.nationalDrugNumbers = 0;
         $scope.nationalDeviceNumbers = 0;
-        for(var i=1; i<$scope.products.length; i++) {
+        for(var i=0; i<$scope.products.length; i++) {
             if($scope.products[i].state == 'NATIONWIDE' || $scope.products[i].state == 'Nationwide' || $scope.products[i].state == 'nationwide') {
             	if($scope.products[i].value.type == 'food') {
             		$scope.nationalFoodNumbers = $scope.products[i].value.count;

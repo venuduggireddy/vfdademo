@@ -1,9 +1,16 @@
 searchApp.controller('ListSearchController', function($scope, $http, ospConstants, $filter, $location, sharedProperties, $anchorScroll) {
 
+    // function to create a date from moment date
+    $scope.formatDate = function(date){
+          var dateOut = new Date(date);
+          return dateOut;
+    };
+
     $scope.opts = {ranges: ospConstants.ranges};
     $scope.searchCriteria = sharedProperties.getGlobalSearchCriteria();
     $scope.availableRecall = [{name: 'Food', code: 'food'}, {name: 'Device', code: 'device'},{name: 'Drug', code: 'drug'}];
-    
+    $scope.searchCriteria.startDate = $filter('date')($scope.formatDate($scope.searchCriteria.startDate), 'MM/dd/yyyy');
+    $scope.searchCriteria.endDate = $filter('date')($scope.formatDate($scope.searchCriteria.endDate), 'MM/dd/yyyy');
     $scope.availableStates = stateList;
     $scope.products = sharedProperties.getProductsList();
     
@@ -12,8 +19,8 @@ searchApp.controller('ListSearchController', function($scope, $http, ospConstant
         var recallType = $scope.searchCriteria.selectedRecall[0].code;
         var finalStateList = '';
         var keyTerm = $scope.searchCriteria.keyTerm;
-        var from_date = $filter('date')($scope.formatDate($scope.searchCriteria.dateRange.startDate), 'yyyy-MM-dd');
-        var to_date = $filter('date')($scope.formatDate($scope.searchCriteria.dateRange.endDate), 'yyyy-MM-dd');
+        var from_date = $filter('date')($scope.formatDate($scope.searchCriteria.startDate), 'yyyy-MM-dd');
+        var to_date = $filter('date')($scope.formatDate($scope.searchCriteria.endDate), 'yyyy-MM-dd');
         for (var i = 0; i <= $scope.searchCriteria.states.length - 1; i++) {
             finalStateList =  finalStateList + '&locations=' + $scope.searchCriteria.states[i].code;
         };
@@ -24,12 +31,6 @@ searchApp.controller('ListSearchController', function($scope, $http, ospConstant
                 sharedProperties.setProductsList($scope.products);
             });
         sharedProperties.setGlobalSearchCriteria($scope.searchCriteria);
-    };
-
-    // function to create a date from moment date
-    $scope.formatDate = function(date){
-          var dateOut = new Date(date);
-          return dateOut;
     };
 
     // function to create a date from format '20150827'

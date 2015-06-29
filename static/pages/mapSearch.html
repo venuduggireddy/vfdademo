@@ -1,34 +1,42 @@
 <div>
     <div class="row">
-        <div>
-            <div class="col-sm-2 text-center"></div>    
-            <div class="col-sm-3 text-center">
-                <div class="symptom"><strong>Date Range</strong></div> 
-                <div class="form-group col-centered">
-                    <input date-range-picker class="form-control date-picker" type="text" ng-model="searchCriteria.dateRange" options="opts"/>
-                </div>
-            </div>
-            <div class="col-sm-2 text-center">
-                <div class="symptom"><strong>Key Term</strong></div> 
-                <div class="form-group col-centered">
-                    <input class="form-control" type="text" ng-model="searchCriteria.keyTerm"/>
-                </div>
-            </div>
-            <div class="col-sm-3 text-center">
-                <div class="symptom"><strong>Recall Type</strong></div>    
-                <div class="form-group col-centered">
-                    <multi-select
-                        name="recall_select"
-                        values="availableRecall"
-                        model="searchCriteria.selectedRecall"
-                        show-filters="true"
-                        value-field="code"
-                        label-field="name"
-                    ></multi-select>
-                </div>
+        <div class="col-sm-3 text-center">
+            <div class="symptom"><strong>Date From</strong></div> 
+            <div class="form-group col-centered">
+                <datepicker date-format="MM/dd/yyyy" date-max-limit={{searchCriteria.endDate}} 
+                date-set={{searchCriteria.startDate}}
+                button-prev="<i class='fa fa-arrow-left'></i>" button-next="<i class='fa fa-arrow-right'></i>">
+                    <input type="text" ng-model="searchCriteria.startDate"  class="form-control">
+                </datepicker>
             </div>
         </div>
-        <div class="col-sm-2"></div>
+        <div class="col-sm-3 text-center">
+            <div class="symptom"><strong>Date To</strong></div> 
+            <div class="form-group col-centered">
+                <datepicker date-format="MM/dd/yyyy" date-min-limit={{searchCriteria.startDate}} date-set={{searchCriteria.endDate}} button-prev="<i class='fa fa-arrow-left'></i>" button-next="<i class='fa fa-arrow-right'></i>">
+                    <input type="text" ng-model="searchCriteria.endDate"  class="form-control">
+                </datepicker>
+            </div>
+        </div>
+        <div class="col-sm-3 text-center">
+            <div class="symptom"><strong>Key Term</strong></div> 
+            <div class="form-group col-centered">
+                <input class="form-control" type="text" ng-model="searchCriteria.keyTerm"/>
+            </div>
+        </div>
+        <div class="col-sm-3 text-center">
+            <div class="symptom"><strong>Recall Type</strong></div>    
+            <div class="form-group col-centered">
+                <multi-select
+                    name="recall_select"
+                    values="availableRecall"
+                    model="searchCriteria.selectedRecall"
+                    show-filters="true"
+                    value-field="code"
+                    label-field="name"
+                ></multi-select>
+            </div>
+        </div>
     </div>
     <div class="row">
         <div class="col-sm-12 text-center">
@@ -40,7 +48,7 @@
               <h1 class="page-header text-center">Product Recalls by General Area of Initial Distributions</h1>
               <h5 style="color:white;" class="text-center"> 
                         <p><strong>Recall for: </strong> <span ng-repeat="x in searchCriteria.selectedRecall">
-                                {{x.name}}<span ng-if="!$last">, </span> </span> between {{formatDate(searchCriteria.dateRange.startDate) |  date:"MM/dd/yyyy" }} - {{formatDate(searchCriteria.dateRange.endDate) |  date:"MM/dd/yyyy" }}</p>
+                                {{x.name}}<span ng-if="!$last">, </span> </span> between {{formatDate(searchCriteria.startDate) |  date:"MM/dd/yyyy" }} - {{formatDate(searchCriteria.dateRange.endDate) |  date:"MM/dd/yyyy" }}</p>
                         <p><strong>Key Term: </strong>{{searchCriteria.keyTerm}}
                </h5>
                <div class="nationwide text-center">
