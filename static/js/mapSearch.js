@@ -48,7 +48,9 @@ searchApp.controller('MapSearchController', function($scope, $http, $filter, $lo
             	}
                 
             } else {
-                chart1[arrayIndex] =[$scope.products[i].state, $scope.products[i].value.count];
+                var stateResult = $.grep(stateList, function(e){ return e.code == $scope.products[i].state; });
+                console.log($scope.products[i].state +"  : "+ stateResult);
+                chart1[arrayIndex] =[stateResult[0].name, $scope.products[i].value.count];
                 arrayIndex++;
             }
         }
@@ -77,8 +79,10 @@ searchApp.controller('MapSearchController', function($scope, $http, $filter, $lo
         google.visualization.events.addListener(chart, 'select', function() {
         var selectedItem = chart.getSelection()[0];
             if (selectedItem) {
+
                 var y = data.getValue(selectedItem.row,0);
-                $scope.searchCriteria.states = [{name: y, code:y}];
+                var result = $.grep(stateList, function(e){ return e.name == y; });
+                $scope.searchCriteria.states = [{name: result[0].name, code:result[0].code}];
                 sharedProperties.setGlobalSearchCriteria($scope.searchCriteria);
                 sharedProperties.setReloadData(true);
                 $location.path('listSearch');
@@ -97,6 +101,8 @@ searchApp.controller('MapSearchController', function($scope, $http, $filter, $lo
 
     // function to redirect to recall details page
     $scope.showDetails = function (y) {
+        var result = $.grep(stateList, function(e){ return e.code == y; });
+        console.log(result);
         $scope.searchCriteria.states = [{name: y, code:y}];
         sharedProperties.setGlobalSearchCriteria($scope.searchCriteria);
         sharedProperties.setReloadData(true);
