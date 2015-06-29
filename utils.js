@@ -263,11 +263,11 @@ exports.logrequest = function(request, response, next){
 
   response.on('finish', function(){
     var duration = +new Date() - start;
-    message = method + 'to' + url +
+    var message = method + 'to' + url +
       '\ntook' + duration + 'ms \n\n';
     stream.write(message);
   });
-}
+};
 
 /*
  ger the url based on product_type
@@ -283,7 +283,7 @@ exports.getEnforcementUrl = function(product_type){
   }
   return enforcement;
 
-}
+};
 
 
 exports.aggregateResults = function(results){
@@ -322,13 +322,13 @@ exports.aggregateResults = function(results){
         console.log(e);
       }
 
-  })
+  });
   recallMap.forEach(function(value, key) {
      //console.log(key + " : " + value);
      var total = 0;
      _.forEach(value, function(v){
         total = total + v.count;
-     })
+     });
       var result = {
         state: key,
         'total':total,
@@ -337,7 +337,66 @@ exports.aggregateResults = function(results){
       values.push(result);
   });
   return values;
-}
+};
+
+/**
+ * 
+ * 
+ */
+ 
+exports.getAggegatedSearchResults = function (results) {
+    var output = {
+      meta: {},
+      results: []
+    };
+   // output.meta = body.meta;
+   
+    _.forEach(results, function (result) {
+       
+        var body = JSON.parse(result.body);
+        // console.log('%O %n', body.meta);
+        if(output.meta.disclaimer){
+           
+            output.meta.results.total = (output.meta.results.total + body.meta.results.total);
+        }else{
+            output.meta = body.meta;
+        }
+        _.forEach(body.results, function(v){
+            var o = {
+          recall_number: v.recall_number,
+          recall_initiation_date: v.recall_initiation_date,
+          product_description: v.product_description,
+          code_info: v.code_info,
+          recalling_firm: v.recalling_firm,
+          state: v.state,
+          city: v.city,
+          country: v.country,
+          distribution_pattern: v.distribution_pattern,
+          reason_for_recall: v.reason_for_recall,
+          classification: v.classification,
+          product_quantity: v.product_quantity,
+          openfda: v.openfda.unii,
+          event_details: {
+            event_id: v.event_id,
+            product_type: v.product_type,
+            status: v.status,
+            recalling_firm: v.recalling_firm,
+            state: v.state,
+            city: v.city,
+            country: v.country,
+            recall_initiation_date: v.recall_initiation_date,
+            voluntary_mandated: v.voluntary_mandated,
+            distribution_pattern: v.distribution_pattern,
+            initial_firm_notification: v.initial_firm_notification
+          }
+        };
+        //console.log(o);
+        output.results.push(o);
+        });
+       
+    });
+    return output;
+};
 
 
 
