@@ -13,26 +13,30 @@
                     <input class="form-control" type="text" ng-model="searchCriteria.keyTerm"/>
                 </div>
             </div>
-            <div class="col-sm-2 text-center">
+            <div class="col-sm-3 text-center">
                 <div class="symptom"><strong>Recall Type</strong></div>    
                 <div class="form-group col-centered">
-                    <ui-select ng-model="searchCriteria.recallType" theme="select2" ng-disabled="disabled">
-                        <ui-select-match placeholder="Select a recall type...">{{searchCriteria.recallType.name}}</ui-select-match>
-                        <ui-select-choices repeat="recall in availableRecall | propsFilter: {name: $select.search}">
-                          <div ng-bind-html="recall.name | highlight: $select.search"></div>
-                        </ui-select-choices>
-                    </ui-select>
+                    <multi-select
+                        name="recall_select"
+                        values="availableRecall"
+                        model="searchCriteria.selectedRecall"
+                        show-filters="true"
+                        value-field="code"
+                        label-field="name"
+                    ></multi-select>
                 </div>
             </div>
-            <div class="col-sm-4 text-center">
+            <div class="col-sm-3 text-center">
                 <div class="symptom"><strong>Select 1 or more state(s)</strong></div> 
                 <div class="form-group col-centered">
-                    <ui-select multiple ng-model="searchCriteria.states" theme="select2" ng-disabled="disabled">
-                        <ui-select-match placeholder="Select states...">{{$item.name}}</ui-select-match>
-                        <ui-select-choices repeat="state in availableStates | filter:$select.search">
-                          {{state.name}}
-                        </ui-select-choices>
-                    </ui-select>
+                    <multi-select
+                        name="state_select"
+                        values="availableStates"
+                        model="searchCriteria.states"
+                        show-filters="true"
+                        value-field="code"
+                        label-field="name"
+                    ></multi-select>
                 </div>
             </div>
     </div>
@@ -53,11 +57,13 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <h5> 
-                        <p><strong>Recall for: </strong> {{searchCriteria.recallType.name}} between {{formatDate(searchCriteria.dateRange.startDate) |  date:"MM/dd/yyyy" }} - {{formatDate(searchCriteria.dateRange.endDate) |  date:"MM/dd/yyyy" }}</p>
+                        <p><strong>Recall for: </strong>  <span ng-repeat="x in searchCriteria.selectedRecall">
+                                {{x.name}}<span ng-if="!$last">, </span>
+                            </span> between {{formatDate(searchCriteria.dateRange.startDate) |  date:"MM/dd/yyyy" }} - {{formatDate(searchCriteria.dateRange.endDate) |  date:"MM/dd/yyyy" }}</p>
                         
                         <p><strong>State(s):</strong> 
-                            <span ng-repeat="x in searchCriteria.states">
-                                {{x.name}}<span ng-if="!$last">, </span>
+                            <span ng-repeat="y in searchCriteria.states">
+                                {{y.name}}<span ng-if="!$last">, </span>
                             </span> 
                         </p>
                         <p><strong>Key Term: </strong>{{searchCriteria.keyTerm}}
