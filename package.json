@@ -36,6 +36,7 @@
     "grunt-mocha-test": "~0.12.7",
     "chromedriver": "~2.15.1",
     "protractor-html-screenshot-reporter": "0.0.19",
-    "protractor": "~2.1.0"
+    "protractor": "~2.1.0",
+    "grunt-apidoc": "~0.10.1"
   }
 }

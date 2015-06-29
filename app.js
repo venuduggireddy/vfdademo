@@ -11,15 +11,28 @@ var express = require('express'),
  config = require('./config'),
  utils = require('./utils'),
  HashMap = require('hashmap'),
- https = require('https'),
- cors = require('cors');
+ https = require('https');
+// cors = require('cors');
 
 
 
 // enable cors for corss domain request for mobile application
-app.use(cors());
+//app.use(cors());
+// enable cors for corss domain request for mobile application
+app.use(function(req, res, next) {
+
+  //security headers
+  res.header("X-Content-Type-Options", "nosniff");
+  res.header("X-Frame-Options", "DENY");
+  res.header("X-XSS-Protection", "1; mode=block");
+  // Corss Origin headers - Disable if not needed
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 app.use(bodyParser.urlencoded({ extended: false }));
+
 // static routes
 app.use('/bower_components',  express.static( path.join(__dirname + '/bower_components')));
 app.use('/static',  express.static( path.join(__dirname + '/static')));
@@ -115,6 +128,75 @@ var getSearchQuery = function(daterange, loc, key_term){
 /*
  sprint 2 use case where user will enter product_type and location to find recall information
 */
+
+/**
+ * @api {get} /api/recallInfo Get Recall event details bases on distribution pattern.
+ * @apiPermission none
+ * @apiVersion 0.1.0
+ * @apiName recallInfo
+ * @apiGroup Recall
+ *
+ * @apiParam {String} [product_type='[drug, food, device]']  Optional product_type defaults to all.
+ * @apiParam {String} [key_term]  Optional key_term. If available will do a generic search.
+ * @apiParam {String} [daterange]  Optional daterange. Date format needs to be YYYY-MM-DD and <code>[2015-01-01+TO+2015-06-27]</code>.
+ *
+ * @apiSuccess {Array}  Array Of Objects with State, total, value break down by enforcement type
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ {
+   "meta":{
+      "disclaimer":"openFDA is a beta research project and not for clinical use. While we make every effort to ensure that data is accurate, you should assume all results are unvalidated.",
+      "license":"http://open.fda.gov/license",
+      "last_updated":"2015-05-31",
+      "results":{
+         "skip":0,
+         "limit":100,
+         "total":5
+      }
+   },
+   "results":[
+      {
+         "recall_number":"D-028-2014",
+         "recall_initiation_date":"20130528",
+         "product_description":"Adenosine 35 mg/ml, 30ml, Main Street Compounding Pharmacy, 126 East Main Street, Newbern, TN 38059, 888-658-6200",
+         "code_info":"all codes distributed prior to and including 05/23/2013",
+         "recalling_firm":"Main Street Family Pharmacy, LLC",
+         "state":"TN",
+         "city":"Newbern",
+         "country":"US",
+         "distribution_pattern":"nationwide, specifically:  AK, AL, AZ, CA, CO, CT, DC, FL, GA, HI, IL and WV",
+         "reason_for_recall":"The firm received seven reports of adverse reactions in the form of skin abscesses potentially linked to compounded preservative-free methylprednisolone 80mg/ml 10 ml vials.",
+         "classification":"Class II",
+         "product_quantity":"39 units",
+         "event_details":{
+            "event_id":"65479",
+            "product_type":"Drugs",
+            "status":"Ongoing",
+            "recalling_firm":"Main Street Family Pharmacy, LLC",
+            "state":"TN",
+            "city":"Newbern",
+            "country":"US",
+            "recall_initiation_date":"20130528",
+            "voluntary_mandated":"Voluntary: Firm Initiated",
+            "distribution_pattern":"nationwide, specifically:  AK, AL, AZ, CA, CO, CT, DC, FL, GA, HI, IL and WV",
+            "initial_firm_notification":"Telephone"
+         }
+      }
+   ]
+}
+ *
+ * @apiError Object Object with error code and message.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ *     {
+ *      "error": {
+ *         "code": "SERVER_ERROR",
+ *          "message": "Check your request and try again"
+ *        }
+ *      }
+ */
 app.get('/recallInfo', function(req, res) {
 
    var product_type =  req.query.product_type;
@@ -237,59 +319,73 @@ app.get('/recallmapview', function(req, res) {
 });
 
 
-var getAggregatedResults = function(results){
 
-  var statesMap = utils.recallstatemap();
-  var recallMap = new HashMap();
-  var values = [];
-  _.forEach(results, function(v){
-  //  console.log('%O', v);
-     var body;
-      try {
-        body = JSON.parse(v.body);
-        var product = v.type;
-        _.forEach(body.results, function(v, k){
-          var term = v.term.toUpperCase();
-          var count = v.count;
-           if(statesMap.get(term)){
-           //  console.log('State is %s and Count is %s and %s', term, count, product);
-             if(recallMap.get(term)){
-               var array = recallMap.get(term);
-               array.push({
-                 'type':product,
-                 'count':count
-               });
-              recallMap.set(term,array);
-             }else{
-               recallMap.set(term, [{
-                 'type':product,
-                 'count':count
-               }]);
-             }
-           }
-        });
-      } catch (e) {
-        // some times parse is throwing exception have to verify
-        console.log(e);
-      }
+/**
+ * @api {get} /api/mapview Get Recall enforcement events for US states
+ * @apiPermission none
+ * @apiVersion 0.1.0
+ * @apiName mapview
+ * @apiGroup Recall
+ *
+ * @apiParam {String} [product_type='[drug, food, device]']  Optional product_type defaults to all.
+ * @apiParam {String} [key_term]  Optional key_term. If available will do a generic search.
+ * @apiParam {String} [daterange]  Optional daterange. Date format needs to be YYYY-MM-DD and <code>[2015-01-01+TO+2015-06-27]</code>.
+ *
+ * @apiSuccess {Array}  Array Of Objects with State, total, value break down by enforcement type
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *  [
+   {
+      "state":"NATIONWIDE",
+      "total":176,
+      "value":[
+         {
+            "type":"drug",
+            "count":39
+         },
+         {
+            "type":"food",
+            "count":33
+         },
+         {
+            "type":"device",
+            "count":104
+         }
+      ]
+   },
+   {
+      "state":"IN",
+      "total":108,
+      "value":[
+         {
+            "type":"drug",
+            "count":2
+         },
+         {
+            "type":"food",
+            "count":87
+         },
+         {
+            "type":"device",
+            "count":19
+         }
+      ]
 
-  })
-  recallMap.forEach(function(value, key) {
-     //console.log(key + " : " + value);
-     var total = 0;
-     _.forEach(value, function(v){
-        total = total + v.count;
-     })
-      var result = {
-        state: key,
-        'total':total,
-        'value': value
-      };
-      values.push(result);
-  });
-  return values;
-}
-
+   }
+]
+ *
+ * @apiError Object Object with error code and message.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ *     {
+ *      "error": {
+ *         "code": "SERVER_ERROR",
+ *          "message": "Check your request and try again"
+ *        }
+ *      }
+ */
 
 app.get('/mapview', function(req, res) {
     var product_type =  req.query.product_type || ['drug','food','device'];
@@ -313,8 +409,7 @@ app.get('/mapview', function(req, res) {
       console.log('URL is %s and build url is %s', url, utils.getEnforcementUrl(url)+search+'&count=distribution_pattern');
     });
     */
-    var reacallMap = new HashMap();
-    var statesMap = utils.recallstatemap();
+
     var responses = [];
     var values = [];
     var completed_requests = 0;
@@ -347,7 +442,7 @@ app.get('/mapview', function(req, res) {
             // All downloads are completed
             //console.log("Done !! completed request are %d and url length is %d and length of response is", completed_requests, urlTypes.length, responses.length);
             responses.join();
-            var values = getAggregatedResults(responses);
+            var values = utils.aggregateResults(responses);
             res.send(values);
           //  res.send(responses);
           }
@@ -396,7 +491,8 @@ app.use(function(err, req, res, next) {
 });
 */
 // Set server port
-var server = app.listen(config.server_port, function(){
+var port = process.env.PORT || config.server_port;
+var server = app.listen(port, function(){
   var port = server.address().port;
   console.log('server is running %s', port);
 });

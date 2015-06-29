@@ -1,6 +1,7 @@
  var HashMap = require('hashmap'),
   _ = require('lodash-node'),
-  config = require('./config');
+  config = require('./config'),
+  utils = require('./utils');
 
 var usstates = [
     {
@@ -283,6 +284,61 @@ exports.getEnforcementUrl = function(product_type){
   return enforcement;
 
 }
+
+
+exports.aggregateResults = function(results){
+
+  var statesMap = utils.recallstatemap();
+  var recallMap = new HashMap();
+  var values = [];
+  _.forEach(results, function(v){
+  //  console.log('%O', v);
+     var body;
+      try {
+        body = JSON.parse(v.body);
+        var product = v.type;
+        _.forEach(body.results, function(v, k){
+          var term = v.term.toUpperCase();
+          var count = v.count;
+           if(statesMap.get(term)){
+           //  console.log('State is %s and Count is %s and %s', term, count, product);
+             if(recallMap.get(term)){
+               var array = recallMap.get(term);
+               array.push({
+                 'type':product,
+                 'count':count
+               });
+              recallMap.set(term,array);
+             }else{
+               recallMap.set(term, [{
+                 'type':product,
+                 'count':count
+               }]);
+             }
+           }
+        });
+      } catch (e) {
+        // some times parse is throwing exception have to verify
+        console.log(e);
+      }
+
+  })
+  recallMap.forEach(function(value, key) {
+     //console.log(key + " : " + value);
+     var total = 0;
+     _.forEach(value, function(v){
+        total = total + v.count;
+     })
+      var result = {
+        state: key,
+        'total':total,
+        'value': value
+      };
+      values.push(result);
+  });
+  return values;
+}
+
 
 
 //module.exports = recallstatemap;

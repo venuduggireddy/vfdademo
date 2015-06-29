@@ -4,17 +4,17 @@
 //Version : 1.0.0
 //Date : 06/24/2015
 
- 
+
 module.exports = function(grunt) {
 
   // configure the tasks
-  
+
  grunt.initConfig({
-               
+
                properties: {
      props: 'application.properties'
   } ,
-   
+
  copy: {
      all: {
          cwd: '<%= props.sourceDir %>',
@@ -22,7 +22,7 @@ module.exports = function(grunt) {
          dest: '<%= props.buildDir %>',
          expand: true
   },
-   
+
      files: {
           files: [{ src: 'archive.tar', dest: '<%= props.distDir %>' + '/' },{ src: 'archive.zip', dest: '<%= props.distDir %>' +'/' }]
               }
@@ -30,10 +30,10 @@ module.exports = function(grunt) {
 
     clean: {
        dir: {
-                                 
+
           src: [ '<%= props.buildDir %>','<%= props.distDir %>']
   },
-  
+
       files: {
           src: [ '*.zip','*.tar']
   },
@@ -72,7 +72,7 @@ module.exports = function(grunt) {
         },
         local: {
             options: {
-               
+
                 args: {
 		          // Arguments passed to the command
 			  baseUrl: '<%= props.baseUrl %>/',
@@ -94,13 +94,23 @@ module.exports = function(grunt) {
         },
         src: ['<%=props.testDir %>'+'/*.js']
       }
+    },
+     apidoc: {
+      vencore: {
+        src: "./",
+        dest: "apidoc/",
+        options: {
+          debug: false,
+          includeFilters: [ "app.js" ],
+          excludeFilters: [ "node_modules/" ]
+        }
+      }
     }
-
 
   });
 
- //****** load the tasks   
-  grunt.loadNpmTasks('grunt-contrib-copy');  
+ //****** load the tasks
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-mocha-test');
@@ -108,38 +118,34 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-properties-reader');
   grunt.loadNpmTasks('grunt-protractor-runner');
   //***** End Load Tasks
-   
-  
- 
+   grunt.loadNpmTasks('grunt-apidoc');
+
+
 //******* define the tasks
-   
+
   // Build Task
 grunt.registerTask(
-  'build', 
-  'Compiles all of the assets and copies the files to the build directory.', 
+  'build',
+  'Compiles all of the assets and copies the files to the build directory.',
   [ 'properties','clean:dir', 'copy:all','archive','copy:files','clean:files']
 );
 // Compress Task
 grunt.registerTask(
-  'archive', 
-  'Compressing Files', 
+  'archive',
+  'Compressing Files',
   ['compress:tar']
 );
 
-//Mocha Unit Test 
+//Mocha Unit Test
   grunt.registerTask(
-  'mocha', 
-  'run unit test using Mocha', 
+  'mocha',
+  'run unit test using Mocha',
   ['properties', 'mochaTest']
 );
 
 
 // protractorTest Test
-grunt.registerTask('protractorTest', ['properties', 'protractor']);  
+grunt.registerTask('protractorTest', ['properties', 'protractor']);
 
 //********** Task DEF END
 };
-
-
-
-
