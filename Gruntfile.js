@@ -115,7 +115,7 @@ module.exports = function(grunt) {
    
   // Build Task
 grunt.registerTask(
-  'build', 
+  'buildTask', 
   'Compiles all of the assets and copies the files to the build directory.', 
   [ 'properties','clean:dir', 'copy:all','archive','copy:files','clean:files']
 );
@@ -128,14 +128,14 @@ grunt.registerTask(
 
 //Mocha Unit Test 
   grunt.registerTask(
-  'mocha', 
+  'unitTest', 
   'run unit test using Mocha', 
   ['properties', 'mochaTest']
 );
 
 
 // protractorTest Test
-grunt.registerTask('protractorTest', ['properties', 'protractor']);  
+grunt.registerTask('integrationTest', ['properties', 'protractor']);  
 
 //********** Task DEF END
 };
