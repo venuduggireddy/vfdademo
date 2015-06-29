@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="col-sm-3 text-center">
-            <div class="symptom"><strong>Key Term</strong></div> 
+            <div class="symptom"><strong>Search Term</strong></div> 
             <div class="form-group col-centered">
                 <input class="form-control" type="text" ng-model="searchCriteria.keyTerm"/>
             </div>
@@ -48,23 +48,20 @@
               <h1 class="page-header text-center">Product Recalls by General Area of Initial Distributions</h1>
               <h5 style="color:white;" class="text-center"> 
                         <p><strong>Recall for: </strong> <span ng-repeat="x in searchCriteria.selectedRecall">
-                                {{x.name}}<span ng-if="!$last">, </span> </span> between {{formatDate(searchCriteria.startDate) |  date:"MM/dd/yyyy" }} - {{formatDate(searchCriteria.endDate) |  date:"MM/dd/yyyy" }}</p>
-                        <p><strong>Key Term: </strong>{{searchCriteria.keyTerm}}
+                                {{x.name}} 
+                                <span ng-if="x.code == 'food'">
+                                    [{{nationalFoodNumbers}}]
+                                </span>
+                                <span ng-if="x.code == 'drug'">
+                                    [{{nationalDrugNumbers}}]
+                                </span>
+                                <span ng-if="x.code == 'device'">
+                                    [{{nationalDeviceNumbers}}]
+                                </span>
+                    <span ng-if="!$last">, </span> </span> between {{formatDate(searchCriteria.startDate) |  date:"MM/dd/yyyy" }} - {{formatDate(searchCriteria.endDate) |  date:"MM/dd/yyyy" }}, <strong>Search Term: </strong>
+                    {{searchCriteria.keyTerm}}
                </h5>
-               <div class="nationwide text-center">
-                Nationwide 
-                <span ng-repeat="y in searchCriteria.selectedRecall">
-                    <button type="button" class="btn btn-state1" ng-if="y.code == 'food'">
-                        {{y.name}} - {{nationalFoodNumbers}}
-                    </button>
-                    <button type="button" class="btn btn-state2" ng-if="y.code == 'drug'">
-                        {{y.name}} - {{nationalDrugNumbers}}
-                    </button>
-                    <button type="button" class="btn btn-state3" ng-if="y.code == 'device'">
-                        {{y.name}} - {{nationalDeviceNumbers}}
-                    </button>
-                </span>
-                Specific initial distribution states for Nationwide recalls cannot be determined.</div>
+               
                 <h5 style="color:white;" class="text-center"> 
                     Please click on a state to view detail recall listing.
                 </h5>
@@ -72,3 +69,6 @@
         <!-- /.col-lg-12 -->
     </div>
     <div id='regions_div' style="width:100%, height:100%"></div>
+    <div class="nationwide text-center">
+        Nationwide Specific initial distribution states for Nationwide recalls cannot be determined.
+    </div>
