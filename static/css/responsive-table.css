@@ -61,11 +61,11 @@
         /*
         Label the data
         */
-        td:nth-of-type(1):before { content: "Recall Date:"; }
-        td:nth-of-type(2):before { content: "Recalling Firm:"; }
-        td:nth-of-type(3):before { content: "Reason for Recall:"; }
-        td:nth-of-type(4):before { content: "Product Description:"; }
-        td:nth-of-type(5):before { content: "Code Info:"; }
+        td:nth-of-type(1):before { content: "Recall:"; }
+        td:nth-of-type(2):before { content: "Firm:"; }
+        td:nth-of-type(3):before { content: "Reason:"; }
+        td:nth-of-type(4):before { content: "Product:"; }
+        td:nth-of-type(5):before { content: "Code:"; }
     }
     
     /* Smartphones (portrait and landscape) ----------- */
