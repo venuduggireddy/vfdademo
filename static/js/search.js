@@ -1,5 +1,5 @@
 'use strict';
-var constants = {baseUrl: "http://172.20.10.3:80/"};
+var constants = {baseUrl: "http://localhost:80/"};
 //var constants = {baseUrl: "http://54.175.186.120:80/"};
 var searchApp = angular.module('searchApp', ['ngRoute', 'ngSanitize', 'ui.select', 'shalotelli-angular-multiselect', 'daterangepicker', '720kb.datepicker']);
 
@@ -109,7 +109,7 @@ searchApp.filter('propsFilter', function() {
 
 var recallTypes = [{name: 'Food', code: 'food'}, {name: 'Device', code: 'device'},{name: 'Drug', code: 'drug'}];
 
-var stateList = [{name: 'Nationwide', code: 'Nationwide'},
+var stateList = [{name: 'Nationwide', code: 'NATIONWIDE'},
                 {name: 'Alabama', code: 'AL'},
                 {name: 'Alaska', code: 'AK'},
                 {name: 'Arizona', code: 'AZ'},

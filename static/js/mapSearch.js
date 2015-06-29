@@ -17,11 +17,17 @@ searchApp.controller('MapSearchController', function($scope, $http, $filter, $lo
     $scope.searchData = function() {
         var from_date = $filter('date')($scope.formatDate($scope.searchCriteria.startDate), 'yyyy-MM-dd');
         var to_date = $filter('date')($scope.formatDate($scope.searchCriteria.endDate), 'yyyy-MM-dd');
-        var recallType = $scope.searchCriteria.selectedRecall[0].code;
+        var recallType = '';
+        for (var i = 0; i <= $scope.searchCriteria.selectedRecall.length - 1; i++) {
+            if(i!=0) {
+                recallType =  recallType + '&';
+            }
+            recallType =  recallType + 'product_type=' + $scope.searchCriteria.selectedRecall[i].code;
+        };
         var keyTerm = $scope.searchCriteria.keyTerm;
         var dataAvailable = false;
-        console.log(constants.baseUrl+"recallmapview?product_type="+ recallType + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]");
-        $http.get(constants.baseUrl+"recallmapview?product_type="+ recallType + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]")
+        console.log(constants.baseUrl+"mapview?"+ recallType + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]");
+        $http.get(constants.baseUrl+"mapview?"+ recallType + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]")
              .success(function(response) {
                $scope.products = response;
                sharedProperties.setGlobalSearchCriteria($scope.searchCriteria);
@@ -37,20 +43,26 @@ searchApp.controller('MapSearchController', function($scope, $http, $filter, $lo
         $scope.nationalFoodNumbers = 0;
         $scope.nationalDrugNumbers = 0;
         $scope.nationalDeviceNumbers = 0;
-        for(var i=0; i<$scope.products.length; i++) {
-            if($scope.products[i].state == 'NATIONWIDE' || $scope.products[i].state == 'Nationwide' || $scope.products[i].state == 'nationwide') {
-            	if($scope.products[i].value.type == 'food') {
-            		$scope.nationalFoodNumbers = $scope.products[i].value.count;
-            	} else if($scope.products[i].value.type == 'drug') {
-            		$scope.nationalDrugNumbers = $scope.products[i].value.count;
-            	} else if($scope.products[i].value.type == 'device') {
-            		$scope.nationalDeviceNumbers = $scope.products[i].value.count;
-            	}
-                
+        for(var i=0; i<stateList.length; i++) {
+            $scope.currentRecordArray = $.grep($scope.products, function(e){ return e.state == stateList[i].code; });
+            $scope.currentRecord = $scope.currentRecordArray[0];            
+            if($scope.currentRecord  != null && $scope.currentRecord != undefined) {
+                if($scope.currentRecord.state == 'NATIONWIDE') {
+                    for(var j=0; j<$scope.currentRecord.value.length; j++) {
+                        if($scope.currentRecord.value[j].type == 'food') {
+                            $scope.nationalFoodNumbers = $scope.currentRecord.value[j].count;
+                        } else if($scope.currentRecord.value[j].type == 'drug') {
+                            $scope.nationalDrugNumbers = $scope.currentRecord.value[j].count;
+                        } else if($scope.currentRecord.value[j].type == 'device') {
+                            $scope.nationalDeviceNumbers = $scope.currentRecord.value[j].count;
+                        }
+                    }
+                } else {
+                    chart1[arrayIndex] =[stateList[i].name, $scope.currentRecord.total];
+                    arrayIndex++;
+                }
             } else {
-                var stateResult = $.grep(stateList, function(e){ return e.code == $scope.products[i].state; });
-                console.log($scope.products[i].state +"  : "+ stateResult);
-                chart1[arrayIndex] =[stateResult[0].name, $scope.products[i].value.count];
+                chart1[arrayIndex] =[stateList[i].name, 0];
                 arrayIndex++;
             }
         }
@@ -79,7 +91,6 @@ searchApp.controller('MapSearchController', function($scope, $http, $filter, $lo
         google.visualization.events.addListener(chart, 'select', function() {
         var selectedItem = chart.getSelection()[0];
             if (selectedItem) {
-
                 var y = data.getValue(selectedItem.row,0);
                 var result = $.grep(stateList, function(e){ return e.name == y; });
                 $scope.searchCriteria.states = [{name: result[0].name, code:result[0].code}];
@@ -102,13 +113,14 @@ searchApp.controller('MapSearchController', function($scope, $http, $filter, $lo
     // function to redirect to recall details page
     $scope.showDetails = function (y) {
         var result = $.grep(stateList, function(e){ return e.code == y; });
-        console.log(result);
         $scope.searchCriteria.states = [{name: y, code:y}];
         sharedProperties.setGlobalSearchCriteria($scope.searchCriteria);
         sharedProperties.setReloadData(true);
         $location.path('listSearch');
     };
-
-      google.setOnLoadCallback($scope.drawDataMap());
+    google.setOnLoadCallback($scope.drawDataMap());
+    $scope.emptyFunction = function() {
+        console.log('function');
+    };
       $scope.searchData();
 });
