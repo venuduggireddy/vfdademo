@@ -42,6 +42,10 @@ exports.config = {
   seleniumPort: null,
  */
 
+//seleniumAddress: 'http://10.63.48.29:4444/wd/hub',
+//seleniumAddress: 'http://127.0.0.1:4444/wd/hub',
+//seleniumAddress: 'http://10.63.48.214:4444/wd/hub',
+seleniumAddress: 'http://10.63.48.5:4444/wd/hub',
 
 
   // -----------------------------------------------------------------
@@ -84,27 +88,27 @@ exports.config = {
   // Browser and Capabilities: Chrome
   // -----------------------------------------------------------------
  
-  
+  /*
   capabilities: {
     browserName: 'chrome',
     version: '',
     platform: 'ANY'
   },
 
-  
+  */
  
   // -----------------------------------------------------------------
   // Browser and Capabilities: Firefox
   // -----------------------------------------------------------------
  
-/*
+
   capabilities: {
     browserName: 'firefox',
     version: '',
     platform: 'ANY'
   },
   
-*/
+
  
   // -----------------------------------------------------------------
   // Application configuration.

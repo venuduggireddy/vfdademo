@@ -65,7 +65,7 @@ module.exports = function(grunt) {
     protractor: {
         options: {
             configFile: "test/protractor/protractor.conf.js", // Default config file
-            keepAlive: true, // If false, the grunt process stops when the test fails.
+            keepAlive: false, // If false, the grunt process stops when the test fails.
             noColor: false, // If true, protractor will not use colors in its output.
             args: {
             }
@@ -120,12 +120,11 @@ module.exports = function(grunt) {
   //***** End Load Tasks
    grunt.loadNpmTasks('grunt-apidoc');
 
-
 //******* define the tasks
 
   // Build Task
 grunt.registerTask(
-  'build',
+  'buildTask',
   'Compiles all of the assets and copies the files to the build directory.',
   [ 'properties','clean:dir', 'copy:all','archive','copy:files','clean:files']
 );
@@ -138,14 +137,15 @@ grunt.registerTask(
 
 //Mocha Unit Test
   grunt.registerTask(
-  'mocha',
+  'unitTest',
   'run unit test using Mocha',
   ['properties', 'mochaTest']
 );
 
 
 // protractorTest Test
-grunt.registerTask('protractorTest', ['properties', 'protractor']);
+grunt.registerTask('integrationTest', ['properties', 'protractor']);
 
 //********** Task DEF END
+
 };

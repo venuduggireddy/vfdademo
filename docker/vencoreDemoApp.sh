@@ -1,4 +1,7 @@
 #!/bin/bash
+#Author: Narendra Potluri
+#Version: 1.0
+#Date: 06/26/2015
 #Description: This script creates a (ubuntu 14.04.1 LTS with nodejs 0.12.4) docker image using docker file
 #Then creates a container and mounts host folder in the container
 #Then starts nodejs application using the application deployment in the the mounted folder.
