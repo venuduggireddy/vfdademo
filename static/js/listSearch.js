@@ -39,10 +39,9 @@ searchApp.controller('ListSearchController', function($scope, $http, ospConstant
     }
 
     // function to redirect to recall details page
-    $scope.showDetails = function (y, path) {
+    $scope.showDetails = function (y) {
         sharedProperties.setRecallDetails(y);
         sharedProperties.setReloadData(false);
-        $location.path(path);
     };
     $scope.recallDetails = sharedProperties.getRecallDetails();
     if($scope.recallDetails.event_details!=null) {
