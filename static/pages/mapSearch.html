@@ -48,7 +48,7 @@
               <h1 class="page-header text-center">Product Recalls by General Area of Initial Distributions</h1>
               <h5 style="color:white;" class="text-center"> 
                         <p><strong>Recall for: </strong> <span ng-repeat="x in searchCriteria.selectedRecall">
-                                {{x.name}}<span ng-if="!$last">, </span> </span> between {{formatDate(searchCriteria.startDate) |  date:"MM/dd/yyyy" }} - {{formatDate(searchCriteria.dateRange.endDate) |  date:"MM/dd/yyyy" }}</p>
+                                {{x.name}}<span ng-if="!$last">, </span> </span> between {{formatDate(searchCriteria.startDate) |  date:"MM/dd/yyyy" }} - {{formatDate(searchCriteria.endDate) |  date:"MM/dd/yyyy" }}</p>
                         <p><strong>Key Term: </strong>{{searchCriteria.keyTerm}}
                </h5>
                <div class="nationwide text-center">

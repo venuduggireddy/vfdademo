@@ -20,8 +20,8 @@ searchApp.controller('MapSearchController', function($scope, $http, $filter, $lo
         var recallType = $scope.searchCriteria.selectedRecall[0].code;
         var keyTerm = $scope.searchCriteria.keyTerm;
         var dataAvailable = false;
-        console.log(constants.baseUrl+"mapview?product_type="+ recallType + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]");
-        $http.get(constants.baseUrl+"mapview?product_type="+ recallType + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]")
+        console.log(constants.baseUrl+"recallmapview?product_type="+ recallType + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]");
+        $http.get(constants.baseUrl+"recallmapview?product_type="+ recallType + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]")
              .success(function(response) {
                $scope.products = response;
                sharedProperties.setGlobalSearchCriteria($scope.searchCriteria);
