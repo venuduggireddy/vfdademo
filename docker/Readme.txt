@@ -13,7 +13,7 @@ Pre-requisites:
 
 Docker Container creation and application install process:
 1. Connect to the Docker Machine and create a working folder.
-                sudo mkdir /vencore/docker
+                sudo mkdir -p /vencore/docker
 2. copy/sftp/ftp the following files to working folder. 
                 Dockerfile
                 archive.tar
