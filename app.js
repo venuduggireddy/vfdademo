@@ -428,16 +428,16 @@ app.get('/mapview', function(req, res) {
         var data = '';
         resp.on('data', function(chunk){
            data += chunk;
-          var obj = {
-            'body': data.toString('utf8'),
-            'type':url
-          }
-          //console.log('%s', url);
-          responses.push(obj);
         });
 
         resp.on('end', function(){
-          //console.log("completed request are %d and url length is %d", completed_requests, urlTypes.length);
+        //  console.log("completed request are %d and url length is %d", completed_requests, urlTypes.length);
+          var obj = {
+            "body" : data.toString('utf8'),
+            "type" : url
+          }
+          responses.push(obj);
+          
           if (completed_requests++ == urlTypes.length - 1) {
             // All downloads are completed
             //console.log("Done !! completed request are %d and url length is %d and length of response is", completed_requests, urlTypes.length, responses.length);

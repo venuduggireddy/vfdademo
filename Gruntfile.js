@@ -118,6 +118,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-properties-reader');
   grunt.loadNpmTasks('grunt-protractor-runner');
   //***** End Load Tasks
+  // task to generate api docs
    grunt.loadNpmTasks('grunt-apidoc');
 
 //******* define the tasks

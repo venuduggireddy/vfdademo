@@ -24,25 +24,3 @@ describe('GET /', function(){
       .expect(200, done);
   })
 });
-/*
-describe('loading express', function () {
-  var server;
-  beforeEach(function () {
-    server = require(__dirname + '/../app.js', { bustCache: true });
-  });
-  afterEach(function (done) {
-    server.close(done);
-    setTimeout(done, 1000);
-  });
-  it('responds to /', function testSlash(done) {
-  request(server)
-    .get('/')
-    .expect(200, done);
-  });
-
-  it('404 everything else', function testPath(done) {
-    request(server)
-      .get('/index2')
-      .expect(404, done);
-  });
-});*/
