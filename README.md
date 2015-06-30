@@ -25,7 +25,7 @@ The implementation of tasks relies on a number of dependencies that can be loade
  
 There are three main tasks that are exposed to Jenkins: </br>
 1-	buildTask : <code> grunt buildTask</code> </br>
-This task makes the necessary directory clean up  and start the build , the archive file will be created and placed in the dist folder </br>
+This task does the clean up, creates the necessary directories and starts the build ,then once the archive file is created it will be placed in the dist folder </br>
  
 2-	unitTest : <code> grunt unitTest </code> </br>
 the task will run the unit test , please note that  the unit test is implemented by using Mocha Framework </br>
