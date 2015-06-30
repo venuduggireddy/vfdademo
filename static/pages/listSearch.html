@@ -76,36 +76,26 @@
                     <span ng-repeat="y in searchCriteria.states">
                         {{y.name}}<span ng-if="!$last">, </span>
                     </span> 
-                    <br>
-                    <div class="para">Please select a row to view details.</div>
+                    <br><br>
                     
                     <div class="table-responsive">
                         <table class="table-hover">
                             <thead>
                                 <tr class="headerrow">
-                                    <th width="10%"> Recall<br>
-                                        Date </th>
-                                    <th width="10%">
-                                        Recalling<br>
-                                      Firm </th>
-                                    <th width="25%">
-                                        Reason for<br>
-                                      Recall</th>
-                                    <th width="25%">
-                                        Product<br>
-                                      Description</th>
-                                    <th width="30%">
-                                        Code<br>
-                                      Info</th>
+                                    <th width="12%"> Recall Date </th>
+                                    <th width="19%"> Recalling Firm </th>
+                                    <th width="23%"> Recall Reason</th>
+                                    <th width="23%"> Product Description</th>
+                                    <th width="23%"> Code Info</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="y in products.results" id="{{y.event_details.event_id}}">
-                                <td><a href="#detailsPage" ng-click="showDetails(y)">{{ createDate(y.recall_initiation_date) |  date:"MM/dd/yyyy"}}</a></td>
-                                <td><a href="#detailsPage" ng-click="showDetails(y)">{{ y.recalling_firm }}</a></td>
-                                <td title="{{ y.reason_for_recall }}">{{ y.reason_for_recall | limitTo:150}} <span ng-if="y.reason_for_recall.length>150" class="dotdotdot"> <br/>... </span></td>
-                                <td title="{{ y.product_description }}">{{ y.product_description | limitTo:150}} <span ng-if="y.product_description.length>150" class="dotdotdot"> <br/>... </span></td>
-                                <td title="{{ y.code_info }}">{{ y.code_info | limitTo:150}} <span ng-if="y.code_info.length>150" class="dotdotdot"> <br/>... </span> </td>
+                            <tr ng-repeat="y in products.results" id="{{y.event_details.event_id}}" style="vertical-align:top;">
+                                <td >{{ createDate(y.recall_initiation_date) |  date:"MM/dd/yyyy"}} <a href="#detailsPage" ng-click="showDetails(y)"> - Details </a></td>
+                                <td>{{ y.recalling_firm }}</td>
+                                <td title="{{ y.reason_for_recall }}">{{ y.reason_for_recall | limitTo:35}} <span ng-if="y.reason_for_recall.length>35" class="dotdotdot"> ... </span></td>
+                                <td title="{{ y.product_description }}">{{ y.product_description | limitTo:35}} <span ng-if="y.product_description.length>35" class="dotdotdot"> ... </span></td>
+                                <td title="{{ y.code_info }}">{{ y.code_info | limitTo:30}} <span ng-if="y.code_info.length>35" class="dotdotdot" style="vertical-align:top;"> ... </span> </td>
                             </tr>
                         </tbody>
                         </table>

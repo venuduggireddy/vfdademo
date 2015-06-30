@@ -29,7 +29,6 @@
     background-color: #fff;
 }
 .dotdotdot {
-    font-size: 25px;
     color: #095a6e;
 }
 
@@ -146,11 +145,6 @@ header {
     
     border-bottom: 1px solid #eee;
     margin-bottom: 9px;
-}
-
-.dotdotdot {
-	font-size: 25px;
-	color: #095a6e;
 }
 .table-striped > tbody > tr:nth-of-type(odd) {
   background-color: #cbe3dd;
