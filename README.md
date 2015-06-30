@@ -15,7 +15,7 @@ npm install --save request
 Grunt Scripts :
 Grunt Scripts support the continuous integration, multiple tasks were designed and made available to Jenkins.
 The implementation of tasks relies on a number of dependencies that can be loaded and installed using the following commands :
-npm install grunt-contrib-copy --save-dev        // install contrib-copy
+ <code>npm install grunt-contrib-copy --save-dev</code>        // install contrib-copy
 npm install grunt-contrib-clean --save-dev       // install contrib-clean
 npm install grunt-contrib-compress --save-dev    // install contrib-compress
 npm install grunt-mocha-test --save-dev          //install contrib-test   
