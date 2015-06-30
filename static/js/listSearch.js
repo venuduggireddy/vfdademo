@@ -24,8 +24,15 @@ searchApp.controller('ListSearchController', function($scope, $http, ospConstant
         for (var i = 0; i <= $scope.searchCriteria.states.length - 1; i++) {
             finalStateList =  finalStateList + '&locations=' + $scope.searchCriteria.states[i].code;
         };
-        console.log(constants.baseUrl+"recallInfo?product_type="+ recallType + finalStateList + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]");
-        $http.get(constants.baseUrl+"recallInfo?product_type="+ recallType + finalStateList + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]")
+        var recallType = '';
+        for (var i = 0; i <= $scope.searchCriteria.selectedRecall.length - 1; i++) {
+            if(i!=0) {
+                recallType =  recallType + '&';
+            }
+            recallType =  recallType + 'product_type=' + $scope.searchCriteria.selectedRecall[i].code;
+        };
+        console.log(constants.baseUrl+"recallInfoMapView?"+ recallType + finalStateList + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]");
+        $http.get(constants.baseUrl+"recallInfoMapView?"+ recallType + finalStateList + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]")
             .success(function(response) {
                 $scope.products = response;
                 sharedProperties.setProductsList($scope.products);
