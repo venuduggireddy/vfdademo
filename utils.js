@@ -354,13 +354,14 @@ exports.getAggegatedSearchResults = function (results) {
     _.forEach(results, function (result) {
        
         var body = JSON.parse(result.body);
-        // console.log('%O %n', body.meta);
-        if(output.meta.disclaimer){
-           
-            output.meta.results.total = (output.meta.results.total + body.meta.results.total);
-        }else{
-            output.meta = body.meta;
+        
+        if (body.meta && output.meta.disclaimer) {
+          output.meta.results.total = (output.meta.results.total + body.meta.results.total);
+        } else {
+          output.meta = body.meta || {};
         }
+       
+       
         _.forEach(body.results, function(v){
             var o = {
           recall_number: v.recall_number,
