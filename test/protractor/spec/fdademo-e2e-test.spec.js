@@ -44,27 +44,50 @@ describe('FDA Demo Integration Tests:', function () {
     });
 
     it('Verify Search Results - Map View', function () {
+	var searchString = 'cumin';
+
 	browser.get('search/#/');
 	browser.waitForAngular();
         var element = browser.findElement(by.model('searchCriteria.keyTerm'));
-        element.sendKeys('pain')
+        element.sendKeys(searchString)
 
         var searchButton = browser.findElement(by.css('[ng-click="searchData()"]'));
         searchButton.click();
 
         browser.waitForAngular();
-	var serachResults = browser.findElements(by.repeater('y in searchCriteria.selectedRecall'));
+	var summary = browser.findElements(by.repeater('x in searchCriteria.selectedRecall'));
 
-        console.log('Search String Entered = Pain');
+        console.log('Search String Entered ='+searchString);
 
-     	serachResults.then(function(result){
-            console.log('Search Result count ='+result.length);
+     	summary.then(function(result){
+            console.log('summary count ='+result.length);
             expect(result.length).toBeGreaterThan(0);
         });
 
+	var natFoodNo = browser.findElement(by.binding('nationalFoodNumbers'));
+	natFoodNo.getText().then(function (text) {
+    		console.log('nationalFoodNumbers = '+ text);
+		// expect(text).toBeGreaterThan(0);
+		expect(text).toNotEqual('[0]');
+	});
+
+	var natDrugNo = browser.findElement(by.binding('nationalDrugNumbers'));
+	natDrugNo.getText().then(function (text) {
+    		console.log('nationalDrugNumbers = '+ text);
+		// expect(text).toBeLessThan(1);
+		expect(text).toEqual('[0]');
+	});
+
+	var natDeviceNo = browser.findElement(by.binding('nationalDeviceNumbers'));
+	natDeviceNo.getText().then(function (text) {
+    		console.log('nationalDeviceNumbers = '+ text);
+		// expect(text).toBeLessThan(1);
+		expect(text).toEqual('[0]');
+	});
+
     });
 
-    it('Verify Search - List View: List View', function () {
+    it('Verify Search - List View', function () {
 	browser.get('search/#/listSearch');
 	browser.waitForAngular();
         var element = browser.findElement(by.model('searchCriteria.startDate'));
@@ -77,10 +100,12 @@ describe('FDA Demo Integration Tests:', function () {
 
 
     it('Verify Search Results - List View', function () {
+	var searchString = 'cumin';
+
 	browser.get('search/#/listSearch');
 	browser.waitForAngular();
         var element = browser.findElement(by.model('searchCriteria.keyTerm'));
-        element.sendKeys('pain')
+        element.sendKeys(searchString);
 
         var searchButton = browser.findElement(by.css('[ng-click="searchData()"]'));
         searchButton.click();
@@ -91,15 +116,15 @@ describe('FDA Demo Integration Tests:', function () {
         var recallItems = browser.findElements(by.repeater('x in searchCriteria.selectedRecall'));
 	var serachResults = browser.findElements(by.repeater('y in products.results'));
 
-        console.log('Search String Entered = Pain');
+        console.log('Search String Entered ='+searchString);
 
         statesSelected.then(function(result){
-            console.log('State selected count ='+result.length);
+            console.log('States selected count ='+result.length);
             expect(result.length).toBeGreaterThan(0);
         });
 
         recallItems.then(function(result){
-            console.log('Reaction items count ='+result.length);
+            console.log('Recall Type selected Count ='+result.length);
             expect(result.length).toBeGreaterThan(0);
         });
 
@@ -107,6 +132,12 @@ describe('FDA Demo Integration Tests:', function () {
             console.log('Search Result count ='+result.length);
             expect(result.length).toBeGreaterThan(0);
         });
+
+	var totalCount = browser.findElement(by.binding('products.meta.results.total'));
+	totalCount.getText().then(function (text) {
+    		console.log('totalCount = '+ text);
+		expect(text).toNotEqual('[0]');
+	});
 
     });
 

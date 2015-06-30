@@ -7,7 +7,7 @@
                     <datepicker date-format="MM/dd/yyyy" date-max-limit={{searchCriteria.endDate}} 
                     date-set={{searchCriteria.startDate}}
                     button-prev="<i class='fa fa-arrow-left'></i>" button-next="<i class='fa fa-arrow-right'></i>">
-                        <input type="text" ng-model="searchCriteria.startDate"  class="form-control">
+                        <input type="text" ng-model="searchCriteria.startDate"  class="form-control" readonly='true'>
                     </datepicker>
                 </div>
             </div>
@@ -15,7 +15,7 @@
                 <div class="symptom"><strong>Date To</strong></div> 
                 <div class="form-group col-centered">
                     <datepicker date-format="MM/dd/yyyy" date-min-limit={{searchCriteria.startDate}} date-set={{searchCriteria.endDate}} button-prev="<i class='fa fa-arrow-left'></i>" button-next="<i class='fa fa-arrow-right'></i>">
-                        <input type="text" ng-model="searchCriteria.endDate"  class="form-control" >
+                        <input type="text" ng-model="searchCriteria.endDate"  class="form-control" readonly='true'>
                     </datepicker>
                 </div>
             </div>
@@ -63,49 +63,72 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <strong>Total [{{products.meta.results.total}}] Recall for: </strong>  
-                    <span ng-repeat="x in searchCriteria.selectedRecall">
-                        {{x.name}}<span ng-if="!$last">, </span>
-                    </span> 
-                    between {{formatDate(searchCriteria.startDate) |  date:"MM/dd/yyyy" }} - {{formatDate(searchCriteria.endDate) |  date:"MM/dd/yyyy" }}, 
-                    <strong>Search Term: </strong>
-                    <span ng-if="searchCriteria.keyTerm == ''"> None </span>
-                    <span ng-if="searchCriteria.keyTerm != ''"> {{searchCriteria.keyTerm}} </span>
-                    <br>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <strong>Total Result: </strong>{{products.meta.results.total}}
+                        </div>
+                        <div class="col-sm-3">
+                            <strong>Recall for: </strong>  
+                            <span ng-repeat="x in searchCriteria.selectedRecall">
+                                <span ng-if="x.code == 'food'">
+                                    <i class="fa fa-cutlery" title="Food"> </i>
+                                </span>
+                                <span ng-if="x.code == 'drug'">
+                                    <i class="fa fa-eyedropper" title="Drug"> </i>
+                                </span>
+                                <span ng-if="x.code == 'device'">
+                                    <i class="fa fa-medkit" title="Device"> </i>
+                                </span>
+                                {{x.name}}<span ng-if="!$last">, </span>
+                            </span> 
+                        </div>
+                        <div class="col-sm-3">
+                            <strong>Date Range: </strong> {{formatDate(searchCriteria.startDate) |  date:"MM/dd/yyyy" }} - {{formatDate(searchCriteria.endDate) |  date:"MM/dd/yyyy" }} 
+                        </div>
+                        <div class="col-sm-4">
+                            <strong>Search Term: </strong>
+                            <span ng-if="searchCriteria.keyTerm == ''"> None </span>
+                            <span ng-if="searchCriteria.keyTerm != ''"> {{searchCriteria.keyTerm}} </span>
+                            <br>
+                        </div>
+                    </div>
                     <strong>State(s):</strong> 
                     <span ng-repeat="y in searchCriteria.states">
                         {{y.name}}<span ng-if="!$last">, </span>
                     </span> 
-                    <br>
-                    <div class="para">Please select a row to view details.</div>
-                    
+                    <br><br>
                     <div class="table-responsive">
                         <table class="table-hover">
                             <thead>
                                 <tr class="headerrow">
-                                    <th width="10%"> Recall<br>
-                                        Date </th>
-                                    <th width="10%">
-                                        Recalling<br>
-                                      Firm </th>
-                                    <th width="25%">
-                                        Reason for<br>
-                                      Recall</th>
-                                    <th width="25%">
-                                        Product<br>
-                                      Description</th>
-                                    <th width="30%">
-                                        Code<br>
-                                      Info</th>
+                                    <th width="14%"> Recall Date </th>
+                                    <th width="20%"> Recalling Firm </th>
+                                    <th width="22%"> Recall Reason</th>
+                                    <th width="22%"> Product Description</th>
+                                    <th width="22%"> Code Info</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="y in products.results" id="{{y.event_details.event_id}}">
-                                <td><a href="#detailsPage" ng-click="showDetails(y)">{{ createDate(y.recall_initiation_date) |  date:"MM/dd/yyyy"}}</a></td>
-                                <td><a href="#detailsPage" ng-click="showDetails(y)">{{ y.recalling_firm }}</a></td>
-                                <td title="{{ y.reason_for_recall }}">{{ y.reason_for_recall | limitTo:150}} <span ng-if="y.reason_for_recall.length>150" class="dotdotdot"> <br/>... </span></td>
-                                <td title="{{ y.product_description }}">{{ y.product_description | limitTo:150}} <span ng-if="y.product_description.length>150" class="dotdotdot"> <br/>... </span></td>
-                                <td title="{{ y.code_info }}">{{ y.code_info | limitTo:150}} <span ng-if="y.code_info.length>150" class="dotdotdot"> <br/>... </span> </td>
+                            <tr ng-repeat="y in products.results" id="{{y.event_details.event_id}}" style="vertical-align:top;">
+
+
+                                <td >
+
+                                    <span ng-if="y.event_details.product_type == 'Food'">
+                                <i class="fa fa-cutlery" title="Food"> </i>
+                            </span>
+                            <span ng-if="y.event_details.product_type == 'Drugs'">
+                                <i class="fa fa-eyedropper" title="Drug"> </i>
+                            </span>
+                            <span ng-if="y.event_details.product_type == 'Devices'">
+                                <i class="fa fa-medkit" title="Device"> </i>
+                            </span>
+
+                                    {{ createDate(y.recall_initiation_date) |  date:"MM/dd/yyyy"}} <a href="#detailsPage" ng-click="showDetails(y)"> - Details </a></td>
+                                <td>{{ y.recalling_firm }}</td>
+                                <td title="{{ y.reason_for_recall }}">{{ y.reason_for_recall | limitTo:35}} <span ng-if="y.reason_for_recall.length>35" class="dotdotdot"> ... </span></td>
+                                <td title="{{ y.product_description }}"> {{ y.product_description | limitTo:35}} <span ng-if="y.product_description.length>35" class="dotdotdot"> ... </span></td>
+                                <td title="{{ y.code_info }}">{{ y.code_info | limitTo:30}} <span ng-if="y.code_info.length>35" class="dotdotdot" style="vertical-align:top;"> ... </span> </td>
                             </tr>
                         </tbody>
                         </table>

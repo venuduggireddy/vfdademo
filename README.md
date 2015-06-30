@@ -1,5 +1,5 @@
 # vfdademo
-Demo app for testing cool new technologies using NodeJS, Express, Angurlar and other ...
+# Demo app for testing cool new technologies using [NodeJS](https://nodejs.org/), [Express](http://expressjs.com/), [Angurlar](https://angular.io/),[Grunt](http://gruntjs.com/), [Protractor](https://angular.github.io/protractor/#/),[Selenium](http://www.seleniumhq.org/), [Mocha](http://mochajs.org/)  and other ...
 
 pre:
 nodejs
@@ -12,9 +12,8 @@ npm install --save-dev  grunt
 npm install --save request
 
 
-Grunt Scripts :</br>
-Grunt Scripts support the continuous integration, multiple tasks were designed and made available to Jenkins.
-The implementation of tasks requires a number of dependencies that can be loaded and installed using the following commands </br>
+# [Grunt](http://gruntjs.com/) Scripts :</br>
+Grunt Scripts support the continuous integration, multiple tasks were designed and made available to Jenkins; like buildTask, unitTest, integrationTest ... The implementation of tasks requires a number of dependencies that can be loaded and installed using the following commands : </br>
  <code>npm install grunt-contrib-copy --save-dev</code>        // install contrib-copy </br>
  <code>npm install grunt-contrib-clean --save-dev </code>      // install contrib-clean </br>
  <code>npm install grunt-contrib-compress --save-dev </code>   // install contrib-compress </br>
@@ -23,15 +22,15 @@ The implementation of tasks requires a number of dependencies that can be loaded
  <code>npm install grunt-properties-reader --save-dev </code>    // install properties-reader </br>
  <code>npm install grunt-protractor-runner --save-dev </code>    // install protractor-runner </br>
  
-There are three main tasks that are exposed to Jenkins: </br>
-1-	buildTask : <code> grunt buildTask</code> </br>
+These are three main tasks that are exposed to Jenkins: </br>
+* buildTask : <code> grunt buildTask</code> </br>
 This task does the clean up, creates the necessary directories and starts the build ,then once the archive file is created it will be placed in the dist folder </br>
  
-2-	unitTest : <code> grunt unitTest </code> </br>
-the task will run the unit test , please note that  the unit test is implemented by using Mocha Framework </br>
+*	unitTest : <code> grunt unitTest </code> </br>
+the task will run the unit test , please note that  the unit test is implemented by using [Mocha Framework](http://mochajs.org/) </br>
 
-3-	intergationTest : <code> grunt intergationTest </code> </br>
-the task will run the integration test which is implemented by using Protractor Framework ,  a Framework that internally uses Selenium Server</br>
+*	intergationTest : <code> grunt intergationTest </code> </br>
+the task will run the integration test which is implemented by using [Protractor Framework](https://angular.github.io/protractor/#/) ,  a Framework that internally uses [Selenium](http://www.seleniumhq.org/) Server</br>
  
 
 For API documentation generation we us http://apidocjs.com/.
