@@ -24,13 +24,13 @@ The implementation of tasks requires a number of dependencies that can be loaded
  <code>npm install grunt-protractor-runner --save-dev </code>    // install protractor-runner </br>
  
 There are three main tasks that are exposed to Jenkins: </br>
-1-	buildTask : <code> grunt buildTask</code> </br>
+* buildTask : <code> grunt buildTask</code> </br>
 This task does the clean up, creates the necessary directories and starts the build ,then once the archive file is created it will be placed in the dist folder </br>
  
-2-	unitTest : <code> grunt unitTest </code> </br>
+*	unitTest : <code> grunt unitTest </code> </br>
 the task will run the unit test , please note that  the unit test is implemented by using Mocha Framework </br>
 
-3-	intergationTest : <code> grunt intergationTest </code> </br>
+*	intergationTest : <code> grunt intergationTest </code> </br>
 the task will run the integration test which is implemented by using Protractor Framework ,  a Framework that internally uses Selenium Server</br>
  
 
