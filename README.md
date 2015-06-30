@@ -30,7 +30,7 @@ This task does the clean up, creates the necessary directories and starts the bu
 the task will run the unit test , please note that  the unit test is implemented by using [Mocha Framework](http://mochajs.org/) </br>
 
 *	intergationTest : <code> grunt intergationTest </code> </br>
-the task will run the integration test which is implemented by using [Protractor Framework](https://angular.github.io/protractor/#/) ,  a Framework that internally uses Selenium Server</br>
+the task will run the integration test which is implemented by using [Protractor Framework](https://angular.github.io/protractor/#/) ,  a Framework that internally uses [Selenium](http://www.seleniumhq.org/) Server</br>
  
 
 For API documentation generation we us http://apidocjs.com/.
