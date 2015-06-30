@@ -53,18 +53,18 @@ describe('FDA Demo Integration Tests:', function () {
         searchButton.click();
 
         browser.waitForAngular();
-	var serachResults = browser.findElements(by.repeater('y in searchCriteria.selectedRecall'));
+	var searchResults = browser.findElements(by.repeater('x in searchCriteria.selectedRecall'));
 
         console.log('Search String Entered = Pain');
 
-     	serachResults.then(function(result){
+     	searchResults.then(function(result){
             console.log('Search Result count ='+result.length);
             expect(result.length).toBeGreaterThan(0);
         });
 
     });
 
-    it('Verify Search - List View: List View', function () {
+    it('Verify Search - List View', function () {
 	browser.get('search/#/listSearch');
 	browser.waitForAngular();
         var element = browser.findElement(by.model('searchCriteria.startDate'));
@@ -99,7 +99,7 @@ describe('FDA Demo Integration Tests:', function () {
         });
 
         recallItems.then(function(result){
-            console.log('Reaction items count ='+result.length);
+            console.log('Recall count ='+result.length);
             expect(result.length).toBeGreaterThan(0);
         });
 
