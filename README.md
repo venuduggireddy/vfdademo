@@ -1,5 +1,5 @@
 # vfdademo
-Demo app for testing cool new technologies using NodeJS, Express, Angurlar and other ...
+# Demo app for testing cool new technologies using [NodeJS](https://nodejs.org/), [Express](http://expressjs.com/), [Angurlar](https://angular.io/),[Grunt](http://gruntjs.com/), [Protractor](https://angular.github.io/protractor/#/),[Selenium](http://www.seleniumhq.org/), [Mocha](http://mochajs.org/)  and other ...
 
 pre:
 nodejs
