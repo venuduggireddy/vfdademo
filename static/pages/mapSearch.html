@@ -41,14 +41,13 @@
     <div class="row">
         <div class="col-sm-12 text-center">
             <a class="btn btn-primary" ng-click="searchData()">Search</a>
+            <div class="page-header3 text-center">Product Recalls by General Area of Initial Distributions</div>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-12">
-              <h5 class="page-header text-center" style="color:white;">Product Recalls by General Area of Initial Distributions</h5>
               <div class="panel panel-default">
                 <div class="panel-body text-left">
-                   <p>
                         <strong>National Recall for: </strong> 
                         <span ng-repeat="x in searchCriteria.selectedRecall">
                             {{x.name}} 
@@ -67,14 +66,15 @@
                         <strong>Search Term: </strong>
                         <span ng-if="searchCriteria.keyTerm == ''"> None </span>
                         <span ng-if="searchCriteria.keyTerm != ''"> {{searchCriteria.keyTerm}} </span>
-                    </p>
-                    <p>Please click on a state to view detail recall listing.</p>
+                    <br>
+                    Please click on a state to view detail recall listing.
+                    <div id='regions_div' style="width:100%, height:100%"></div>
                 </div>
             </div>
         </div>
         <!-- /.col-lg-12 -->
     </div>
-    <div id='regions_div' style="width:100%, height:100%"></div>
+    
     <div class="nationwide text-center">
         Nationwide Specific initial distribution states for Nationwide recalls cannot be determined.
     </div>

@@ -3,6 +3,13 @@
  * Code licensed under the Apache License v2.0.
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
+
+.para{
+    padding-bottom: 5px;
+    padding-top: 5px;
+    margin-bottom: 3px;
+    margin-top: 3px;
+}
 .detailssection {
     margin: 1px;
     background-color: #eee;
@@ -130,6 +137,15 @@ header {
   padding-bottom: 9px;
   margin: 20px 0 20px;
   border-bottom: 1px solid #eee;
+}
+.page-header3 {
+    padding-top: 10px;
+     padding-bottom: 5px;
+    font-size: 15px;
+    color: #fff;
+    
+    border-bottom: 1px solid #eee;
+    margin-bottom: 9px;
 }
 
 .dotdotdot {

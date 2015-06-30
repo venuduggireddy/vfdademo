@@ -55,39 +55,30 @@
     <div class="row">
         <div class="col-sm-12 text-center">
             <a class="btn btn-primary" ng-click="searchData()">Search</a>
+            <div class="page-header3 text-center">Product Recalls by General Area of Initial Distributions</div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-12">
-              <h1 class="page-header text-center">Product Recalls by General Area of Initial Distributions</h1>
-        </div>
-        <!-- /.col-lg-12 -->
     </div>
     <!-- /.row -->
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h5> 
-                        <p><strong>Recall for: </strong>  <span ng-repeat="x in searchCriteria.selectedRecall">
-                                {{x.name}}<span ng-if="!$last">, </span>
-                            </span> between {{formatDate(searchCriteria.startDate) |  date:"MM/dd/yyyy" }} - {{formatDate(searchCriteria.endDate) |  date:"MM/dd/yyyy" }}</p>
-                        
-                        <p><strong>State(s):</strong> 
-                            <span ng-repeat="y in searchCriteria.states">
-                                {{y.name}}<span ng-if="!$last">, </span>
-                            </span> 
-                        </p>
-                        <p><strong>Search Term: </strong>{{searchCriteria.keyTerm}}
-                        <div class="row">
-                            <div class="col-xs-6">
-                                <strong>Total Results </strong> [{{products.meta.results.total}}]
-                            </div>
-                            <div class="col-xs-6 text-right">
-                                Please select a row to view details.
-                            </div>
-                        </div>
-                    </h5>
+                    <strong>Total [{{products.meta.results.total}}] Recall for: </strong>  
+                    <span ng-repeat="x in searchCriteria.selectedRecall">
+                        {{x.name}}<span ng-if="!$last">, </span>
+                    </span> 
+                    between {{formatDate(searchCriteria.startDate) |  date:"MM/dd/yyyy" }} - {{formatDate(searchCriteria.endDate) |  date:"MM/dd/yyyy" }}, 
+                    <strong>Search Term: </strong>
+                    <span ng-if="searchCriteria.keyTerm == ''"> None </span>
+                    <span ng-if="searchCriteria.keyTerm != ''"> {{searchCriteria.keyTerm}} </span>
+                    <br>
+                    <strong>State(s):</strong> 
+                    <span ng-repeat="y in searchCriteria.states">
+                        {{y.name}}<span ng-if="!$last">, </span>
+                    </span> 
+                    <br>
+                    <div class="para">Please select a row to view details.</div>
+                    
                     <div class="table-responsive">
                         <table class="table-hover">
                             <thead>
@@ -111,7 +102,7 @@
                             <tbody>
                             <tr ng-repeat="y in products.results" id="{{y.event_details.event_id}}">
                                 <td><a href="#detailsPage" ng-click="showDetails(y)">{{ createDate(y.recall_initiation_date) |  date:"MM/dd/yyyy"}}</a></td>
-                                <td>{{ y.recalling_firm }}</td>
+                                <td><a href="#detailsPage" ng-click="showDetails(y)">{{ y.recalling_firm }}</a></td>
                                 <td title="{{ y.reason_for_recall }}">{{ y.reason_for_recall | limitTo:150}} <span ng-if="y.reason_for_recall.length>150" class="dotdotdot"> <br/>... </span></td>
                                 <td title="{{ y.product_description }}">{{ y.product_description | limitTo:150}} <span ng-if="y.product_description.length>150" class="dotdotdot"> <br/>... </span></td>
                                 <td title="{{ y.code_info }}">{{ y.code_info | limitTo:150}} <span ng-if="y.code_info.length>150" class="dotdotdot"> <br/>... </span> </td>
