@@ -22,7 +22,7 @@ Grunt Scripts support the continuous integration, multiple tasks were designed a
  <code>npm install grunt-properties-reader --save-dev </code>    // install properties-reader </br>
  <code>npm install grunt-protractor-runner --save-dev </code>    // install protractor-runner </br>
  
-There are three main tasks that are exposed to Jenkins: </br>
+These are three main tasks that are exposed to Jenkins: </br>
 * buildTask : <code> grunt buildTask</code> </br>
 This task does the clean up, creates the necessary directories and starts the build ,then once the archive file is created it will be placed in the dist folder </br>
  
