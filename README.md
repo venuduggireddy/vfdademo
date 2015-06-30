@@ -12,9 +12,8 @@ npm install --save-dev  grunt
 npm install --save request
 
 
-Grunt Scripts :</br>
-Grunt Scripts support the continuous integration, multiple tasks were designed and made available to Jenkins.
-The implementation of tasks requires a number of dependencies that can be loaded and installed using the following commands </br>
+[Grunt](http://gruntjs.com/) Scripts :</br>
+Grunt Scripts support the continuous integration, multiple tasks were designed and made available to Jenkins; like buildTask, unitTest, integrationTest ... The implementation of tasks requires a number of dependencies that can be loaded and installed using the following commands : </br>
  <code>npm install grunt-contrib-copy --save-dev</code>        // install contrib-copy </br>
  <code>npm install grunt-contrib-clean --save-dev </code>      // install contrib-clean </br>
  <code>npm install grunt-contrib-compress --save-dev </code>   // install contrib-compress </br>
@@ -28,10 +27,10 @@ There are three main tasks that are exposed to Jenkins: </br>
 This task does the clean up, creates the necessary directories and starts the build ,then once the archive file is created it will be placed in the dist folder </br>
  
 *	unitTest : <code> grunt unitTest </code> </br>
-the task will run the unit test , please note that  the unit test is implemented by using Mocha Framework </br>
+the task will run the unit test , please note that  the unit test is implemented by using [Mocha Framework](http://mochajs.org/) </br>
 
 *	intergationTest : <code> grunt intergationTest </code> </br>
-the task will run the integration test which is implemented by using Protractor Framework ,  a Framework that internally uses Selenium Server</br>
+the task will run the integration test which is implemented by using [Protractor Framework](https://angular.github.io/protractor/#/) ,  a Framework that internally uses Selenium Server</br>
  
 
 For API documentation generation we us http://apidocjs.com/.
