@@ -6,7 +6,7 @@
                 <datepicker date-format="MM/dd/yyyy" date-max-limit={{searchCriteria.endDate}} 
                 date-set={{searchCriteria.startDate}}
                 button-prev="<i class='fa fa-arrow-left'></i>" button-next="<i class='fa fa-arrow-right'></i>">
-                    <input type="text" ng-model="searchCriteria.startDate"  class="form-control">
+                    <input type="text" ng-model="searchCriteria.startDate"  class="form-control" readonly="true">
                 </datepicker>
             </div>
         </div>
@@ -14,7 +14,7 @@
             <div class="symptom"><strong>Date To</strong></div> 
             <div class="form-group col-centered">
                 <datepicker date-format="MM/dd/yyyy" date-min-limit={{searchCriteria.startDate}} date-set={{searchCriteria.endDate}} button-prev="<i class='fa fa-arrow-left'></i>" button-next="<i class='fa fa-arrow-right'></i>">
-                    <input type="text" ng-model="searchCriteria.endDate"  class="form-control">
+                    <input type="text" ng-model="searchCriteria.endDate"  class="form-control" readonly="true">
                 </datepicker>
             </div>
         </div>
@@ -45,26 +45,32 @@
     </div>
     <div class="row">
         <div class="col-lg-12">
-              <h1 class="page-header text-center">Product Recalls by General Area of Initial Distributions</h1>
-              <h5 style="color:white;" class="text-center"> 
-                        <p><strong>Recall for: </strong> <span ng-repeat="x in searchCriteria.selectedRecall">
-                                {{x.name}} 
-                                <span ng-if="x.code == 'food'">
-                                    [{{nationalFoodNumbers}}]
-                                </span>
-                                <span ng-if="x.code == 'drug'">
-                                    [{{nationalDrugNumbers}}]
-                                </span>
-                                <span ng-if="x.code == 'device'">
-                                    [{{nationalDeviceNumbers}}]
-                                </span>
-                    <span ng-if="!$last">, </span> </span> between {{formatDate(searchCriteria.startDate) |  date:"MM/dd/yyyy" }} - {{formatDate(searchCriteria.endDate) |  date:"MM/dd/yyyy" }}, <strong>Search Term: </strong>
-                    {{searchCriteria.keyTerm}}
-               </h5>
-               
-                <h5 style="color:white;" class="text-center"> 
-                    Please click on a state to view detail recall listing.
-                </h5>
+              <h5 class="page-header text-center" style="color:white;">Product Recalls by General Area of Initial Distributions</h5>
+              <div class="panel panel-default">
+                <div class="panel-body text-left">
+                   <p>
+                        <strong>National Recall for: </strong> 
+                        <span ng-repeat="x in searchCriteria.selectedRecall">
+                            {{x.name}} 
+                            <span ng-if="x.code == 'food'">
+                                [{{nationalFoodNumbers}}]
+                            </span>
+                            <span ng-if="x.code == 'drug'">
+                                [{{nationalDrugNumbers}}]
+                            </span>
+                            <span ng-if="x.code == 'device'">
+                                [{{nationalDeviceNumbers}}]
+                            </span>
+                            <span ng-if="!$last">, </span> 
+                        </span> 
+                        between {{formatDate(searchCriteria.startDate) |  date:"MM/dd/yyyy" }} - {{formatDate(searchCriteria.endDate) |  date:"MM/dd/yyyy" }}, 
+                        <strong>Search Term: </strong>
+                        <span ng-if="searchCriteria.keyTerm == ''"> None </span>
+                        <span ng-if="searchCriteria.keyTerm != ''"> {{searchCriteria.keyTerm}} </span>
+                    </p>
+                    <p>Please click on a state to view detail recall listing.</p>
+                </div>
+            </div>
         </div>
         <!-- /.col-lg-12 -->
     </div>
