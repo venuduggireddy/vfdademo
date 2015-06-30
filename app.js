@@ -14,6 +14,8 @@ var express = require('express'),
   utils = require('./utils'),
   HashMap = require('hashmap'),
   https = require('https');
+ 
+
 // cors = require('cors');
 
 
@@ -32,6 +34,8 @@ app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+
+
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -52,6 +56,7 @@ app.get("/", function (req, res) {
 app.get("/search", function (req, res) {
   res.sendFile(path.join(__dirname + '/static/pages/searchPage.html'));
 });
+
 
 
 /**
@@ -139,7 +144,7 @@ var getSearchQuery = function (daterange, loc, key_term) {
 /**
  * @api {get} /api/recallInfo Get Recall event details bases on distribution pattern.
  * @apiPermission none
- * @apiVersion 0.1.0
+ * @apiVersion 0.0.1
  * @apiName recallInfo
  * @apiGroup Recall
  *
@@ -330,7 +335,7 @@ app.get('/recallmapview', function (req, res) {
 /**
  * @api {get} /api/mapview Get Recall enforcement events for US states
  * @apiPermission none
- * @apiVersion 0.1.0
+ * @apiVersion 0.0.1
  * @apiName mapview
  * @apiGroup Recall
  *
@@ -451,7 +456,7 @@ app.get('/mapview', function (req, res) {
 /**
  * @api {get} /api/recallInfoMapView Get Recall event details bases on distribution pattern.
  * @apiPermission none
- * @apiVersion 0.1.0
+ * @apiVersion 0.0.1
  * @apiName recallInfo
  * @apiGroup Recall
  *
@@ -571,13 +576,16 @@ app.get('/recallInfoMapView', function (req, res) {
 });
 
 
+
+
 // catch 404 and forward to error handler
+/*
 app.use(function (req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
-
+*/
 app.all('*', function (req, res) {
   res.sendStatus(404);
 });
