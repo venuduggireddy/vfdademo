@@ -180,6 +180,13 @@
     <script src= "/static/js/mapSearch.js"></script>
 
     <script src= "/static/js/listSearch.js"></script>
+    <script>
+    /*function to colapse nav bar after menu item selection*/
+     $(document).on('click.nav','.navbar-collapse.in',function(e) {
+    if( $(e.target).is('a') ) {
+        $(this).removeClass('in').addClass('collapse');
+    }
+});</script>
 </body>
 
 </html>
