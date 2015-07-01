@@ -60,7 +60,9 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-sm-2">
-                            <strong>Total Result: </strong>{{products.meta.results.total}}
+                            <strong>Total Result: </strong>
+                            <span ng-if="products.meta.results.total == undefined"> 0 </span>
+                            <span ng-if="products.meta.results.total != undefined"> {{products.meta.results.total}} </span>
                         </div>
                         <div class="col-sm-3">
                             <strong>Recall for: </strong>  
@@ -92,7 +94,10 @@
                         {{y.name}}<span ng-if="!$last">, </span>
                     </span> 
                     <br><br>
-                    <div class="table-responsive">
+                    <div style="text-align:center" ng-if="products.meta.results.total == undefined">
+                        No resuts found. Please try different search criteria.
+                    </div>
+                    <div class="table-responsive" ng-if="products.meta.results.total != undefined">
                         <table class="table-hover">
                             <thead>
                                 <tr class="headerrow">
