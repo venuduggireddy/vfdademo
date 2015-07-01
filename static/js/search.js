@@ -1,7 +1,6 @@
 'use strict';
-var constants = {baseUrl: "http://localhost:80/"};
-//var constants = {baseUrl: "http://54.175.186.120:80/"};
-var searchApp = angular.module('searchApp', ['ngRoute', 'ngSanitize', 'ui.select', 'shalotelli-angular-multiselect', 'daterangepicker', '720kb.datepicker']);
+var constants = {baseUrl: "http://" + global_constants.host_ip_address +":"+ global_constants.host_port_number+"/"};
+var searchApp = angular.module('searchApp', ['ngRoute', 'ngSanitize', 'ui.select', 'shalotelli-angular-multiselect', 'daterangepicker', '720kb.datepicker', 'slideMenu']);
 
 searchApp.service('sharedProperties', function(ospConstants) {
     var recallDetails = '';

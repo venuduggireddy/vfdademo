@@ -81,13 +81,24 @@
         p {
             margin: 20px 0; 
         }
+        .brightness {
+            background-color: inherit;
+            display: inline-block;
+            border-radius: 51%;
+        }
+        .brightness img {
+            opacity: .9;
+        }
+        .brightness img:hover {
+            opacity: 1.0;
+        }
    </style>
 
 </head>
 
-<body id="page2" style="padding-top:50px;">
+<body id="page2">
 <!-- Navigation -->
-    <nav class="navbar navbar-default navbar-fixed-top">
+    <nav class="navbar navbar-default navbar-static-top">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header page-scroll">
@@ -121,10 +132,14 @@
         </div>
         <!-- /.container-fluid -->
     </nav>
-    
-    <div id="wrapper">
-        <div ng-view></div>
+    <div data-asm-control="slideLeft" class="affix" style="z-index: 2000;">
+        <img src="/img/search_tab_2.png" title="Search">
     </div>
+    <div id="wrapper">
+    <div ng-view></div>
+    </div>
+
+
     <!-- /#wrapper -->
     <!-- jQuery -->
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>
@@ -142,6 +157,8 @@
     <script src= "/bower_components/angular/angular.min.js"></script>
 
     <script src= "/bower_components/angular/angular-route.js"></script>
+
+    <script src="/bower_components/angular/angular-slide-menu.min.js"></script>
 
     <script src= "/bower_components/angular/select.js"></script>
 
@@ -161,11 +178,20 @@
 
     <script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1','packages':['geochart']}]}"></script>
 
+    <script src= "/static/js/config.js"></script>
+    
     <script src= "/static/js/search.js"></script>
 
     <script src= "/static/js/mapSearch.js"></script>
 
     <script src= "/static/js/listSearch.js"></script>
+    <script>
+    /*function to colapse nav bar after menu item selection*/
+     $(document).on('click.nav','.navbar-collapse.in',function(e) {
+    if( $(e.target).is('a') ) {
+        $(this).removeClass('in').addClass('collapse');
+    }
+});</script>
 </body>
 
 </html>

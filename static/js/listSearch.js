@@ -16,7 +16,6 @@ searchApp.controller('ListSearchController', function($scope, $http, ospConstant
     
     // function to call the search service for selected search criteria
     $scope.searchData = function() {
-        var recallType = $scope.searchCriteria.selectedRecall[0].code;
         var finalStateList = '';
         var keyTerm = $scope.searchCriteria.keyTerm;
         var from_date = $filter('date')($scope.formatDate($scope.searchCriteria.startDate), 'yyyy-MM-dd');
@@ -32,11 +31,18 @@ searchApp.controller('ListSearchController', function($scope, $http, ospConstant
             recallType =  recallType + 'product_type=' + $scope.searchCriteria.selectedRecall[i].code;
         };
         console.log(constants.baseUrl+"recallInfoMapView?"+ recallType + finalStateList + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]");
-        $http.get(constants.baseUrl+"recallInfoMapView?"+ recallType + finalStateList + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]")
+        if(recallType != '' && finalStateList!='') {
+            $http.get(constants.baseUrl+"recallInfoMapView?"+ recallType + finalStateList + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]")
             .success(function(response) {
                 $scope.products = response;
                 sharedProperties.setProductsList($scope.products);
             });
+        } else {
+            $scope.products = '';
+            sharedProperties.setProductsList('');
+        }
+        
+        
         sharedProperties.setGlobalSearchCriteria($scope.searchCriteria);
     };
 
@@ -49,11 +55,16 @@ searchApp.controller('ListSearchController', function($scope, $http, ospConstant
     $scope.showDetails = function (y) {
         sharedProperties.setRecallDetails(y);
         sharedProperties.setReloadData(false);
+        $location.path('/detailsPage');
     };
     $scope.recallDetails = sharedProperties.getRecallDetails();
     if($scope.recallDetails.event_details!=null) {
-        $location.hash($scope.recallDetails.event_details.event_id);
-        $anchorScroll();
+        if($scope.recallDetails.event_details.event_id != undefined) {
+            $location.hash($scope.recallDetails.event_details.event_id);
+            $anchorScroll();
+            $scope.recallDetails.event_details.event_id = undefined;
+        } 
+        
     } 
     if(sharedProperties.getReloadData() == true) {
         sharedProperties.setReloadData(false);

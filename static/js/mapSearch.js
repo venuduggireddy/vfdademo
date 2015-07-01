@@ -37,8 +37,13 @@ searchApp.controller('MapSearchController', function($scope, $http, $filter, $lo
             });
      }
     var chart1 = [];
+    var data = new google.visualization.DataTable();
     $scope.populateData = function() {
         chart1[0] = ['State', 'Total Recall'];
+        data.addColumn('string', 'State');
+        data.addColumn('number', 'Value'); 
+        data.addColumn({type:'string', role:'tooltip'});
+        
         var arrayIndex = 1;
         $scope.nationalFoodNumbers = 0;
         $scope.nationalDrugNumbers = 0;
@@ -58,10 +63,20 @@ searchApp.controller('MapSearchController', function($scope, $http, $filter, $lo
                         }
                     }
                 } else {
-                    chart1[arrayIndex] =[stateList[i].name, $scope.currentRecord.total];
-                    arrayIndex++;
+                    var helloKaisaHai = "Total:" + $scope.currentRecord.total;
+                    for(var j=0; j<$scope.currentRecord.value.length; j++) {
+                        if($scope.currentRecord.value[j].type == 'food') {
+                            helloKaisaHai = helloKaisaHai + " \nFood:"+$scope.currentRecord.value[j].count;
+                        } else if($scope.currentRecord.value[j].type == 'drug') {
+                            helloKaisaHai = helloKaisaHai + " \nDrug:"+$scope.currentRecord.value[j].count;
+                        } else if($scope.currentRecord.value[j].type == 'device') {
+                            helloKaisaHai = helloKaisaHai + " \nDevice:"+$scope.currentRecord.value[j].count;
+                        }
+                    }
+                    data.addRows([[{v:stateList[i].name,f:stateList[i].name},$scope.currentRecord.total,helloKaisaHai]]);
                 }
             } else {
+                data.addRows([[{v:stateList[i].name,f:stateList[i].name},0,'Total: 0']]);
                 chart1[arrayIndex] =[stateList[i].name, 0];
                 arrayIndex++;
             }
@@ -72,7 +87,7 @@ searchApp.controller('MapSearchController', function($scope, $http, $filter, $lo
         
     };
     $scope.drawDataMap = function() {
-        var data = google.visualization.arrayToDataTable(chart1);
+        
         var options = {
             keepAspectRatio: true,
             width:100 + "%",

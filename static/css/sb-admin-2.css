@@ -3,30 +3,39 @@
  * Code licensed under the Apache License v2.0.
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
-
+.inlineDiv {
+    display: inline
+}
 .para{
     padding-bottom: 5px;
     padding-top: 5px;
     margin-bottom: 3px;
     margin-top: 3px;
 }
-.detailssection {
+.detailssection-even {
+    border: 1px solid #e7e7e7;
     margin: 1px;
-    background-color: #eee;
+    background-color: #fff;
+}
+
+.detailssection-odd {
+    border: 1px solid #e7e7e7;
+    margin: 1px;
+    background-color: #cbe3dd;
 }
 
 .detailscol1 {
-    border: 1px solid #e7e7e7;
-    background-color: #eee;
+    background-color: inherit;
     padding:5px;
-    text-align:right;
+    text-align:left;
     font-weight: bold;
+    font-size: 14px;
     height: 100%;
 }
 .detailscol2 {
-    border: 1px solid #e7e7e7;
     padding:5px;
-    background-color: #fff;
+    font-size: 14px;
+    background-color: inherit;
 }
 .dotdotdot {
     color: #095a6e;
@@ -103,7 +112,6 @@ header {
     text-align: center;
     color: #fff;
     background-attachment: scroll;
-    background-image: url(../../img/header-bg.jpg);
     background-position: center center;
     background-repeat: none;
     -webkit-background-size: cover;
@@ -118,8 +126,8 @@ header {
 	color: #eee;
 }
 .symptom {
-	color: #fff;
-	font-size: 14px;
+	color: #000000;
+	font-size: 12px;
 }
 .titleresults {
 	color: #095a6e;
@@ -170,11 +178,11 @@ img {
 }
 body {
     background-color: #eee;
-	
+	padding-top: 0px;
 }
 
-body#page1{background-color:#11697d;}
-body#page2{background-color:#11697d; background-image: url(../../img/background_page.jpg); background-repeat: repeat-x;}
+body#page1{background-color:#11697d;background-image: url(../../img/header-bg.jpg); background-repeat: repeat-x;}
+body#page2{background-color:#11697d; background-image: url(../../img/background_page.jpg); background-repeat: repeat-x;padding: 0px;}
 body#page3{background-color:#00f;}
 
 
@@ -195,7 +203,7 @@ body#page3{background-color:#00f;}
 }
 #wrapper {
     width: 100%;
-	margin-top: 60px;
+	margin-top: 0px;
 	padding-left: 15px;
 	padding-right: 15px;
 }
