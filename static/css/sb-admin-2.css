@@ -12,23 +12,30 @@
     margin-bottom: 3px;
     margin-top: 3px;
 }
-.detailssection {
+.detailssection-even {
+    border: 1px solid #e7e7e7;
     margin: 1px;
-    background-color: #eee;
+    background-color: #fff;
+}
+
+.detailssection-odd {
+    border: 1px solid #e7e7e7;
+    margin: 1px;
+    background-color: #cbe3dd;
 }
 
 .detailscol1 {
-    border: 1px solid #e7e7e7;
-    background-color: #eee;
+    background-color: inherit;
     padding:5px;
-    text-align:right;
+    text-align:left;
     font-weight: bold;
+    font-size: 14px;
     height: 100%;
 }
 .detailscol2 {
-    border: 1px solid #e7e7e7;
     padding:5px;
-    background-color: #fff;
+    font-size: 14px;
+    background-color: inherit;
 }
 .dotdotdot {
     color: #095a6e;

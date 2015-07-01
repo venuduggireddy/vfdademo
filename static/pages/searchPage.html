@@ -81,6 +81,17 @@
         p {
             margin: 20px 0; 
         }
+        .brightness {
+            background-color: inherit;
+            display: inline-block;
+            border-radius: 51%;
+        }
+        .brightness img {
+            opacity: .9;
+        }
+        .brightness img:hover {
+            opacity: 1.0;
+        }
    </style>
 
 </head>
@@ -124,6 +135,8 @@
     <div id="wrapper">
     <div ng-view></div>
     </div>
+
+
     <!-- /#wrapper -->
     <!-- jQuery -->
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>

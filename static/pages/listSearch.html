@@ -1,10 +1,10 @@
 <div data-asm-control="slideLeft" class="affix" 
-    style="z-index: 2000; margin-left:20px;color:#000000;border-top: 3px solid #000000; border-bottom: 3px solid #000000;">
-    <div style="color:#000000;">
-        <i class="fa fa-search" style="color:#000000;"></i><span style="color:#000000;">Search >></span>
+    style="z-index: 2000; margin-left:10px;">
+    <div class="brightness">
+            <img src="/img/icon_search_on.png" title="Search" height="50" width="50">
     </div>
 </div>
-        <!-- Navigation -->
+<!-- Navigation -->
 <div>
     <nav data-asm-slide-left class="navbar navbar-default">
     <div style="margin-left:3%; margin-right:3%; margin-top:3%;">
@@ -48,8 +48,9 @@
                 label-field="name"
             ></multi-select>
         </div>
-        <a data-asm-control="slideLeft" class="btn btn-primary" ng-click="searchData()">Search</a>
-        <div data-asm-control="slideLeft" class="inlineDiv"><a class="btn btn-primary" ng-click="searchData()">Close</a></div>
+        <a data-asm-control="slideLeft" class="btn btn-primary" ng-click="searchData()"><span style="color:white">Search</span></a>
+        <div data-asm-control="slideLeft" class="inlineDiv"><a class="btn btn-primary">Close</a></div>
+        </div>
     </div>
     </nav>
     
@@ -118,7 +119,7 @@
                                         <i class="fa fa-medkit" title="Device"> </i>
                                     </span>
                                     {{ createDate(y.recall_initiation_date) |  date:"MM/dd/yyyy"}} 
-                                     - <div ng-click="showDetails(y)"><a>Details</a> </div>
+                                     - <span ng-click="showDetails(y)"><a>Details</a> </span>
                                 </td>
                                 <td>{{ y.recalling_firm }}</td>
                                 <td title="{{ y.reason_for_recall }}">{{ y.reason_for_recall | limitTo:35}} <span ng-if="y.reason_for_recall.length>35" class="dotdotdot"> ... </span></td>

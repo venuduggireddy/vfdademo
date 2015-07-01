@@ -53,8 +53,12 @@ searchApp.controller('ListSearchController', function($scope, $http, ospConstant
     };
     $scope.recallDetails = sharedProperties.getRecallDetails();
     if($scope.recallDetails.event_details!=null) {
-        $location.hash($scope.recallDetails.event_details.event_id);
-        $anchorScroll();
+        if($scope.recallDetails.event_details.event_id != undefined) {
+            $location.hash($scope.recallDetails.event_details.event_id);
+            $anchorScroll();
+            $scope.recallDetails.event_details.event_id = undefined;
+        } 
+        
     } 
     if(sharedProperties.getReloadData() == true) {
         sharedProperties.setReloadData(false);
