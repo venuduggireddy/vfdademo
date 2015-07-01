@@ -49,6 +49,7 @@ searchApp.controller('ListSearchController', function($scope, $http, ospConstant
     $scope.showDetails = function (y) {
         sharedProperties.setRecallDetails(y);
         sharedProperties.setReloadData(false);
+        $location.path('/detailsPage');
     };
     $scope.recallDetails = sharedProperties.getRecallDetails();
     if($scope.recallDetails.event_details!=null) {

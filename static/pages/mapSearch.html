@@ -1,6 +1,12 @@
+<div data-asm-control="slideLeft" class="affix" 
+    style="z-index: 2000; margin-left:20px;color:#000000;border-top: 3px solid #000000; border-bottom: 3px solid #000000;">
+    <div style="color:#000000;">
+        <i class="fa fa-search" style="color:#000000;"></i><span style="color:#000000;">Search >></span>
+    </div>
+</div>
 <div>
-    <div class="row">
-        <div class="col-sm-3 text-center">
+    <nav data-asm-slide-left class="navbar navbar-default">
+        <div style="margin-left:3%; margin-right:3%; margin-top:3%;">
             <div class="symptom"><strong>Date From</strong></div> 
             <div class="form-group col-centered">
                 <datepicker date-format="MM/dd/yyyy" date-max-limit={{searchCriteria.endDate}} 
@@ -9,22 +15,16 @@
                     <input type="text" ng-model="searchCriteria.startDate"  class="form-control" readonly="true">
                 </datepicker>
             </div>
-        </div>
-        <div class="col-sm-3 text-center">
             <div class="symptom"><strong>Date To</strong></div> 
             <div class="form-group col-centered">
                 <datepicker date-format="MM/dd/yyyy" date-min-limit={{searchCriteria.startDate}} date-set={{searchCriteria.endDate}} button-prev="<i class='fa fa-arrow-left'></i>" button-next="<i class='fa fa-arrow-right'></i>">
                     <input type="text" ng-model="searchCriteria.endDate"  class="form-control" readonly="true">
                 </datepicker>
             </div>
-        </div>
-        <div class="col-sm-3 text-center">
             <div class="symptom"><strong>Search Term</strong></div> 
             <div class="form-group col-centered">
                 <input class="form-control" type="text" ng-model="searchCriteria.keyTerm"/>
             </div>
-        </div>
-        <div class="col-sm-3 text-center">
             <div class="symptom"><strong>Recall Type</strong></div>    
             <div class="form-group col-centered">
                 <multi-select
@@ -36,19 +36,16 @@
                     label-field="name"
                 ></multi-select>
             </div>
+        <a data-asm-control="slideLeft" class="btn btn-primary" ng-click="searchData()">Search</a>
+        <div data-asm-control="slideLeft" class="inlineDiv"><a class="btn btn-primary">Close</a></div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12 text-center">
-            <a class="btn btn-primary" ng-click="searchData()">Search</a>
-            <div class="page-header3 text-center">Product Recalls by General Area of Initial Distributions</div>
-        </div>
-    </div>
+    </nav>
+    <div class="page-header3 text-center">Product Recalls by General Area of Initial Distributions</div>
+
     <div class="row">
         <div class="col-lg-12">
               <div class="panel panel-default">
                 <div class="panel-body text-left">
-
                     <div class="row">
                         <div class="col-sm-4">
                             <strong>Recall for: </strong>  
