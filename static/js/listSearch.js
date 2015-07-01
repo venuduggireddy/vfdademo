@@ -16,7 +16,6 @@ searchApp.controller('ListSearchController', function($scope, $http, ospConstant
     
     // function to call the search service for selected search criteria
     $scope.searchData = function() {
-        var recallType = $scope.searchCriteria.selectedRecall[0].code;
         var finalStateList = '';
         var keyTerm = $scope.searchCriteria.keyTerm;
         var from_date = $filter('date')($scope.formatDate($scope.searchCriteria.startDate), 'yyyy-MM-dd');
