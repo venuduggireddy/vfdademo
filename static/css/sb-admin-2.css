@@ -112,7 +112,6 @@ header {
     text-align: center;
     color: #fff;
     background-attachment: scroll;
-    background-image: url(../../img/header-bg.jpg);
     background-position: center center;
     background-repeat: none;
     -webkit-background-size: cover;
@@ -182,7 +181,7 @@ body {
 	padding-top: 0px;
 }
 
-body#page1{background-color:#11697d;}
+body#page1{background-color:#11697d;background-image: url(../../img/header-bg.jpg); background-repeat: repeat-x;}
 body#page2{background-color:#11697d; background-image: url(../../img/background_page.jpg); background-repeat: repeat-x;padding: 0px;}
 body#page3{background-color:#00f;}
 
