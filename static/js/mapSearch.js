@@ -36,15 +36,13 @@ searchApp.controller('MapSearchController', function($scope, $http, $filter, $lo
                $scope.drawDataMap();
             });
      }
-    var chart1 = [];
-    var data = new google.visualization.DataTable();
+    var data;
     $scope.populateData = function() {
-        chart1[0] = ['State', 'Total Recall'];
+        data = new google.visualization.DataTable();
         data.addColumn('string', 'State');
         data.addColumn('number', 'Value'); 
         data.addColumn({type:'string', role:'tooltip'});
         
-        var arrayIndex = 1;
         $scope.nationalFoodNumbers = 0;
         $scope.nationalDrugNumbers = 0;
         $scope.nationalDeviceNumbers = 0;
@@ -63,22 +61,20 @@ searchApp.controller('MapSearchController', function($scope, $http, $filter, $lo
                         }
                     }
                 } else {
-                    var helloKaisaHai = "Total:" + $scope.currentRecord.total;
-                    for(var j=0; j<$scope.currentRecord.value.length; j++) {
-                        if($scope.currentRecord.value[j].type == 'food') {
-                            helloKaisaHai = helloKaisaHai + " \nFood:"+$scope.currentRecord.value[j].count;
-                        } else if($scope.currentRecord.value[j].type == 'drug') {
-                            helloKaisaHai = helloKaisaHai + " \nDrug:"+$scope.currentRecord.value[j].count;
-                        } else if($scope.currentRecord.value[j].type == 'device') {
-                            helloKaisaHai = helloKaisaHai + " \nDevice:"+$scope.currentRecord.value[j].count;
+                    var finalCounts = "Total:" + $scope.currentRecord.total;
+                    for(var k=0; k<$scope.currentRecord.value.length; k++) {
+                        if($scope.currentRecord.value[k].type == 'food') {
+                            finalCounts = finalCounts + " \nFood:"+$scope.currentRecord.value[k].count;
+                        } else if($scope.currentRecord.value[k].type == 'drug') {
+                            finalCounts = finalCounts + " \nDrug:"+$scope.currentRecord.value[k].count;
+                        } else if($scope.currentRecord.value[k].type == 'device') {
+                            finalCounts = finalCounts + " \nDevice:"+$scope.currentRecord.value[k].count;
                         }
                     }
-                    data.addRows([[{v:stateList[i].name,f:stateList[i].name},$scope.currentRecord.total,helloKaisaHai]]);
+                    data.addRows([[{v:stateList[i].name,f:stateList[i].name},$scope.currentRecord.total,finalCounts]]);
                 }
             } else {
                 data.addRows([[{v:stateList[i].name,f:stateList[i].name},0,'Total: 0']]);
-                chart1[arrayIndex] =[stateList[i].name, 0];
-                arrayIndex++;
             }
         }
         if($scope.nationalNumbers == undefined) {

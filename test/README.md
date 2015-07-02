@@ -1,4 +1,4 @@
-# Setup browser healess intergration testing 
+# Setup browser headless intergration testing 
 
 On Jenkins,
 
