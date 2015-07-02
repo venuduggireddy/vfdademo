@@ -31,7 +31,7 @@ echo "extract archive.tar to application folder $AppDir"
 sudo tar -xf ./archive.tar -C $AppDir
 
 echo "copy config.js to applicaton "" folder. Update values of "host_ip_address" and "host_port_number" with docker machine DNS or IP and available port number for application port"
-sudo cp -f config.js $AppDir/vfdademo-master/static/js/
+sudo cp -f config.js $AppDir/static/js/
 
 echo "Create Docker container "vencore-demo" and start application"
 #execute the following command to build the container from the image created in previous steps and then start vencore demo application.
