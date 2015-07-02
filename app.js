@@ -22,8 +22,7 @@ var express = require('express'),
 
 
 
-// enable cors for corss domain request for mobile application
-//app.use(cors());
+
 // enable cors for corss domain request for mobile application
 app.use(function (req, res, next) {
 
