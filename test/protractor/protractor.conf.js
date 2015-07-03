@@ -28,24 +28,9 @@ exports.config = {
   // -----------------------------------------------------------------
  
   // The address of an existing selenium server that Protractor will use.
-  //
   // Note that this server must have chromedriver in its path for Chromium
   // tests to work.
-/*
-  seleniumAddress: 'http://127.0.0.1:4444/wd/hub',
-  seleniumServerJar:,
-  seleniumPort:,
-  seleniumArgs:,
-  directConnect: true,
-  chromeOnly: true,
-  seleniumServerJar: '../../node_modules/protractor/selenium/selenium-server-standalone-2.45.0.jar',
-  seleniumPort: null,
- */
-
-//seleniumAddress: 'http://10.63.48.29:4444/wd/hub',
-//seleniumAddress: 'http://127.0.0.1:4444/wd/hub',
-//seleniumAddress: 'http://10.63.48.214:4444/wd/hub',
-seleniumAddress: 'http://10.63.48.5:4444/wd/hub',
+seleniumAddress: 'http://10.63.48.214:4444/wd/hub',
 
 
   // -----------------------------------------------------------------
@@ -62,7 +47,6 @@ seleniumAddress: 'http://10.63.48.5:4444/wd/hub',
   // -----------------------------------------------------------------
  
   // For a full list of available capabilities, see
-  //
   // https://code.google.com/p/selenium/wiki/DesiredCapabilities
  
   // -----------------------------------------------------------------

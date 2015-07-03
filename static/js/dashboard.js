@@ -1,5 +1,5 @@
 //var constants = {baseUrl: "http://localhost:4000/"};
-var constants = {baseUrl: "http://" + global_constants.host_ip_address +":"+ global_constants.host_port_number+"/"};
+//var constants = {baseUrl: "http://" + global_constants.host_ip_address +":"+ global_constants.host_port_number+"/"};
 var mainAppVar = angular.module('mainApp', ['ngRoute']);
 
 // configure our routes

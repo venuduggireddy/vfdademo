@@ -106,8 +106,15 @@
     <script src= "/static/js/config.js"></script>
     <script>
        $(document).ready(function(){
-           $("#bld_nbr").text(global_constants.build_number);
-           $("#bld_time").text(global_constants.build_date_time);
+           var bld_nbr,bld_tm = "";
+           if(global_constants && global_constants.build_number){
+                bld_nbr = global_constants.build_number;
+           }
+           if(global_constants && global_constants.build_number){
+                bld_tm = global_constants.build_date_time;
+           }
+           $("#bld_nbr").text(bld_nbr);
+           $("#bld_time").text(bld_tm);
        });
     
     </script>

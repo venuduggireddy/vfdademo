@@ -30,7 +30,7 @@ searchApp.controller('ListSearchController', function($scope, $http, ospConstant
             }
             recallType =  recallType + 'product_type=' + $scope.searchCriteria.selectedRecall[i].code;
         };
-        console.log(c"/recallInfoMapView?"+ recallType + finalStateList + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]");
+        console.log("/recallInfoMapView?"+ recallType + finalStateList + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]");
         if(recallType != '' && finalStateList!='') {
             $http.get("/recallInfoMapView?"+ recallType + finalStateList + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]")
             .success(function(response) {
@@ -70,7 +70,6 @@ searchApp.controller('ListSearchController', function($scope, $http, ospConstant
         sharedProperties.setReloadData(false);
         $scope.searchData();
     }
-   
 });
 
 searchApp.controller('DetailsController', function($scope, sharedProperties, $location, $anchorScroll) {

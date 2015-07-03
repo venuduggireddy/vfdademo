@@ -26,7 +26,7 @@ searchApp.controller('MapSearchController', function($scope, $http, $filter, $lo
         };
         var keyTerm = $scope.searchCriteria.keyTerm;
         var dataAvailable = false;
-        console.log("mapview?"+ recallType + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]");
+        console.log("/mapview?"+ recallType + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]");
         $http.get("/mapview?"+ recallType + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]")
              .success(function(response) {
                $scope.products = response;
@@ -74,7 +74,7 @@ searchApp.controller('MapSearchController', function($scope, $http, $filter, $lo
                     data.addRows([[{v:stateList[i].name,f:stateList[i].name},$scope.currentRecord.total,finalCounts]]);
                 }
             } else {
-                data.addRows([[{v:stateList[i].name,f:stateList[i].name},0,'Total: 0']]);
+                data.addRows([[{v:stateList[i].name,f:stateList[i].name}, ,'Total: 0']]);
             }
         }
         if($scope.nationalNumbers == undefined) {
@@ -89,6 +89,7 @@ searchApp.controller('MapSearchController', function($scope, $http, $filter, $lo
             width:100 + "%",
             height:100 + '%',
             colorAxis: {colors: ['#aec7e8', '#1f77b4']},
+            defaultColor: '#F5F5F5',
             //colorAxis: {colors: ['#DDEACC', '#109618']},
             region: "US",
             resolution: "provinces",
@@ -133,5 +134,5 @@ searchApp.controller('MapSearchController', function($scope, $http, $filter, $lo
     $scope.emptyFunction = function() {
         console.log('function');
     };
-      $scope.searchData();
+    $scope.searchData();
 });
