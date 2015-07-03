@@ -1,6 +1,8 @@
  var HashMap = require('hashmap'),
   _ = require('lodash-node'),
   config = require('./config'),
+   path = require('path'),
+   fs = require('fs'),
   utils = require('./utils');
 
 var usstates = [
@@ -400,5 +402,20 @@ exports.getAggegatedSearchResults = function (results) {
 };
 
 
+/*
+ */
+exports.createConfigFiles = function (port) {
+    require('dns').lookup(require('os').hostname(), function (err, add, fam) {
+        //console.log('addr: '+add);
+        var stream = fs.createWriteStream(path.join(__dirname + '/static/js/config1.js'));
+          stream.once('open', function(fd) {
+          stream.write("var global_constants = {\n");
+          stream.write('"host_ip_address":"'+add+'",\n');
+          stream.write('"host_port_number":"'+port+'"\n');
+          stream.write("};\n");
+          stream.end();
+        });
+  });
+}
 
 //module.exports = recallstatemap;

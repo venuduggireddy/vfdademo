@@ -15,7 +15,8 @@ var express = require('express'),
   config = require('./config'),
   utils = require('./utils'),
   HashMap = require('hashmap'),
-  https = require('https');
+  https = require('https'),
+  fs = require('fs');
  
 
 // cors = require('cors');
@@ -597,6 +598,7 @@ var port = process.env.PORT || config.server_port;
 var server = app.listen(port, function () {
   var port = server.address().port;
   console.log('server is running %s', port);
+ 
 });
 
 module.exports = app;

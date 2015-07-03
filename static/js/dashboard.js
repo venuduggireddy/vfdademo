@@ -38,6 +38,6 @@ mainAppVar.controller('mainController', function($scope, sharedProperties) {
 
 mainAppVar.controller('resultController', function($scope, $http, sharedProperties) {
     $scope.symptomName=sharedProperties.getSymptom();
-    $http.get(constants.baseUrl+"search?q="+sharedProperties.getSymptom())
+    $http.get("/search?q="+sharedProperties.getSymptom())
     .success(function(response) {$scope.products = response;});
 });

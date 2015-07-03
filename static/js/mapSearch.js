@@ -26,8 +26,8 @@ searchApp.controller('MapSearchController', function($scope, $http, $filter, $lo
         };
         var keyTerm = $scope.searchCriteria.keyTerm;
         var dataAvailable = false;
-        console.log(constants.baseUrl+"mapview?"+ recallType + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]");
-        $http.get(constants.baseUrl+"mapview?"+ recallType + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]")
+        console.log("mapview?"+ recallType + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]");
+        $http.get("/mapview?"+ recallType + "&key_term=" + keyTerm + "&daterange=["+from_date+ "+TO+"+to_date+"]")
              .success(function(response) {
                $scope.products = response;
                sharedProperties.setGlobalSearchCriteria($scope.searchCriteria);
