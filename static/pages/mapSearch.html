@@ -5,19 +5,19 @@
             <div class="form-group col-centered">
                 <datepicker date-format="MM/dd/yyyy" date-max-limit={{searchCriteria.endDate}} 
                 date-set={{searchCriteria.startDate}}
-                button-prev="<i class='fa fa-arrow-left'></i>" button-next="<i class='fa fa-arrow-right'></i>">
-                    <input type="text" ng-model="searchCriteria.startDate"  class="form-control" readonly="true">
+                   button-prev="<i class='fa fa-arrow-left'></i>" button-next="<i class='fa fa-arrow-right'></i>">
+                    <input type="text" ng-model="searchCriteria.startDate"  class="form-control" readonly="true" tabindex=1>
                 </datepicker>
             </div>
             <div class="symptom"><strong>Date To</strong></div> 
             <div class="form-group col-centered">
                 <datepicker date-format="MM/dd/yyyy" date-min-limit={{searchCriteria.startDate}} date-set={{searchCriteria.endDate}} button-prev="<i class='fa fa-arrow-left'></i>" button-next="<i class='fa fa-arrow-right'></i>">
-                    <input type="text" ng-model="searchCriteria.endDate"  class="form-control" readonly="true">
+                    <input type="text" ng-model="searchCriteria.endDate"  class="form-control" readonly="true" tabindex=2 >
                 </datepicker>
             </div>
             <div class="symptom"><strong>Search Term</strong></div> 
             <div class="form-group col-centered">
-                <input class="form-control" type="text" ng-model="searchCriteria.keyTerm"/>
+                <input class="form-control" type="text" ng-model="searchCriteria.keyTerm" tabindex=3/> 
             </div>
             <div class="symptom"><strong>Recall Type</strong></div>    
             <div class="form-group col-centered">
@@ -28,12 +28,12 @@
                     show-filters="true"
                     value-field="code"
                     label-field="name"
-                ></multi-select>
+                tabindex=4></multi-select>
             </div>
-            <div data-asm-control="slideLeft" class="inlineDiv" ng-click="searchData()">
+            <div data-asm-control="slideLeft" class="inlineDiv" ng-click="searchData()" tabindex=5>
                 <a class="btn btn-primary"><span style="color:white">Search</span></a>
             </div>
-            <div data-asm-control="slideLeft" class="inlineDiv">
+            <div data-asm-control="slideLeft" class="inlineDiv" tabindex=6>
                 <a class="btn btn-primary">Close</a>
             </div>
         </div>
