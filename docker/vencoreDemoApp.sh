@@ -35,7 +35,7 @@ sudo cp -f config.js $AppDir/static/js/
 
 echo "Create Docker container "vencore-demo" and start application"
 #execute the following command to build the container from the image created in previous steps and then start vencore demo application.
-sudo docker run --name vencore-demo -it -d -P -p $PMap:$PMap -v $AppDir:$AppDir vencore-nodejs-demo /bin/bash -c "pm2 start $AppDir/app.js && tail -f /dev/null"
+sudo docker run --name vencore-demo -it -d -P -p $PMap:$PMap -v $AppDir:$AppDir vencore-nodejs-demo /bin/bash -c "PORT=80 pm2 start $AppDir/app.js && tail -f /dev/null"
 
 echo "Check if application started properly by using application url http://<DockerHostIP or DNS>:<application port> eg: http://192.162.1.1:80"
 
