@@ -118,7 +118,7 @@ var getSearchQuery = function (daterange, loc, key_term) {
   var search = '';
 
   if (!_.isEmpty(daterange)) {
-    search = search + 'report_date:' + daterange.replace(/\s/g, '+');
+    search = search + 'recall_initiation_date:' + daterange.replace(/\s/g, '+');
   };
   if (!_.isEmpty(loc)) {
     if (!_.isEmpty(search)) {
@@ -221,7 +221,7 @@ app.get('/recallInfo', function (req, res) {
   var enforcement = utils.getEnforcementUrl(product_type);
   var search = getSearchQuery(daterange, loc, key_term);
   //console.log('URL Str is %s', search);
-  //https://api.fda.gov/drug/enforcement.json?search=report_date:[2004-01-01+TO+2015-06-20]+AND+state:(VA+DE)&limit=100
+  //https://api.fda.gov/drug/enforcement.json?search=recall_initiation_date:[2004-01-01+TO+2015-06-20]+AND+state:(VA+DE)&limit=100
   var q_str = 'api_key=' + config.api_key + '&limit=100&search=' + search;
   //   var url1 = config.drug_enforcement_url+'search=state:('+loc+')&limit=100';
 
@@ -289,7 +289,7 @@ app.get('/recallmapview', function (req, res) {
   } else {
     urlTypes = product_type;
   }
-  //var url = 'https://api.fda.gov/food/enforcement.json?search=report_date:[2004-01-01+TO+2015-06-24]+AND+wegmans';
+  //var url = 'https://api.fda.gov/food/enforcement.json?search=recall_initiation_date:[2004-01-01+TO+2015-06-24]+AND+wegmans';
   //  var url = 'https://api.fda.gov/drug/enforcement.json?search=distribution_pattern:(VA)+AND+Advil&count=distribution_pattern';
   //var url = 'https://api.fda.gov/food/enforcement.json?search=distribution_pattern:(VA)+AND+wegmans&count=distribution_pattern';
   var reacallMap = new HashMap();
@@ -422,7 +422,7 @@ app.get('/mapview', function (req, res) {
 
   var responses = [];
   urlTypes.forEach(function (url) {
-    var enforcementUrl = utils.getEnforcementUrl(url) + '&count=distribution_pattern&search=' + search;
+    var enforcementUrl = utils.getEnforcementUrl(url)+'api_key=' + config.api_key + '&count=distribution_pattern&search=' + search;
     console.log('URL is %s' + enforcementUrl);
 
     https.get(enforcementUrl, function (resp) {
