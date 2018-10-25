@@ -14,8 +14,8 @@
   "author": "venu.duggireddy@vencore.com",
   "license": "BSD-2-Clause",
   "dependencies": {
-    "express": "~4.12.4",
-    "request": "~2.58.0",
+    "express": "~4.15.5",
+    "request": "~2.81.0",
     "lodash-node": "~3.9.3",
     "hashmap": "~2.0.3",
     "body-parser": "~1.13.1"
