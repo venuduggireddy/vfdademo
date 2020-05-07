@@ -5,7 +5,9 @@
   "main": "app.js",
   "scripts": {
     "postinstall": "node_modules/protractor/bin/webdriver update",
-    "test": "test,js"
+    "test": "test,js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "keywords": [
     "vencore",
@@ -18,7 +20,8 @@
     "request": "~2.58.0",
     "lodash-node": "~3.9.3",
     "hashmap": "~2.0.3",
-    "body-parser": "~1.13.1"
+    "body-parser": "~1.13.1",
+    "snyk": "^1.319.1"
   },
   "devDependencies": {
     "grunt": "~0.4.5",
@@ -38,5 +41,6 @@
     "protractor-html-screenshot-reporter": "0.0.19",
     "protractor": "~2.1.0",
     "grunt-apidoc": "~0.10.1"
-  }
+  },
+  "snyk": true
 }
